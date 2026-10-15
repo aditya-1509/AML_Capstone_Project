@@ -2,6 +2,11 @@
 
 HeartLens is a Phase 1 machine learning project and Streamlit demonstration that classifies **heart disease presence** in the historical UCI Heart Disease dataset. The source CSV has 920 records from four hospitals; two duplicate records are removed before modeling, leaving 918.
 
+- **Live app:** [mk-sem5-project.streamlit.app](https://mk-sem5-project.streamlit.app/)
+- **Phase 1 sharing checklist:** [PHASE1_SHARE.md](PHASE1_SHARE.md)
+- **One-file team bundle:** [phase1_share_bundle.zip](submission/phase1_share_bundle.zip)
+- **Beginner-friendly viva PDF:** [phase1_viva_teaching_guide.pdf](output/pdf/phase1_viva_teaching_guide.pdf)
+
 ## What's inside
 
 - **Prediction**: enter a patient profile and get the model's estimate.
@@ -55,8 +60,9 @@ The metrics shown in the app are read from the generated artifact. The model is 
 | Model application and validation | `train.py`, `artifacts/metrics.json`, app Model studio |
 | GitHub code quality | This repository, pinned dependencies, reproducible commands, `tests/` |
 | Presentation | `presentation/phase1_presentation.pptx` |
-| Individual viva preparation | `VIVA.md` |
-| IEEE format project report | `report/phase1_report.tex` |
+| Individual viva preparation | `VIVA.md`, `output/pdf/phase1_viva_teaching_guide.pdf` |
+| IEEE format project report | `report/phase1_report.tex`, `report/phase1_report.pdf` |
+| Presentation handout PDF | `presentation/phase1_presentation.pdf` |
 
 Run `python -m unittest discover -s tests -v` to check the feature contract. The report's author line is generic because the five student names were not supplied; the team should add its actual members and accurately describe each person's contribution before academic submission.
 
@@ -94,6 +100,11 @@ The app does not store anything you enter. Avoid entering real identifiable pati
 - `eda.py`: reproducible dataset audit.
 - `report/phase1_report.tex`: IEEE style Phase 1 report with references, methods, results, and limitations.
 - `presentation/phase1_presentation.pptx`: Phase 1 presentation.
+- `presentation/phase1_presentation.pdf`: viewable copy of the nine-slide deck.
+- `output/pdf/phase1_viva_teaching_guide.pdf`: beginner-friendly teaching guide, worked metrics, slide notes, and viva Q&A.
+- `scripts/build_phase1_viva_pdf.py`: regenerate the teaching PDF with ReportLab from the saved metrics and EDA artifacts.
+- `PHASE1_SHARE.md`: ready-to-send WhatsApp message and submission checklist.
+- `submission/phase1_share_bundle.zip`: report, slides, viva guide, and sharing notes in one download.
 - `VIVA.md`: individual oral exam guide.
 - `artifacts/eda.json`: source quality and missing-data summary.
 - `artifacts/metrics.json`: model comparisons, held-out test metrics, ROC curve, permutation importance, and hospital checks.
