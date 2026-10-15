@@ -1,0 +1,80 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{url}
+\title{HeartLens: A Reproducible Machine Learning Study of Heart Disease Classification Across Four Hospitals}
+\author{\IEEEauthorblockN{CSAI Project Team}}
+\begin{document}
+\maketitle
+\begin{abstract}
+We study binary classification of angiographic heart disease status using the 920-record UCI Heart Disease compilation. After removing two duplicate records (ignoring row ID), 918 observations remain. Eleven routinely recorded predictors are used in leakage-controlled pipelines. Four classical machine learning families are compared by five-fold cross-validation within a stratified training split. Histogram gradient boosting has the highest mean validation F1 (0.8376), only 0.0004 above random forest. A training-only decision threshold of 0.47 gives test F1 of 0.836, recall of 0.873, and ROC-AUC of 0.901 on 184 held-out records. Performance varies across held-out hospitals. This is a reproducible educational classification experiment, not a clinically validated diagnostic model.
+\end{abstract}
+
+\section{Problem and Literature Review}
+The task is to predict whether the source target \texttt{num} is greater than zero from patient measurements. The UCI description identifies four contributing databases and defines the target in relation to angiographic narrowing \cite{uci}. Detrano et al. studied the international application of a coronary artery disease probability algorithm, motivating examination of transport across clinical sites \cite{detrano}. We do not claim direct comparability with that study's cohort or outcomes.
+
+Logistic regression provides an interpretable linear baseline. Breiman's random forest combines randomized trees to reduce variance \cite{breiman}; histogram gradient boosting and XGBoost represent sequential tree boosting, with XGBoost described by Chen and Guestrin \cite{xgboost}. These model families capture different assumptions about nonlinear relations and interactions. TRIPOD+AI recommends transparent reporting of prediction model development and validation, including missing data, evaluation design, and limitations \cite{tripod}. The literature informs our model choice and reporting, but the empirical rankings below are specific to this dataset and split.
+
+\section{Dataset Quality and Exploratory Analysis}
+The supplied CSV has 920 rows, 16 columns, and four hospitals. There are no exact duplicate full rows, but two duplicate records when the row ID is excluded. We remove the later copies before splitting, leaving 918 rows: 410 negative and 508 positive (55.3\% positive). The original five-level target has counts 411, 265, 109, 107, and 28 for values 0 through 4 before duplicate removal. Converting values 1--4 to one class matches the UCI binary presence/absence framing \cite{uci}, but discards severity information.
+
+After treating impossible zero values in resting blood pressure and cholesterol as missing, the 918-row analysis data have 60 missing resting-pressure values, 201 missing cholesterol values, 55 missing maximum-heart-rate values, 62 missing ST-depression values, 90 missing fasting-sugar values, 55 missing exercise-angina values, and 307 missing slope values. Age, sex, and chest-pain category are complete. The median age is 54 years (range 28--77). The site-specific positive rates are 45.7\% in Cleveland (139/304), 36.3\% in Hungary (106/292), 93.5\% in Switzerland (115/123), and 74.4\% in VA Long Beach (148/199). These differences show substantial site shift and selected hospital populations; descriptive correlations must not be interpreted as causal effects or general-population risk.
+
+\section{Feature Engineering and Leakage Control}
+Eleven predictors are retained: age, sex, chest-pain type, resting blood pressure, cholesterol, fasting blood sugar, resting ECG, maximum heart rate, exercise-induced angina, ST depression, and exercise ST slope. The row ID is not predictive information. Hospital is reserved for a shift check. \texttt{ca} and \texttt{thal} are excluded because 609/918 and 484/918 values, respectively, are missing, with severe site dependence. Numerical variables receive median imputation, missingness indicators, and standard scaling. Categorical variables receive mode imputation and one-hot encoding with unknown-category tolerance. Cleaning precedes splitting only for deterministic zero-to-missing conversion and duplicate removal; imputation and scaling are fitted inside each training fold and then applied to validation or test rows.
+
+\section{Models and Evaluation Protocol}
+With random seed 42, stratified 80/20 splitting yields 734 training and 184 test records, containing 406 and 102 positive labels respectively. Five-fold stratified cross-validation searches fixed grids for logistic regression (regularization strength and L1/L2), random forest (depth and leaf size), histogram gradient boosting (learning rate, leaf nodes, L2), and XGBoost (trees, depth, learning rate). Mean validation F1 is the primary selection criterion, with ROC-AUC as a tie-breaker. The tuned winner is fitted to all training rows. Out-of-fold probabilities from this fixed pipeline select a threshold from 0.30 to 0.70 in 0.01 steps by training F1. The test data are then used once for final assessment. The selection and threshold estimates are optimistic for the training distribution because model families and parameters were chosen using the same training set; the held-out test estimate remains the main internal performance estimate.
+
+Precision is $TP/(TP+FP)$, recall is $TP/(TP+FN)$, and $F_1=2PR/(P+R)$. ROC-AUC measures discrimination across thresholds. Brier score is the mean squared error of predicted probabilities against binary labels; it is a summary of probability error, not proof of calibration. Because false negatives matter in this setting, we report recall and the confusion matrix alongside F1 and ROC-AUC. The threshold maximizes F1 rather than any clinically established cost function.
+
+\section{Results}
+\begin{table}[ht]
+\centering
+\caption{Training-only five-fold validation, tuned configuration}
+\begin{tabular}{lcc}
+\toprule
+Model & Mean F1 (SD) & Mean ROC-AUC (SD)\\
+\midrule
+Logistic regression & 0.825 (0.032) & 0.874 (0.046)\\
+Random forest & 0.837 (0.032) & 0.868 (0.049)\\
+Histogram gradient boosting & 0.838 (0.029) & 0.860 (0.047)\\
+XGBoost & 0.824 (0.040) & 0.866 (0.046)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The F1 difference between the selected booster and random forest is 0.0004, far smaller than fold-to-fold variation. It is a mechanical win under the predefined rule, not evidence of meaningful superiority. Logistic regression has the highest validation ROC-AUC (0.874). The selected booster uses learning rate 0.03, 15 maximum leaf nodes, and zero L2 regularization; the selected threshold is 0.47.
+
+On the held-out set, accuracy is 0.810, precision 0.802, recall 0.873, F1 0.836, ROC-AUC 0.901, average precision 0.915, and Brier score 0.127. The confusion matrix is $TN=60$, $FP=22$, $FN=13$, $TP=89$. An always-positive classifier on this test composition has F1 about 0.713, so the trained model improves that simple benchmark while still missing 13 positive records. Permuting chest-pain category on the test set reduces ROC-AUC by 0.093 on average over 12 repeats; ST depression follows at 0.037. This is exploratory model reliance, affected by correlated inputs and test-set reuse, rather than causal or clinical importance.
+
+\begin{table}[ht]
+\centering
+\caption{Leave-one-hospital-out validation of the selected model family}
+\begin{tabular}{lccc}
+\toprule
+Held-out hospital & N & F1 & ROC-AUC\\
+\midrule
+Cleveland & 304 & 0.739 & 0.845\\
+Hungary & 292 & 0.710 & 0.864\\
+Switzerland & 123 & 0.796 & 0.768\\
+VA Long Beach & 199 & 0.810 & 0.702\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Each hospital check tunes hyperparameters on the other three hospitals and scores the held-out hospital at a fixed 0.50 threshold. These are four separate transport experiments, not the same fitted model as the random-split test. Switzerland has only eight negative records, making its ROC-AUC especially unstable. The variation discourages extrapolation to new sites.
+
+\section{Implementation, Reproducibility, and Limitations}
+\texttt{train.py} reproduces selection and evaluation; \texttt{eda.py} produces a machine-readable audit; \texttt{modeling.py} shares feature cleaning and inference preprocessing; \texttt{app.py} presents predictions, descriptive EDA, and measured performance in Streamlit. The source CSV SHA-256 and full metrics are stored in \texttt{artifacts/metrics.json}; all search grids and the random seed are in code. The model artifact is serialized with Joblib and should be loaded only from the trusted repository. Unit tests check the feature contract and duplicate isolation. The app explicitly labels outputs as educational and does not assert diagnosis.
+
+The data are historical, small, incomplete, and from selected hospitals. Site prevalence and missingness differ sharply. We did not conduct prospective or truly independent external validation, probability recalibration, subgroup uncertainty analysis, or decision-curve analysis. A future study should assess these before any clinical use. No deep learning or hybrid model is included in this Phase 1 submission.
+
+\begin{thebibliography}{00}
+\bibitem{uci} UCI Machine Learning Repository, ``Heart Disease,'' \url{https://archive.ics.uci.edu/dataset/45/heart+disease}.
+\bibitem{detrano} R. Detrano et al., ``International application of a new probability algorithm for the diagnosis of coronary artery disease,'' \emph{Am. J. Cardiol.}, vol. 64, no. 5, pp. 304--310, 1989, doi: 10.1016/0002-9149(89)90524-9.
+\bibitem{breiman} L. Breiman, ``Random forests,'' \emph{Machine Learning}, vol. 45, pp. 5--32, 2001, doi: 10.1023/A:1010933404324.
+\bibitem{xgboost} T. Chen and C. Guestrin, ``XGBoost: A scalable tree boosting system,'' in \emph{Proc. ACM SIGKDD}, 2016, pp. 785--794, doi: 10.1145/2939672.2939785.
+\bibitem{tripod} G. S. Collins et al., ``TRIPOD+AI statement: Updated guidance for reporting clinical prediction models that use regression or machine learning methods,'' \emph{BMJ}, vol. 385, e078378, 2024, doi: 10.1136/bmj-2023-078378.
+\end{thebibliography}
+\end{document}

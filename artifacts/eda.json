@@ -1,0 +1,99 @@
+{
+  "source_rows": 920,
+  "duplicate_records_removed": 2,
+  "analysis_rows": 918,
+  "features": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalch",
+    "oldpeak",
+    "sex",
+    "cp",
+    "fbs",
+    "restecg",
+    "exang",
+    "slope"
+  ],
+  "target_counts": {
+    "0": 410,
+    "1": 508
+  },
+  "missing_after_zero_cleaning": {
+    "age": 0,
+    "trestbps": 60,
+    "chol": 201,
+    "thalch": 55,
+    "oldpeak": 62,
+    "sex": 0,
+    "cp": 0,
+    "fbs": 90,
+    "restecg": 2,
+    "exang": 55,
+    "slope": 307
+  },
+  "site_summary": [
+    {
+      "site": "Cleveland",
+      "rows": 304,
+      "positive": 139,
+      "positive_rate": 0.45723684210526316
+    },
+    {
+      "site": "Hungary",
+      "rows": 292,
+      "positive": 106,
+      "positive_rate": 0.363013698630137
+    },
+    {
+      "site": "Switzerland",
+      "rows": 123,
+      "positive": 115,
+      "positive_rate": 0.9349593495934959
+    },
+    {
+      "site": "VA Long Beach",
+      "rows": 199,
+      "positive": 148,
+      "positive_rate": 0.7437185929648241
+    }
+  ],
+  "numeric_summary": {
+    "age": {
+      "nonmissing": 918,
+      "median": 54.0,
+      "min": 28.0,
+      "max": 77.0
+    },
+    "trestbps": {
+      "nonmissing": 858,
+      "median": 130.0,
+      "min": 80.0,
+      "max": 200.0
+    },
+    "chol": {
+      "nonmissing": 717,
+      "median": 240.0,
+      "min": 85.0,
+      "max": 603.0
+    },
+    "thalch": {
+      "nonmissing": 863,
+      "median": 140.0,
+      "min": 60.0,
+      "max": 202.0
+    },
+    "oldpeak": {
+      "nonmissing": 856,
+      "median": 0.5,
+      "min": -2.6,
+      "max": 6.2
+    }
+  },
+  "excluded_predictors": {
+    "id": "row identifier",
+    "dataset": "site reserved for shift check",
+    "ca": "609 of 918 missing",
+    "thal": "484 of 918 missing"
+  }
+}

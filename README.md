@@ -1,16 +1,16 @@
 # HeartLens
 
-HeartLens is a Streamlit app that predicts **heart disease presence** from the UCI Heart Disease dataset (920 patients, 4 hospitals) and explains the data in plain language.
+HeartLens is a Phase 1 machine learning project and Streamlit demonstration that classifies **heart disease presence** in the historical UCI Heart Disease dataset. The source CSV has 920 records from four hospitals; two duplicate records are removed before modeling, leaving 918.
 
 ## What's inside
 
 - **Prediction**: enter a patient profile and get the model's estimate.
-- **Data story**: nine short chapters, each with one chart and a plain-language takeaway, from age and sex to the exercise-test warning signs. It ends with how risk climbs from 16% with no warning signs to 94% with all four.
+- **Data story**: descriptive charts about the source cohort, clearly separated from individual risk claims.
 - **Model studio**: model comparison, held-out test results (F1, recall, ROC-AUC), ROC curve and confusion matrix.
 
 ## About the data
 
-The original target `num` (0–4) is converted to `0 = no disease`, `1 = disease present` for every value above zero. The original target `num` (0–4) is converted to `0 = no disease`, `1 = disease present` for every value above zero.
+The original target `num` (0–4) is converted to `0 = no disease`, `1 = disease present` for every value above zero. The 918 distinct records include 410 negative and 508 positive labels. The source and target definition are described by the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/45/heart+disease).
 
 ## Run locally
 
@@ -26,23 +26,39 @@ streamlit run app.py
 The trained artifact is included in `artifacts/heart_model.joblib`, so the app starts without retraining. To reproduce the experiment:
 
 ```bash
+python eda.py
 python train.py
 ```
 
-Training writes `artifacts/heart_model.joblib` and `artifacts/metrics.json`.
+EDA writes `artifacts/eda.json`; training writes `artifacts/heart_model.joblib` and `artifacts/metrics.json`.
 
 ## How the model works
 
-1. Read `heart_disease_uci.csv` and define the target as `num > 0`.
-2. Use the notebook's 11 predictors. Exclude `id`, `dataset`, `ca`, and `thal`; the latter two have severe site-dependent missingness. The hospital name is used only for evaluation.
+1. Read `heart_disease_uci.csv`, drop the two duplicate records after excluding the row ID, and define the target as `num > 0`.
+2. Use 11 predictors. Exclude `id`, `dataset`, `ca`, and `thal`; the latter two have severe site-dependent missingness. The hospital name is used only for evaluation.
 3. Convert impossible zero values in resting blood pressure and cholesterol to missing. Median imputation and scaling for numeric inputs, and mode imputation and one-hot encoding for categorical inputs, are fitted **inside** each training fold.
-4. Compare logistic regression, random forest, histogram gradient boosting, and XGBoost with five-fold cross-validation on a stratified 80% training split. Select the best mean CV F1 score, breaking ties with ROC-AUC.
+4. Compare logistic regression, random forest, histogram gradient boosting, and XGBoost with five-fold cross-validation on a stratified 80% training split. Select the best mean CV F1 score, breaking ties with ROC-AUC. The selected booster leads random forest by only 0.0004 F1, so this is a rule-based selection, not strong evidence of superiority.
 5. Choose the classification cutoff using out-of-fold predictions from the training split. Evaluate the chosen model once on the untouched 20% test split.
 6. Run a leave-one-hospital-out check to expose dataset shift. Hyperparameters are tuned only on the other three hospitals in each fold. F1 and recall use the standard 0.50 cutoff, so the held-out hospital influences neither fitting nor cutoff choice.
 
-The exact cross-validation comparison is written to `artifacts/metrics.json` and displayed in the app. The selected model is the winner under this project's F1 rule; ROC-AUC, interpretability, and cross-hospital results remain important tradeoffs.
+The corrected held-out test has 184 records: F1 0.836, recall 0.873, and ROC-AUC 0.901 at a training-selected threshold of 0.47. There are 13 false negatives and 22 false positives. The exact comparisons and site results are in `artifacts/metrics.json` and the report. Repeated tuning on one small training split and hospital differences limit how far these results can be generalized.
 
 The metrics shown in the app are read from the generated artifact. The model is a demonstration trained on a small historical dataset and has not been clinically validated. Its output probability estimates the dataset label, **not a person's clinical risk**.
+
+## Phase 1 submission materials
+
+| Requirement | File or evidence |
+| --- | --- |
+| Literature review and theoretical rigor | `report/phase1_report.tex` |
+| Dataset quality and EDA | `eda.py`, `artifacts/eda.json`, app Data story |
+| Feature engineering | `modeling.py`, report Methods section |
+| Model application and validation | `train.py`, `artifacts/metrics.json`, app Model studio |
+| GitHub code quality | This repository, pinned dependencies, reproducible commands, `tests/` |
+| Presentation | `presentation/phase1_presentation.pptx` |
+| Individual viva preparation | `VIVA.md` |
+| IEEE format project report | `report/phase1_report.tex` |
+
+Run `python -m unittest discover -s tests -v` to check the feature contract. The report's author line is generic because the five student names were not supplied; the team should add its actual members and accurately describe each person's contribution before academic submission.
 
 ## Inputs
 
@@ -75,6 +91,11 @@ The app does not store anything you enter. Avoid entering real identifiable pati
 - `app.py`: Streamlit interface and prediction workflow.
 - `modeling.py`: shared feature schema, cleaning, preprocessing, validation.
 - `train.py`: reproducible training and evaluation.
+- `eda.py`: reproducible dataset audit.
+- `report/phase1_report.tex`: IEEE style Phase 1 report with references, methods, results, and limitations.
+- `presentation/phase1_presentation.pptx`: Phase 1 presentation.
+- `VIVA.md`: individual oral exam guide.
+- `artifacts/eda.json`: source quality and missing-data summary.
 - `artifacts/metrics.json`: model comparisons, held-out test metrics, ROC curve, permutation importance, and hospital checks.
 - `heart_disease_uci.csv`: the UCI Heart Disease dataset.
 - `tests/`: unit tests for the feature contract (`python -m unittest discover -s tests`).

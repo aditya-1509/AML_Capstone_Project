@@ -23,6 +23,11 @@ CATEGORY_OPTIONS = {
 }
 
 
+def deduplicate_records(frame: pd.DataFrame) -> pd.DataFrame:
+    """Drop repeated source records while ignoring their arbitrary row ID."""
+    return frame.drop_duplicates(subset=frame.columns.difference(["id"])).copy()
+
+
 def clean_features(frame: pd.DataFrame) -> pd.DataFrame:
     """Apply the same missing-value conventions during training and inference."""
     result = frame[FEATURES].copy()

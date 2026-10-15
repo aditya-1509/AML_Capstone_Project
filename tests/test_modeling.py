@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from modeling import FEATURES, clean_features, validate_features
+from modeling import FEATURES, clean_features, deduplicate_records, validate_features
 
 
 class FeatureContractTests(unittest.TestCase):
@@ -36,6 +36,14 @@ class FeatureContractTests(unittest.TestCase):
         valid.loc[0, "oldpeak"] = np.nan
         valid.loc[0, "slope"] = np.nan
         self.assertEqual(validate_features(valid), [])
+
+    def test_repeated_record_with_different_id_is_removed(self):
+        first = self.row.copy()
+        first.insert(0, "id", 1)
+        second = first.copy()
+        second["id"] = 2
+        records = pd.concat([first, second], ignore_index=True)
+        self.assertEqual(len(deduplicate_records(records)), 1)
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from modeling import clean_features, validate_features
+from modeling import clean_features, deduplicate_records, validate_features
 
 ROOT = Path(__file__).resolve().parent
 MODEL_PATH = ROOT / "artifacts" / "heart_model.joblib"
@@ -30,6 +30,7 @@ def load_artifact(model_mtime_ns: int):
 @st.cache_data
 def load_data():
     frame = pd.read_csv(ROOT / "heart_disease_uci.csv")
+    frame = deduplicate_records(frame)
     frame["Disease status"] = np.where(frame["num"] > 0, "Disease present", "No disease")
     return frame
 
@@ -189,7 +190,7 @@ def model_page(meta):
         display = comparison.rename(columns={"model": "Model", "cv_f1": "CV F1", "cv_auc": "CV ROC-AUC"})
         st.dataframe(display.style.format({"CV F1": "{:.3f}", "CV ROC-AUC": "{:.3f}"}), hide_index=True, width="stretch")
         auc_leader = max(meta["comparison"], key=lambda row: row["cv_auc"])["model"]
-        st.caption(f"{auc_leader} had the highest CV ROC-AUC. Random Forest was selected because F1 was the predefined selection metric.")
+        st.caption(f"{auc_leader} had the highest CV ROC-AUC. {meta['selected_model']} was selected because F1 was the predefined selection metric.")
     st.caption(f"The classification cutoff ({meta['threshold']:.2f}) was chosen from training-only out-of-fold predictions to maximize F1.")
     st.markdown('<div class="thin-rule"></div>', unsafe_allow_html=True)
     st.subheader("Held-out test performance")
@@ -269,17 +270,17 @@ def takeaway(points):
 
 
 def data_page(meta):
-    hero("The story hidden in 920 heart check-ups.",
+    hero(f"The story in {meta['dataset_rows']} distinct records.",
          "We looked at real patient records from four hospitals to find out which signs show up most often in people with heart disease. Here is what we found, in plain language.")
     frame = load_data()
     frame["has_disease"] = (frame["num"] > 0).astype(int)
     overall = frame["has_disease"].mean()
 
     a, b, c = st.columns(3)
-    a.metric("Patients studied", f"{len(frame):,}")
+    a.metric("Distinct records analyzed", f"{len(frame):,}")
     b.metric("Had heart disease", f"{int(frame['has_disease'].sum()):,} ({overall:.0%})")
     c.metric("Hospitals", f"{frame['dataset'].nunique()}")
-    st.markdown(f'<p class="section-intro">More than half of these patients had heart disease, so this is a high-risk group: these people were sent for heart tests for a reason. In every chart below, keep the average of <strong>{overall:.0%}</strong> in mind. A bar that is well above it means that group is more likely to have heart disease.</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="section-intro">More than half of these records have a positive disease label. In every chart below, keep the dataset average of <strong>{overall:.0%}</strong> in mind. Group differences describe this dataset and do not establish individual risk.</p>', unsafe_allow_html=True)
 
     # Chapter 1: age
     chapter(1, "Older patients are more likely to have heart disease",
@@ -291,7 +292,7 @@ def data_page(meta):
     age_lookup = age.set_index("Age group")["rate"]
     takeaway([
         f"Only about <strong>1 in 3</strong> patients under 40 had heart disease ({age_lookup['Under 40']:.0%}). Among patients in their 60s, it was nearly <strong>3 in 4</strong> ({age_lookup['60 to 69']:.0%}).",
-        "Age is a risk you cannot change, so the other signs in this story become more important as people get older.",
+        "This is an association in the dataset; age alone is not enough to classify an individual.",
     ])
 
     # Chapter 2: sex
@@ -307,7 +308,7 @@ def data_page(meta):
     ])
 
     # Chapter 3: chest pain
-    chapter(3, "The biggest surprise: people with no chest pain were most at risk",
+    chapter(3, "The asymptomatic category had the highest disease rate",
             "Patients described the kind of chest pain they had, if any. You might expect people with the worst chest pain to be the sickest. The data shows the opposite.")
     frame["Chest pain"] = frame["cp"].map(CHEST_PAIN_LABELS)
     cp = disease_rates(frame, "Chest pain", list(CHEST_PAIN_LABELS.values()))
@@ -315,12 +316,12 @@ def data_page(meta):
     cp_lookup = cp.set_index("Chest pain")["rate"]
     takeaway([
         f"<strong>{cp_lookup[CHEST_PAIN_LABELS['asymptomatic']]:.0%}</strong> of patients with no chest pain had heart disease, the highest of any group. Only <strong>{cp_lookup[CHEST_PAIN_LABELS['atypical angina']]:.0%}</strong> of patients with unusual chest pain did.",
-        "Heart disease is often silent. Not feeling chest pain does not mean the heart is healthy, which is why check-ups matter.",
+        "The source category describes how chest pain was recorded. The group comparison does not establish a screening rule.",
     ])
 
     # Chapter 4: max heart rate
-    chapter(4, "A heart that cannot speed up is a warning sign",
-            "During an exercise test, doctors record the highest heart rate a patient reaches. A healthy heart can usually beat faster when the body works hard.")
+    chapter(4, "Lower achieved heart rate aligned with more positive labels",
+            "The dataset records the maximum heart rate achieved during an exercise test.")
     frame["Highest heart rate"] = pd.cut(frame["thalch"], [0, 120, 140, 160, 300], right=False,
                                          labels=["Below 120", "120 to 139", "140 to 159", "160 or more"])
     hr = disease_rates(frame, "Highest heart rate", ["Below 120", "120 to 139", "140 to 159", "160 or more"])
@@ -330,7 +331,7 @@ def data_page(meta):
     hr_lookup = hr.set_index("Highest heart rate")["rate"]
     takeaway([
         f"Of patients whose heart rate stayed <strong>below 120</strong>, {hr_lookup['Below 120']:.0%} had heart disease. Of those who reached <strong>160 or more</strong>, only {hr_lookup['160 or more']:.0%} did.",
-        "A heart that cannot speed up during exercise may be struggling to pump enough blood.",
+        "This comparison does not account for age, medication, or differences in testing conditions.",
     ])
 
     # Chapter 5: exercise angina
@@ -343,11 +344,11 @@ def data_page(meta):
     ex_lookup = ex_rates.set_index("Pain during exercise")["rate"]
     takeaway([
         f"About <strong>{ex_lookup['Yes']:.0%}</strong> of patients who felt pain while exercising had heart disease, compared with <strong>{ex_lookup['No']:.0%}</strong> of those who did not.",
-        "Pain that only appears when the heart works harder often means the heart is not getting enough blood.",
+        "This is an association in the source records and does not establish what caused the symptom.",
     ])
 
     # Chapter 6: ST depression
-    chapter(6, "The bigger the dip on the ECG, the higher the risk",
+    chapter(6, "Larger recorded ST depression aligned with more positive labels",
             "An ECG records the heart's electrical activity. During exercise, a dip in part of the ECG line (doctors call it ST depression) can mean the heart muscle is short of oxygen.")
     frame["ECG dip"] = pd.cut(frame["oldpeak"], [-10, 0.001, 1, 2, 20],
                               labels=["No dip", "Small (up to 1)", "Medium (1 to 2)", "Large (over 2)"])
@@ -357,8 +358,8 @@ def data_page(meta):
     st.plotly_chart(fig, width="stretch")
     st_lookup = st_rates.set_index("ECG dip")["rate"]
     takeaway([
-        f"Risk rises at every step. Of patients with <strong>no dip</strong>, {st_lookup['No dip']:.0%} had heart disease. Of those with a <strong>large dip</strong>, {st_lookup['Large (over 2)']:.0%} did.",
-        "This is one of the clearest signals in the data and a key reason exercise stress tests are useful.",
+        f"The observed share rises across these groups. Of patients with <strong>no dip</strong>, {st_lookup['No dip']:.0%} had heart disease. Of those with a <strong>large dip</strong>, {st_lookup['Large (over 2)']:.0%} did.",
+        "The chart describes one variable at a time; the model evaluates inputs together.",
     ])
 
     # Chapter 7: what did not differ
@@ -375,52 +376,53 @@ def data_page(meta):
     st.caption("First number: patients with heart disease. Second number: patients without.")
     takeaway([
         "Typical blood pressure was <strong>the same</strong> in both groups, and cholesterol was only slightly higher in the heart-disease group.",
-        "They still matter for long-term heart health. A single reading just could not tell these patients apart as well as the exercise test results could.",
+        "The group medians overlap; this summary alone does not show whether either measurement adds predictive value in the fitted model.",
     ])
 
     # Chapter 8: warning signs stack up
     chapter(8, "Put it together: warning signs add up",
             "We counted how many of these four warning signs each patient had: no chest pain (silent type), chest pain during exercise, an ECG dip of 1 or more, and a highest heart rate below 130.")
-    signs = ((frame["cp"] == "asymptomatic").astype(int) + (frame["exang"] == True).astype(int)  # noqa: E712
-             + (frame["oldpeak"] >= 1).astype(int) + (frame["thalch"] < 130).astype(int))
-    frame["Warning signs"] = signs.map({0: "None", 1: "1 sign", 2: "2 signs", 3: "3 signs", 4: "All 4"})
-    sign_rates = disease_rates(frame, "Warning signs", ["None", "1 sign", "2 signs", "3 signs", "All 4"])
+    sign_frame = frame.dropna(subset=["cp", "exang", "oldpeak", "thalch"]).copy()
+    signs = ((sign_frame["cp"] == "asymptomatic").astype(int) + sign_frame["exang"].astype(int)
+             + (sign_frame["oldpeak"] >= 1).astype(int) + (sign_frame["thalch"] < 130).astype(int))
+    sign_frame["Warning signs"] = signs.map({0: "None", 1: "1 sign", 2: "2 signs", 3: "3 signs", 4: "All 4"})
+    sign_rates = disease_rates(sign_frame, "Warning signs", ["None", "1 sign", "2 signs", "3 signs", "All 4"])
     fig = rate_chart(sign_rates, "Warning signs", {"All 4"}, height=340)
     fig.update_xaxes(title="Number of warning signs")
     st.plotly_chart(fig, width="stretch")
+    st.caption(f"This comparison uses {len(sign_frame)} records with all four signs observed; incomplete records are excluded.")
     sign_lookup = sign_rates.set_index("Warning signs")["rate"]
     takeaway([
         f"With <strong>no warning signs</strong>, {sign_lookup['None']:.0%} of patients had heart disease. With <strong>all four</strong>, {sign_lookup['All 4']:.0%} did.",
-        "Each extra sign raises the risk. No single sign gives the full answer, so the prediction model looks at all of them together.",
+        "The observed disease share rises with this count. These descriptive groups were defined for the chart, not used as a validated risk score.",
     ])
 
     # Chapter 9: what the model learned
-    chapter(9, "What the prediction model pays attention to",
-            "We checked how much worse the model gets when it cannot use each piece of information. A longer bar means the model relies on it more.")
+    chapter(9, "Which inputs changed test ROC-AUC most when shuffled",
+            "We shuffled each input on the held-out set and measured the mean drop in ROC-AUC across 12 repeats. This is exploratory model reliance, not clinical importance.")
     importance = pd.DataFrame(meta["importance"])
-    importance["share"] = importance["mean_auc_drop"].clip(lower=0) / importance["mean_auc_drop"].clip(lower=0).sum()
     importance["label"] = importance["feature"].map(FEATURE_LABELS)
-    importance = importance.sort_values("share", ascending=False).head(6)
+    importance = importance.sort_values("mean_auc_drop", ascending=False).head(6)
     top = importance.iloc[0]
     fig = go.Figure(go.Bar(
-        x=importance["share"], y=importance["label"], orientation="h", marker_cornerradius=4,
+        x=importance["mean_auc_drop"], y=importance["label"], orientation="h", marker_cornerradius=4,
         marker_color=[COLORS["teal"] if i < 3 else "#a9d3cc" for i in range(len(importance))],
-        text=importance["share"].map(lambda value: f"{value:.0%}"), textposition="outside",
+        text=importance["mean_auc_drop"].map(lambda value: f"{value:.3f}"), textposition="outside",
         textfont=dict(color=COLORS["navy"], size=14),
-        hovertemplate="<b>%{y}</b><br>%{x:.0%} of the model's attention<extra></extra>",
+        hovertemplate="<b>%{y}</b><br>Mean ROC-AUC drop: %{x:.3f}<extra></extra>",
     ))
-    fig.update_xaxes(tickformat=".0%", range=[0, importance["share"].max() * 1.2], title="Share of the model's attention",
+    fig.update_xaxes(range=[0, importance["mean_auc_drop"].max() * 1.2], title="Mean drop in test ROC-AUC",
                      showgrid=True, gridcolor="#dbe6e4")
     fig.update_yaxes(title="", autorange="reversed", gridcolor="rgba(0,0,0,0)")
     fig.update_layout(bargap=0.35)
     st.plotly_chart(figure_style(fig, 330), width="stretch")
     takeaway([
-        f"<strong>{top['label']}</strong> is the model's most important clue, accounting for about {top['share']:.0%} of its attention. The model found the same pattern this story describes.",
-        "Chest pain during exercise and the ECG dip come next. The model learned on its own what the charts above show.",
+        f"Shuffling <strong>{top['label']}</strong> reduced ROC-AUC by {top['mean_auc_drop']:.3f} on average, the largest observed drop.",
+        "Correlated inputs can share predictive information, so these drops do not rank independent clinical effects.",
     ])
 
     st.markdown('<div class="thin-rule"></div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="summary"><div class="takeaway-label">The story in one paragraph</div><p>Heart disease was more common in older patients and in men. The clearest warning signs came from the exercise test: a heart that could not speed up, chest pain during exercise, and a dip on the ECG. Surprisingly, patients with no chest pain at all were the most likely to have heart disease, which shows it can be silent. When several warning signs appear together, the chance rises from {sign_lookup["None"]:.0%} to {sign_lookup["All 4"]:.0%}.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="summary"><div class="takeaway-label">The story in one paragraph</div><p>Positive labels were more common among older patients and men in these records. Exercise test variables and the asymptomatic chest-pain category showed large differences across groups. In the four-sign descriptive chart, the positive-label share rose from {sign_lookup["None"]:.0%} to {sign_lookup["All 4"]:.0%}. These are associations in a selected historical sample.</p></div>', unsafe_allow_html=True)
     st.caption("These patterns come from patients referred for heart testing, not the general public. They show links in the data, not proven causes. Talk to a doctor about your own health.")
 
 
@@ -434,7 +436,7 @@ def main():
         st.markdown('<div class="brand"><span class="brand-mark"></span>HeartLens</div><div class="sidebar-copy">Heart disease prediction · UCI dataset</div>', unsafe_allow_html=True)
         page = st.radio("Explore", ["Prediction", "Data story", "Model studio"], label_visibility="collapsed")
         st.markdown("---")
-        st.caption("UCI Heart Disease · 920 records · 4 hospitals")
+        st.caption(f"UCI Heart Disease · {bundle['metadata']['dataset_rows']} distinct records · 4 hospitals")
         st.caption("Educational model. No diagnostic use.")
     if page == "Prediction":
         prediction_page(bundle)

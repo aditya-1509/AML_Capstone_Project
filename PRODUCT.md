@@ -20,7 +20,7 @@ Predict binary heart disease presence from the supplied UCI dataset and explain 
 
 ## Operating Context
 
-The project includes `heart_disease_uci.csv` and `uci-heart-disease.ipynb`. The notebook defines target `num > 0`, removes site, ID, ca, and thal from predictors, and uses 11 patient features.
+The project includes `heart_disease_uci.csv`. Training defines target `num > 0`, removes duplicate records, excludes site, ID, ca, and thal from predictors, and uses 11 patient features.
 
 ## Capabilities and Constraints
 
@@ -28,7 +28,7 @@ Train and compare models without preprocessing leakage. Provide single-profile p
 
 ## Evidence on Hand
 
-The 920-row CSV and notebook are the supplied source material. No visual inspiration file was supplied; the user specified the notebook as the reference.
+The 920-row CSV is the supplied source material. It contains two duplicate records when the ID is ignored.
 
 ## Product Principles
 

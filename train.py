@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,7 +21,7 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_pre
 from sklearn.pipeline import Pipeline
 from xgboost import XGBClassifier
 
-from modeling import FEATURES, clean_features, make_preprocessor
+from modeling import FEATURES, clean_features, deduplicate_records, make_preprocessor
 
 ROOT = Path(__file__).resolve().parent
 SEED = 42
@@ -41,7 +42,11 @@ def scores(y_true, probability, threshold=0.5):
 
 
 def main():
-    data = pd.read_csv(ROOT / "heart_disease_uci.csv")
+    dataset_path = ROOT / "heart_disease_uci.csv"
+    raw_data = pd.read_csv(dataset_path)
+    # The source has two repeated records with different row IDs. Remove the
+    # later copy before splitting so an identical patient cannot cross splits.
+    data = deduplicate_records(raw_data)
     x = clean_features(data)
     y = (data["num"] > 0).astype(int)
     sites = data["dataset"]
@@ -84,7 +89,9 @@ def main():
         comparisons.append({
             "model": name,
             "cv_f1": float(search.cv_results_["mean_test_f1"][row]),
+            "cv_f1_std": float(search.cv_results_["std_test_f1"][row]),
             "cv_auc": float(search.cv_results_["mean_test_roc_auc"][row]),
+            "cv_auc_std": float(search.cv_results_["std_test_roc_auc"][row]),
             "best_parameters": search.best_params_,
         })
         winners[name] = search.best_estimator_
@@ -127,8 +134,12 @@ def main():
     )
     metadata = {
         "trained_at_utc": datetime.now(timezone.utc).isoformat(),
+        "source_sha256": hashlib.sha256(dataset_path.read_bytes()).hexdigest(),
+        "source_rows": int(len(raw_data)),
+        "duplicate_rows_removed": int(len(raw_data) - len(data)),
         "dataset_rows": int(len(data)), "train_rows": int(len(x_train)),
         "test_rows": int(len(x_test)), "positive_rate": float(y.mean()),
+        "train_positive": int(y_train.sum()), "test_positive": int(y_test.sum()),
         "selected_model": selected["model"], "threshold": threshold,
         "comparison": comparisons, "test": test_scores,
         "roc_curve": {"fpr": fpr.tolist(), "tpr": tpr.tolist()},
