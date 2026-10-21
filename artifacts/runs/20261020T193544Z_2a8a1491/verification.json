@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "experiment": "hospital_Cleveland",
+      "selection_rows": 363,
+      "cutoff_rows": 122,
+      "evaluation_rows": 249,
+      "families_verified": 5
+    },
+    {
+      "experiment": "hospital_Hungary",
+      "selection_rows": 379,
+      "cutoff_rows": 127,
+      "evaluation_rows": 228,
+      "families_verified": 5
+    },
+    {
+      "experiment": "hospital_Switzerland",
+      "selection_rows": 478,
+      "cutoff_rows": 160,
+      "evaluation_rows": 96,
+      "families_verified": 5
+    },
+    {
+      "experiment": "hospital_VA_Long_Beach",
+      "selection_rows": 429,
+      "cutoff_rows": 144,
+      "evaluation_rows": 161,
+      "families_verified": 5
+    },
+    {
+      "experiment": "pooled",
+      "selection_rows": 550,
+      "cutoff_rows": 184,
+      "evaluation_rows": 184,
+      "families_verified": 5
+    }
+  ],
+  "verified_models": 25,
+  "completed_fit_count_reconstructed_from_search_records": 2940,
+  "roundtrip_predictions": "PASS",
+  "reconstructed_metrics": "PASS",
+  "threshold_selection": "PASS",
+  "partition_isolation": "PASS"
+}

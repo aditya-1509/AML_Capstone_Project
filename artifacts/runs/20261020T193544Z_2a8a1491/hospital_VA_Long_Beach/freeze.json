@@ -1,0 +1,43 @@
+{
+  "frozen_at_utc": "2026-10-20T19:41:24.432356+00:00",
+  "selected_model": "Logistic regression",
+  "best_parameters": {
+    "Logistic regression": {
+      "model__C": 1,
+      "model__l1_ratio": 1
+    },
+    "Random forest": {
+      "model__max_depth": null,
+      "model__max_features": "sqrt",
+      "model__min_samples_leaf": 2,
+      "model__n_estimators": 200
+    },
+    "Histogram gradient boosting": {
+      "model__l2_regularization": 1,
+      "model__learning_rate": 0.08,
+      "model__max_leaf_nodes": 15
+    },
+    "XGBoost": {
+      "model__learning_rate": 0.03,
+      "model__max_depth": 2,
+      "model__n_estimators": 300
+    },
+    "Bayesian network": {
+      "alpha": 1.0
+    }
+  },
+  "model_sha256": {
+    "Logistic regression": "92b67e4479fd400a13f64e70c75336ca4ea03ad47a5c36138ab951ff305951e4",
+    "Random forest": "3ee0d1aa4256dc550317efa916c06309168ebd9d882898781899f2d611be4dba",
+    "Histogram gradient boosting": "644232233b3d8e5b9510cf64e34dfe938768d5f53a66092d2669a4b4df24670f",
+    "XGBoost": "4702e4584a911bb2ea1e32bffd58ebb7a835be1b388a7a44e9eb396a6e72901f",
+    "Bayesian network": "5b5e0daf5e0cf427103dbd5e6b6f5584a10cd0110afc9ab8d8cdcaec338d7fd0"
+  },
+  "thresholds": {
+    "Logistic regression": 0.3,
+    "Random forest": 0.34,
+    "Histogram gradient boosting": 0.52,
+    "XGBoost": 0.52,
+    "Bayesian network": 0.32
+  }
+}

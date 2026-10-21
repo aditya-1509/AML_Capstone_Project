@@ -1,80 +1,160 @@
 \documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{url}
-\title{HeartLens: A Reproducible Machine Learning Study of Heart Disease Classification Across Four Hospitals}
-\author{\IEEEauthorblockN{CSAI Project Team}}
+\title{Heart-Disease Risk --- Domain-Structured Bayesian Network vs Neural Network\\\large Project 15: Phase 1 Disease-Presence Classification}
+\author{\IEEEauthorblockN{Nishtha Gupta (2401010303), Aditya Srivastava (2401010039)\\
+Aanya Mehrotra (2401010006), Shrijan Sanidhya (2401010449)\\
+Abhay Mallik (2401020002)}
+\IEEEauthorblockA{Team T008, Section C\\Newton School of Technology, Rishihood University}}
 \begin{document}
 \maketitle
 \begin{abstract}
-We study binary classification of angiographic heart disease status using the 920-record UCI Heart Disease compilation. After removing two duplicate records (ignoring row ID), 918 observations remain. Eleven routinely recorded predictors are used in leakage-controlled pipelines. Four classical machine learning families are compared by five-fold cross-validation within a stratified training split. Histogram gradient boosting has the highest mean validation F1 (0.8376), only 0.0004 above random forest. A training-only decision threshold of 0.47 gives test F1 of 0.836, recall of 0.873, and ROC-AUC of 0.901 on 184 held-out records. Performance varies across held-out hospitals. This is a reproducible educational classification experiment, not a clinically validated diagnostic model.
+This Phase 1 study compares four conventional classifiers with a provisional discrete Bayesian Network (BN) for historical disease-presence classification. The assigned title includes neural networks, whose implementation belongs to Phase 2 rather than this Phase 1 ML study. The supplied 920-row UCI-derived compilation yields 918 records after duplicate removal. A fixed historical split gives 734 development records and 184 previously inspected evaluation records. Development is further separated into 550 selection and 184 cutoff records. Nested cross-validation selects Random Forest by mean outer-fold F1 (0.8358). Its development-selected cutoff of 0.38 gives retrospective F1 0.8448, recall 0.9608 and ROC-AUC 0.9029. Separate hospital experiments repeat selection locally using development records only. The BN uses smoothed conditional probability tables and exact inference with missing evidence, but its graph and independence assumptions remain provisional. Hospital results expose weak negative-class performance: VA Long Beach specificity is 0.05, and Switzerland trails an always-positive reference on F1. These results establish neither clinical diagnosis, future-risk prediction nor medical causation.
 \end{abstract}
 
-\section{Problem and Literature Review}
-The task is to predict whether the source target \texttt{num} is greater than zero from patient measurements. The UCI description identifies four contributing databases and defines the target in relation to angiographic narrowing \cite{uci}. Detrano et al. studied the international application of a coronary artery disease probability algorithm, motivating examination of transport across clinical sites \cite{detrano}. We do not claim direct comparability with that study's cohort or outcomes.
+\section{Research Question, Scope and Literature}
+Project 15 is assigned to Team T008, Section C. We ask how a small explicit probabilistic dependency model compares with Logistic Regression (LR), Random Forest (RF), Histogram Gradient Boosting (HGB) and XGBoost (XGB), given common eligible rows, features and partitions. The outcome is $Y=\mathbf{1}(\texttt{num}>0)$ after validating the original target in $\{0,1,2,3,4\}$. Collapsing the target discards severity; the experiment classifies recorded disease presence rather than predicting future events. Official scope assigns neural-network implementation to Phase 2; its absence is not a Phase 1 ML gap.
 
-Logistic regression provides an interpretable linear baseline. Breiman's random forest combines randomized trees to reduce variance \cite{breiman}; histogram gradient boosting and XGBoost represent sequential tree boosting, with XGBoost described by Chen and Guestrin \cite{xgboost}. These model families capture different assumptions about nonlinear relations and interactions. TRIPOD+AI recommends transparent reporting of prediction model development and validation, including missing data, evaluation design, and limitations \cite{tripod}. The literature informs our model choice and reporting, but the empirical rankings below are specific to this dataset and split.
+Friedman, Geiger and Goldszmidt \cite{classifiers} study BN classifiers that relax naive-Bayes conditional independence, including learned TAN structures on UCI benchmarks. Their comparison with naive Bayes and C4.5 supports examining explicit dependence, but does not validate a medical DAG or our manual one-edge extension. Heckerman \cite{bn} supplies general graphical-model and parameter-learning foundations; our simpler training imputation is not full incomplete-data likelihood estimation.
 
-\section{Dataset Quality and Exploratory Analysis}
-The supplied CSV has 920 rows, 16 columns, and four hospitals. There are no exact duplicate full rows, but two duplicate records when the row ID is excluded. We remove the later copies before splitting, leaving 918 rows: 410 negative and 508 positive (55.3\% positive). The original five-level target has counts 411, 265, 109, 107, and 28 for values 0 through 4 before duplicate removal. Converting values 1--4 to one class matches the UCI binary presence/absence framing \cite{uci}, but discards severity information.
+Esmaeili et al. \cite{azar} compare knowledge-based and algorithmic BNs in a cross-sectional Iranian healthcare-provider study of ASCVD, using cardiometabolic predictors and leave-one-out evaluation. Its population, endpoint, measurements and validation differ from our historical angiographic label and nested S/C design. It motivates documenting how domain knowledge enters a graph, not borrowing edges or comparing published scores directly. Detrano et al. \cite{detrano} developed an angiographic disease probability algorithm in Cleveland and applied it to other hospital cohorts. Those cohorts differ from this compilation; transport concerns motivate our site checks, without certifying them as external clinical validation.
 
-After treating impossible zero values in resting blood pressure and cholesterol as missing, the 918-row analysis data have 60 missing resting-pressure values, 201 missing cholesterol values, 55 missing maximum-heart-rate values, 62 missing ST-depression values, 90 missing fasting-sugar values, 55 missing exercise-angina values, and 307 missing slope values. Age, sex, and chest-pain category are complete. The median age is 54 years (range 28--77). The site-specific positive rates are 45.7\% in Cleveland (139/304), 36.3\% in Hungary (106/292), 93.5\% in Switzerland (115/123), and 74.4\% in VA Long Beach (148/199). These differences show substantial site shift and selected hospital populations; descriptive correlations must not be interpreted as causal effects or general-population risk.
+LR supplies a regularized linear-log-odds comparator; RF \cite{breiman} captures nonlinear interactions through randomized trees. HGB uses histogram-based boosted trees \cite{ensemble}; XGBoost \cite{xgboost} adds a distinct regularized boosting implementation. These methods motivate complementary baselines, not an expectation that a family must win on this dataset. Shared raw inputs and partitions improve comparability, although representations and search budgets differ.
 
-\section{Feature Engineering and Leakage Control}
-Eleven predictors are retained: age, sex, chest-pain type, resting blood pressure, cholesterol, fasting blood sugar, resting ECG, maximum heart rate, exercise-induced angina, ST depression, and exercise ST slope. The row ID is not predictive information. Hospital is reserved for a shift check. \texttt{ca} and \texttt{thal} are excluded because 609/918 and 484/918 values, respectively, are missing, with severe site dependence. Numerical variables receive median imputation, missingness indicators, and standard scaling. Categorical variables receive mode imputation and one-hot encoding with unknown-category tolerance. Cleaning precedes splitting only for deterministic zero-to-missing conversion and duplicate removal; imputation and scaling are fitted inside each training fold and then applied to validation or test rows.
+Nested validation \cite{nested} separates inner tuning from outer scoring. Positive-class F1 ignores true negatives and depends on prevalence, so sensitivity, specificity, reference decisions and balanced accuracy complement it. Van Calster et al. \cite{calibration} distinguish discrimination from trustworthy probabilities; our Brier scores and five descriptive reliability bins do not establish clinical calibration. A development-selected F1 cutoff encodes no agreed clinical costs. TRIPOD+AI \cite{tripod} informs transparent reporting, without a claim of full compliance. The contribution is a reproducible five-family comparison and an explicit, provisional BN, not a novel validated clinical method.
 
-\section{Models and Evaluation Protocol}
-With random seed 42, stratified 80/20 splitting yields 734 training and 184 test records, containing 406 and 102 positive labels respectively. Five-fold stratified cross-validation searches fixed grids for logistic regression (regularization strength and L1/L2), random forest (depth and leaf size), histogram gradient boosting (learning rate, leaf nodes, L2), and XGBoost (trees, depth, learning rate). Mean validation F1 is the primary selection criterion, with ROC-AUC as a tie-breaker. The tuned winner is fitted to all training rows. Out-of-fold probabilities from this fixed pipeline select a threshold from 0.30 to 0.70 in 0.01 steps by training F1. The test data are then used once for final assessment. The selection and threshold estimates are optimistic for the training distribution because model families and parameters were chosen using the same training set; the held-out test estimate remains the main internal performance estimate.
+\section{Dataset Provenance and Quality}
+The supplied \texttt{heart\_disease\_uci.csv} has 920 rows and 16 columns. Its SHA-256 matches the first repository version in commit \texttt{f739c2b} (7 October 2026); no acquisition/merge script is recorded. A read-only comparison on 21 October 2026 reversed categorical labels to UCI codes and compared 14-field measurement/target row multisets against \texttt{processed.cleveland.data}, \texttt{processed.hungarian.data}, \texttt{processed.switzerland.data} and \texttt{processed.va.data} from the official archive \cite{uci}. All 920 tuples match their combined records. Official site counts are 303/294/123/200, versus local 304/293/123/200. \emph{Local ID 304 is labelled Cleveland but matches the first Hungarian processed row.} It belongs to D. The data and saved run remain unchanged; this grouping discrepancy qualifies hospital conclusions and requires a separate correction decision, not silent relabelling.
 
-Precision is $TP/(TP+FP)$, recall is $TP/(TP+FN)$, and $F_1=2PR/(P+R)$. ROC-AUC measures discrimination across thresholds. Brier score is the mean squared error of predicted probabilities against binary labels; it is a summary of probability error, not proof of calibration. Because false negatives matter in this setting, we report recall and the confusion matrix alongside F1 and ROC-AUC. The threshold maximizes F1 rather than any clinically established cost function.
+UCI currently specifies CC BY 4.0 and credits Janosi, Steinbrunn, Pfisterer and Detrano \cite{uci}. Numeric formatting, missing markers and category mappings are documented in README. Correspondence to the official measurements does not recover the supplier, download date, merge/renaming script or redistribution history. Those provenance fields and the reason for ID 304's site label remain unknown. No new data replaced the frozen CSV.
 
-\section{Results}
-\begin{table}[ht]
-\centering
-\caption{Training-only five-fold validation, tuned configuration}
-\begin{tabular}{lcc}
-\toprule
-Model & Mean F1 (SD) & Mean ROC-AUC (SD)\\
-\midrule
-Logistic regression & 0.825 (0.032) & 0.874 (0.046)\\
-Random forest & 0.837 (0.032) & 0.868 (0.049)\\
-Histogram gradient boosting & 0.838 (0.029) & 0.860 (0.047)\\
-XGBoost & 0.824 (0.040) & 0.866 (0.046)\\
-\bottomrule
-\end{tabular}
-\end{table}
+Removing the later two duplicate records while ignoring ID leaves 918 records: 508 positive and 410 negative. This prevents direct repeated-record overlap but does not establish patient independence because patient linkage is unknown. Age median is 54 years (range 28--77). Cleveland has 304 rows/139 positives, Hungary 292/106, Switzerland 123/115 and VA Long Beach 199/148. These are full-cohort descriptions, not the hospital evaluation denominators below.
 
-The F1 difference between the selected booster and random forest is 0.0004, far smaller than fold-to-fold variation. It is a mechanical win under the predefined rule, not evidence of meaningful superiority. Logistic regression has the highest validation ROC-AUC (0.874). The selected booster uses learning rate 0.03, 15 maximum leaf nodes, and zero L2 regularization; the selected threshold is 0.47.
+After deterministic zero-to-missing conversion in pressure and cholesterol, missing counts are: pressure 60, cholesterol 201, fasting sugar 90, resting ECG 2, maximum heart rate 55, exercise angina 55, ST depression 62 and ST slope 307. Age, sex and chest-pain category are complete. Eleven predictors remain. ID, hospital and target are forbidden predictors; \texttt{ca} and \texttt{thal} are excluded because 609 and 484 of 918 entries are missing with strong site dependence. Exercise-test inputs also limit the measurement stage at which this classifier could be used. No prospective-use claim is made.
 
-On the held-out set, accuracy is 0.810, precision 0.802, recall 0.873, F1 0.836, ROC-AUC 0.901, average precision 0.915, and Brier score 0.127. The confusion matrix is $TN=60$, $FP=22$, $FN=13$, $TP=89$. An always-positive classifier on this test composition has F1 about 0.713, so the trained model improves that simple benchmark while still missing 13 positive records. Permuting chest-pain category on the test set reduces ROC-AUC by 0.093 on average over 12 repeats; ST depression follows at 0.037. This is exploratory model reliance, affected by correlated inputs and test-set reuse, rather than causal or clinical importance.
+\section{Models and Learned Preprocessing}
+For all four conventional classifiers, numerical medians, missingness indicators and scaling, plus categorical modes and one-hot encoding, are fitted within each permitted training fold. Invalid targets and malformed inputs are rejected; optional missing predictors remain allowed. The four model families and their existing search grids are preserved. Fixed configuration counts are LR 8, RF 6, HGB 8 and XGB 8. BN has only the documented $\alpha=1$ exploratory setting, so search budgets are unequal.
 
-\begin{table}[ht]
-\centering
-\caption{Leave-one-hospital-out validation of the selected model family}
-\begin{tabular}{lccc}
-\toprule
-Held-out hospital & N & F1 & ROC-AUC\\
-\midrule
-Cleveland & 304 & 0.739 & 0.845\\
-Hungary & 292 & 0.710 & 0.864\\
-Switzerland & 123 & 0.796 & 0.768\\
-VA Long Beach & 199 & 0.810 & 0.702\\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{Provisional BN graph and assumptions}
+The implemented DAG has disease $Y$ as parent of all eleven predictors, plus \texttt{oldpeak}$\rightarrow$\texttt{slope}. Maximum parent count is two. Its joint factorization is
+\begin{equation}
+ P(Y,\mathbf X)=P(Y)\!\prod_{i\ne L}P(X_i\mid Y)\,P(L\mid Y,O),
+\end{equation}
+where $O$ denotes oldpeak and $L$ denotes slope. Thus all feature nodes except the oldpeak/slope pair are mutually independent conditional on disease; slope is independent of other features given disease and oldpeak. These strong omitted-edge assumptions remain unvalidated. The extra edge permits a possible residual association between two recorded exercise-ST descriptors. Disease-to-demographic arrows are a generative statistical orientation, not a claim that disease causes age or sex. No edge is established medical causal evidence, and no faculty graph approval exists. The edge register in \texttt{docs/bn\_design.md} records all twelve arrows and five groups covering all 54 omitted feature-pair connections. General classifier theory supports the construction; UCI supports shared ST-measurement semantics, not residual conditional dependence or orientation. No reviewed source validates the full graph. Accordingly, domain structure is only partly established and graph acceptance remains outstanding. Changing it would invalidate attribution of these BN results to the new graph and require a separate development-only evaluation.
 
-Each hospital check tunes hyperparameters on the other three hospitals and scores the held-out hospital at a fixed 0.50 threshold. These are four separate transport experiments, not the same fitted model as the random-split test. Switzerland has only eight negative records, making its ROC-AUC especially unstable. The variation discourages extrapolation to new sites.
+\subsection{Estimation, smoothing and inference}
+Within each BN training partition, numeric medians and categorical modes impute training gaps. Numeric one-third/two-thirds quantiles define statistical bins; duplicate cuts and cuts at observed extrema are removed, equality enters the higher bin and exterior intervals are unbounded. Constant columns have one state; all-missing training columns fail. Clinical cutoffs are not claimed. Categories use a fixed vocabulary. For child state $k$ and parent configuration $j$,
+\begin{equation}
+ \widehat P(X_i=k\mid\mathrm{Pa}_i=j)=\frac{N_{ijk}+\alpha}{N_{ij}+K_i\alpha},\quad\alpha=1.
+\end{equation}
+Here $K_i$ is the child-state count and $\alpha$ is a pseudocount per child state per parent configuration. CPT rows normalize, including configurations absent from training. Training imputation suppresses missing-value uncertainty and may bias counts.
 
-\section{Implementation, Reproducibility, and Limitations}
-\texttt{train.py} reproduces selection and evaluation; \texttt{eda.py} produces a machine-readable audit; \texttt{modeling.py} shares feature cleaning and inference preprocessing; \texttt{app.py} presents predictions, descriptive EDA, and measured performance in Streamlit. The source CSV SHA-256 and full metrics are stored in \texttt{artifacts/metrics.json}; all search grids and the random seed are in code. The model artifact is serialized with Joblib and should be loaded only from the trusted repository. Unit tests check the feature contract and duplicate isolation. The app explicitly labels outputs as educational and does not assert diagnosis.
+Inference computes $P(Y\mid\mathbf x_{\rm obs})$ by exact sum-product marginalization of unobserved nodes. Missing independent leaves sum to one; the oldpeak/slope branch is summed explicitly so its dependence is preserved. No evidence returns the fitted disease prior. Valid unseen states use smoothed CPTs and numeric observations use frozen bins; invalid categories/nonfinite evidence are rejected. This inference is a genuine BN calculation, without a conventional classifier wrapper or a graph-library dependency.
 
-The data are historical, small, incomplete, and from selected hospitals. Site prevalence and missingness differ sharply. We did not conduct prospective or truly independent external validation, probability recalibration, subgroup uncertainty analysis, or decision-curve analysis. A future study should assess these before any clinical use. No deep learning or hybrid model is included in this Phase 1 submission.
+\section{Validation and Isolation Protocol}
+\subsection{Pooled selection, cutoffs and retrospective scoring}
+The historical source-ordered stratified 80/20 split (seed 42) gives $D=734$ development rows (406 positive) and $T=184$ evaluation rows (102 positive). \emph{T had already been reported and inspected. All present T results are retrospective, not newly untouched or external validation.} Split D 75/25 (seed 43) into $S=550$ selection rows and $C=184$ cutoff rows.
 
+On S, five outer stratified folds (seed 44) compare families at cutoff 0.50. Each outer training fold uses three inner folds (seed 45) to choose its configuration; outer validation rows influence neither hyperparameters nor fitted preprocessing. Family selection uses unweighted mean outer-fold F1, then mean outer-fold ROC-AUC, then fixed order BN, LR, RF, HGB, XGB. Inner ties use mean F1, AUC, then lexicographically smallest canonical JSON parameters. Ties require exact full-precision equality. This avoids tuning on all S before generating nominal OOF scores. The selected family's outer score still has across-family selection optimism.
+
+Final three-fold searches (seed 46) fit each family on S only. Each frozen model predicts C, where a grid $k/100$, $k=0,\ldots,100$, maximizes F1. Threshold ties choose nearest to 0.50, then the smaller k. Predictions use $p\geq t$. No S+C refit occurs. C and T cannot replace the selected family. Models, choices and cutoffs freeze before T scoring; this procedural isolation cannot undo historical holdout exposure.
+
+\subsection{Hospital evaluation}
+For each H, use only D: hold out H's D rows, split remaining hospitals into $S_H/C_H$ (75/25 stratified), repeat nested selection and final searches locally, choose cutoffs on $C_H$, then score H. No pooled winner, model, learned preprocessing, BN bins/CPTs or cutoff transfers. Only fixed protocol, states, grids and deterministic rules are shared. Within the allowed source hospitals, selection CV is stratified by row, not additionally hospital-disjoint. Hospital results cannot revise pooled decisions. Hospital split/outer/inner/final seeds are 143--146, 243--246, 343--346 and 443--446 in Cleveland/Hungary/Switzerland/VA Long Beach order.
+
+\section{Verified Results}
+\begin{table}[ht]\centering\caption{Mean nested CV scores on S at cutoff 0.50}
+\begin{tabular}{lcc}\toprule Family & F1 & ROC-AUC\\\midrule
+LR & 0.8231 & 0.8728\\
+RF & 0.8358 & 0.8692\\
+HGB & 0.8104 & 0.8506\\
+XGB & 0.8308 & 0.8645\\
+BN (provisional) & 0.8179 & 0.8780\\
+\bottomrule\end{tabular}\end{table}
+RF wins mean outer F1, ahead of XGB by 0.0049. This is the predefined rule, not proof of universal superiority. BN has the highest mean outer AUC. RF's final S fit uses 200 trees, depth 5, minimum leaf size 2 and square-root feature sampling (estimator seed 42).
+
+\begin{table}[ht]\centering\caption{Retrospective T evaluation, N=184, C-selected cutoffs}
+\setlength{\tabcolsep}{3pt}\begin{tabular}{lccccc}\toprule Family & Cutoff & Acc. & Recall & F1 & AUC\\\midrule
+LR & 0.51 & 0.8315 & 0.8824 & 0.8531 & 0.9125\\
+RF & 0.38 & 0.8043 & 0.9608 & 0.8448 & 0.9029\\
+HGB & 0.37 & 0.8152 & 0.9510 & 0.8509 & 0.8945\\
+XGB & 0.34 & 0.8043 & 0.9804 & 0.8475 & 0.9039\\
+BN (provisional) & 0.54 & 0.7880 & 0.8137 & 0.8098 & 0.8765\\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[ht]\centering\caption{Additional retrospective scores and pooled search/refit time}
+\begin{tabular}{lccc}\toprule Family & Precision & Brier & Seconds\\\midrule
+LR & 0.8257 & 0.1227 & 2.964\\
+RF & 0.7538 & 0.1308 & 35.755\\
+HGB & 0.7698 & 0.1318 & 21.472\\
+XGB & 0.7463 & 0.1273 & 6.837\\
+BN (provisional) & 0.8058 & 0.1544 & 0.851\\
+\bottomrule\end{tabular}\end{table}
+LR's higher retrospective F1 and AUC do not replace RF. RF gives $TN=50$, $FP=32$, $FN=4$, $TP=98$: precision $98/130=0.7538$, recall $98/102=0.9608$, F1 $196/232=0.8448$ and specificity $50/82=0.6098$. High recall coexists with 32 false positives. Balanced accuracy, the mean of sensitivity and specificity, is 0.7853. The threshold is a development-selected statistical operating point, not a clinically established cutoff or clinical cost function. AUC measures ranking across cutoffs; Brier measures probability squared error, not proof of calibration. An always-positive reference has T F1 0.7133; its saved probability uses S prevalence.
+
+\begin{table}[ht]\centering\caption{D-only hospital evaluation of locally selected family}
+\setlength{\tabcolsep}{3pt}\begin{tabular}{lclccc}\toprule Hospital & N & Local & Cutoff & F1 & AUC\\\midrule
+Cleveland & 249 & LR & 0.50 & 0.7547 & 0.8656\\
+Hungary & 228 & HGB & 0.28 & 0.6494 & 0.8416\\
+Switzerland & 96 & RF & 0.44 & 0.8712 & 0.7472\\
+VA Long Beach & 161 & LR & 0.30 & 0.8561 & 0.7079\\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[ht]\centering\caption{Hospital class support and confusion counts at local cutoffs}
+\setlength{\tabcolsep}{3pt}\begin{tabular}{lccccc}\toprule Hospital & Positive/negative & TN & FP & FN & TP\\\midrule
+Cleveland & 113/136 & 117 & 19 & 33 & 80\\
+Hungary & 84/144 & 72 & 72 & 9 & 75\\
+Switzerland & 88/8 & 4 & 4 & 17 & 71\\
+VA Long Beach & 121/40 & 2 & 38 & 2 & 119\\
+\bottomrule\end{tabular}\end{table}
+\begin{table*}[t]\centering\caption{Hospital negative-class performance and same-row always-positive references. All selections and cutoffs remain frozen.}
+\setlength{\tabcolsep}{4pt}\begin{tabular}{lccccccccc}\toprule
+& \multicolumn{7}{c}{Locally selected model at its development cutoff} & \multicolumn{2}{c}{Always positive}\\
+Hospital & Precision & Sensitivity & Specificity & Bal. acc. & F1 & Accuracy & AUC & F1 & Accuracy\\\midrule
+Cleveland & 0.8081 & 0.7080 & 0.8603 & 0.7841 & 0.7547 & 0.7912 & 0.8656 & 0.6243 & 0.4538\\
+Hungary & 0.5102 & 0.8929 & 0.5000 & 0.6964 & 0.6494 & 0.6447 & 0.8416 & 0.5385 & 0.3684\\
+Switzerland & 0.9467 & 0.8068 & 0.5000 & 0.6534 & 0.8712 & 0.7813 & 0.7472 & 0.9565 & 0.9167\\
+VA Long Beach & 0.7580 & 0.9835 & 0.0500 & 0.5167 & 0.8561 & 0.7516 & 0.7079 & 0.8582 & 0.7516\\
+\bottomrule\end{tabular}\end{table*}
+Cleveland uses $S_H/C_H=363/122$, Hungary 379/127, Switzerland 478/160 and VA Long Beach 429/144. All five families share identical evaluation IDs and labels within each site; reference decisions use those exact rows. Confusion matrices have actual rows and predicted columns. Balanced accuracy is added descriptively after evaluation, without changing selection.
+
+\textbf{The unfavorable hospital findings constrain transport claims.} Switzerland's RF F1 0.8712 and accuracy 0.7813 trail always-positive F1 0.9565 and accuracy 0.9167. Only eight Swiss negatives are evaluated. VA Long Beach LR rejects just 2 of 40 negatives (specificity 0.0500), with balanced accuracy 0.5167. Its F1 0.8561 is below always-positive 0.8582; accuracy is equal at 0.7516. AUC 0.7079 still describes ranking discrimination, but does not repair the poor operating point. No family or cutoff is replaced using these findings.
+
+At positive prevalence $p$, an always-positive decision has precision $p$, sensitivity 1, specificity 0 and $\mathrm{F1}=2p/(1+p)$. This explains high reference F1 in positive-heavy sites. Its balanced accuracy and constant-probability AUC are 0.5. The saved reference probability is estimated from $S_H$; always-positive decisions are explicitly fixed, not obtained by applying cutoff 0.5 to that probability. Site prevalence/missingness, possible measurement or label differences, unknown patient linkage and ID 304's site discrepancy qualify interpretation. These D-only checks overlap pooled development and do not constitute independent prospective external validation.
+
+
+The full run completed in 340.927 seconds excluding setup/tests, with 25 serialized final models and 2940 completed fits reconstructed from search records. The recorded verification passed saved-model prediction round trips, metrics, threshold selection and partition isolation. Final remediation reloaded all 25 saved models to reproduce predictions and separately reconciled all default/tuned metric records, nested means, cutoffs and five same-row references, without fitting. Both cutoff-0.50 and C-selected metrics remain available; tables here identify their operating point explicitly.
+
+Uncertainty uses 2000 paired row-bootstrap resamples (seed 47) of frozen predictions, with percentile 95\% intervals and saved undefined-AUC counts. Five equal-width probability bins describe reliability; no recalibration was fitted. Intervals condition on fitted models and omit training-selection and unknown patient-cluster uncertainty. They are not evidence of model superiority. No test permutation-importance experiment was run for this corrected study.
+
+\section{Implementation and Reproducibility}
+The source of truth is run \texttt{20261020T193544Z\_2a8a1491}, under \texttt{artifacts/runs/}. Its manifest, effective protocol, graph, exact IDs/folds, duplicate lineage, search results, OOF/C/T predictions, frozen models/CPTs, code snapshots, hashes and environment support reconstruction. The original protocol/graph files remain unchanged; the run's effective protocol records the explicitly authorized provisional BN and $\alpha=1$ override. The graph remains unapproved. Source CSV SHA-256 is\newline
+{\scriptsize\texttt{574f2fa2b43012fa25fca4fcdb36bd7c6b}\newline\texttt{ccdd0af4242f6c0e4c8633c5a072ae}}.
+
+Recorded environment: Python 3.13.6, NumPy 2.5.3, pandas 3.0.6, scikit-learn 1.9.1, Joblib 1.6.0 and XGBoost 3.4.1 on macOS ARM. XGBoost initially required a process-local path to scikit-learn's bundled OpenMP library; no system installation occurred. A physical-core-detection warning used a logical-core fallback. All final fits succeeded.
+
+Shared validation/preprocessing is in \texttt{modeling.py}; nested selection/scoring in \texttt{train.py}; guarded run outputs in \texttt{experiment.py}; CPTs/inference in \texttt{bayesian\_network.py}. The app loads frozen RF/cutoff 0.38 and provisional BN/cutoff 0.54 with matching saved results; it does not train. Final remediation reran all 38 tests successfully (33 core plus five app tests): feature/target contracts, historical split equivalence and disjointness, selection/cutoff/hospital isolation, graph/CPT/inference/missing evidence, serialization and app consistency. RF/BN probabilities matched all 184 saved T rows within $10^{-12}$.
+
+\section{Limitations, Ethics and Remaining Work}
+The historical cohort is small and selected, with site-dependent prevalence/missingness and unknown patient linkage. Row bootstrap omits patient clustering and model-selection uncertainty. BN imputation, discretization, orientations and conditional independences remain restrictive assumptions pending domain review. Unequal search budgets limit comparison; prior T exposure prevents an untouched-test claim.
+
+No prospective or independent external clinical validation, clinical utility analysis or recalibration is complete. Neural-network comparison belongs to Phase 2 and is not claimed here. The app estimates the historical label, not future disease risk, and cannot diagnose or rule out disease. Use fictional demonstration profiles; retrospective rankings cannot replace the preselected family.
+
+The five confirmed students and enrolments are listed as supplied; individual contribution evidence remains for the team to provide. The acquisition/merge/license history and ID 304 discrepancy need team resolution. Faculty must review graph/domain acceptance, measurement stage, retrospective/D-only evaluation and submission requirements. Local and remote main both resolve to commit \texttt{1f953e5}; the modified/untracked implementation and materials remain unpublished. No commit or push occurred. Prepared materials do not demonstrate individual viva understanding or faculty approval.
+
+\IEEEtriggeratref{7}
 \begin{thebibliography}{00}
-\bibitem{uci} UCI Machine Learning Repository, ``Heart Disease,'' \url{https://archive.ics.uci.edu/dataset/45/heart+disease}.
+\bibitem{classifiers} N. Friedman, D. Geiger and M. Goldszmidt, ``Bayesian network classifiers,'' \emph{Machine Learning}, vol. 29, pp. 131--163, 1997, doi: 10.1023/A:1007465528199.
+\bibitem{bn} D. Heckerman, ``A tutorial on learning with Bayesian networks,'' Microsoft Research, MSR-TR-95-06, Mar. 1995. \url{https://www.microsoft.com/en-us/research/publication/a-tutorial-on-learning-with-bayesian-networks/}.
+\bibitem{azar} P. Esmaeili, N. Roshanravan, S. Ghaffari, N. Mesri Alamdari and M. Asghari-Jafarabadi, ``Unraveling atherosclerotic cardiovascular disease risk factors through conditional probability analysis with Bayesian networks: Insights from the AZAR cohort study,'' \emph{Scientific Reports}, vol. 14, art. 4361, 2024, doi: 10.1038/s41598-024-55141-2.
 \bibitem{detrano} R. Detrano et al., ``International application of a new probability algorithm for the diagnosis of coronary artery disease,'' \emph{Am. J. Cardiol.}, vol. 64, no. 5, pp. 304--310, 1989, doi: 10.1016/0002-9149(89)90524-9.
 \bibitem{breiman} L. Breiman, ``Random forests,'' \emph{Machine Learning}, vol. 45, pp. 5--32, 2001, doi: 10.1023/A:1010933404324.
+\bibitem{ensemble} scikit-learn developers, ``Ensembles: Histogram-based gradient boosting,'' documentation, accessed Oct. 21, 2026. \url{https://scikit-learn.org/stable/modules/ensemble.html}.
 \bibitem{xgboost} T. Chen and C. Guestrin, ``XGBoost: A scalable tree boosting system,'' in \emph{Proc. ACM SIGKDD}, 2016, pp. 785--794, doi: 10.1145/2939672.2939785.
+\bibitem{nested} scikit-learn developers, ``Nested versus non-nested cross-validation,'' documentation, accessed Oct. 21, 2026. \url{https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html}.
+\bibitem{calibration} B. Van Calster, D. J. McLernon, M. van Smeden, L. Wynants and E. W. Steyerberg, ``Calibration: The Achilles heel of predictive analytics,'' \emph{BMC Medicine}, vol. 17, art. 230, 2019, doi: 10.1186/s12916-019-1466-7.
 \bibitem{tripod} G. S. Collins et al., ``TRIPOD+AI statement: Updated guidance for reporting clinical prediction models that use regression or machine learning methods,'' \emph{BMJ}, vol. 385, e078378, 2024, doi: 10.1136/bmj-2023-078378.
+\bibitem{uci} A. Janosi, W. Steinbrunn, M. Pfisterer and R. Detrano, ``Heart Disease,'' UCI Machine Learning Repository, 1989, doi: 10.24432/C52P4X, \url{https://archive.ics.uci.edu/dataset/45/heart+disease}.
 \end{thebibliography}
+
 \end{document}

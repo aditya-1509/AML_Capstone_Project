@@ -1,0 +1,18 @@
+{
+  "source_rows": 920,
+  "retained_rows": 918,
+  "removed_source_ids": [
+    406,
+    908
+  ],
+  "duplicate_groups_keep_first": [
+    [
+      405,
+      406
+    ],
+    [
+      860,
+      908
+    ]
+  ]
+}

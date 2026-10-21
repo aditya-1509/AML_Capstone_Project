@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "started_at_utc": "2026-10-20T19:35:44.576753+00:00",
+  "failures": [],
+  "run_directory": "/Users/aanyamehrotra/Downloads/mk_sem5_project/artifacts/runs/20261020T193544Z_2a8a1491",
+  "mode": "user-authorized exploratory provisional BN",
+  "limitations": [
+    "BN graph is provisional, not faculty approved and not causal evidence",
+    "BN alpha=1 only; unequal search budgets",
+    "Historical holdout evaluation is retrospective",
+    "Faculty questions and merged-dataset provenance remain unresolved",
+    "Bootstrap intervals condition on fitted models and do not resolve patient linkage or selection uncertainty"
+  ],
+  "initial_environment_issue": "XGBoost initially failed to find OpenMP; this process uses the existing scikit-learn wheel libomp via DYLD_LIBRARY_PATH",
+  "code_sha256": {
+    "train.py": "58a08554499c8ddd9bd28a68334792adeab01e2a662a592f1639832adf58b0bb",
+    "experiment.py": "10627fd374e174127fd59ad720124e030078b9dfbd61aae1bfbd62854f0ead11",
+    "modeling.py": "ad6eb4b2dd02f3921641ac588bbbb5cc56cd571a4398f402cc047e6462d80f53",
+    "bayesian_network.py": "e5bc34573602d910b8ee53a183fe9ee84d440d6b377419c0628fcd8088b3a0bd",
+    "requirements.txt": "0a21a586a7c891c944f3ac1ece9aa726acb83f6f9ae762c675634b64c659b0ed",
+    "config/phase1_protocol.json": "9fbd3cb18d3f250f906f0427c146ef2033653e1b6a2564ee765a4acf081f3f07",
+    "config/bn_graph.json": "c9e6fc820bcd6f63a079485ab0f891bf801289cc4eb90a50815847fe272b6850",
+    "tests/test_modeling.py": "5006d9679cc207fc0f71d6170464373c1bb7d67722446855a8818d4a841a3fe2",
+    "tests/test_validation.py": "f7204394a08fed81d9d69ed61c7616c5bbda021566b0528c8a0c589aa5c32f9b",
+    "tests/test_bayesian_network.py": "b11efefe4a4c5d2a979693f7cebe6984c9a1300bd0547604d507ba31e999bcf5"
+  },
+  "git_head": "1f953e5e4281cb355e7f205062ca666e2cd36779",
+  "git_status": " M eda.py\n M modeling.py\n M tests/test_modeling.py\n M train.py\n?? artifacts/runs/\n?? bayesian_network.py\n?? config/\n?? docs/\n?? experiment.py\n?? tests/test_bayesian_network.py\n?? tests/test_validation.py\n",
+  "source_sha256": "574f2fa2b43012fa25fca4fcdb36bd7c6bccdd0af4242f6c0e4c8633c5a072ae",
+  "configuration_counts": {
+    "Logistic regression": 8,
+    "Random forest": 6,
+    "Histogram gradient boosting": 8,
+    "XGBoost": 8,
+    "Bayesian network": 1
+  },
+  "planned_fits_per_experiment": 588,
+  "planned_experiments": [
+    "pooled",
+    "Cleveland",
+    "Hungary",
+    "Switzerland",
+    "VA Long Beach"
+  ],
+  "elapsed_seconds": 340.9267026660018,
+  "finished_at_utc": "2026-10-20T19:41:25.505688+00:00",
+  "warnings": [
+    "Could not find the number of physical cores for the following reason:\ninvalid literal for int() with base 10: ''\nReturning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use."
+  ]
+}

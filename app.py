@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 
 import joblib
@@ -10,11 +12,12 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+from sklearn.metrics import roc_curve
 
 from modeling import clean_features, deduplicate_records, validate_features
 
 ROOT = Path(__file__).resolve().parent
-MODEL_PATH = ROOT / "artifacts" / "heart_model.joblib"
+RUN_PATH = ROOT / "artifacts" / "runs" / "20261020T193544Z_2a8a1491"
 COLORS = {"navy": "#102b3f", "teal": "#087f78", "muted": "#5d7180", "coral": "#bd5547"}
 
 st.set_page_config(page_title="HeartLens | Heart disease prediction", page_icon=":material/favorite:", layout="wide",
@@ -22,9 +25,61 @@ st.set_page_config(page_title="HeartLens | Heart disease prediction", page_icon=
 
 
 @st.cache_resource
-def load_artifact(model_mtime_ns: int):
-    """Reload the model when a new trained artifact replaces the file."""
-    return joblib.load(MODEL_PATH)
+def load_artifact(run_path: Path):
+    """Read the fixed verified run; never fit models or fall back to legacy results."""
+    def read_json(name):
+        return json.loads((run_path / name).read_text())
+
+    manifest = read_json("manifest.json")
+    if manifest["status"] != "complete" or read_json("verification.json")["status"] != "PASS":
+        raise ValueError("The experiment has not passed verification.")
+    if hashlib.sha256((ROOT / "heart_disease_uci.csv").read_bytes()).hexdigest() != manifest["source_sha256"]:
+        raise ValueError("The dataset does not match the verified run.")
+    freeze = read_json("pooled/freeze.json")
+    metrics = read_json("pooled/metrics.json")
+    thresholds = read_json("pooled/thresholds.json")
+    selected = freeze["selected_model"]
+    if selected != "Random forest" or metrics["selected_model"] != selected:
+        raise ValueError("The saved model selection is inconsistent.")
+    for name, family in metrics["families"].items():
+        threshold = freeze["thresholds"][name]
+        if not 0 <= threshold <= 1 or threshold != thresholds[name]["threshold"] or threshold != family["threshold"]:
+            raise ValueError(f"Inconsistent saved threshold for {name}.")
+
+    models = {}
+    for name in (selected, "Bayesian network"):
+        path = run_path / "pooled" / "models" / (name.replace(" ", "_") + ".joblib")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != freeze["model_sha256"][name]:
+            raise ValueError(f"The saved {name} model does not match the frozen run.")
+        models[name] = joblib.load(path)
+        if list(models[name].classes_) != [0, 1]:
+            raise ValueError(f"Unexpected class order for {name}.")
+    graph = read_json("bn_graph.json")
+    if graph != read_json("pooled/bn_state.json")["graph"] or graph != models["Bayesian network"].graph_:
+        raise ValueError("The saved Bayesian Network graph is inconsistent.")
+    if graph["status"] != "provisional" or graph["approved"]:
+        raise ValueError("This app expects the documented provisional Bayesian Network.")
+
+    predictions = pd.read_csv(run_path / "pooled" / "evaluation_predictions.csv")
+    predictions = predictions.loc[predictions["model"] == selected]
+    if len(predictions) != metrics["n"] or not predictions["threshold"].eq(freeze["thresholds"][selected]).all():
+        raise ValueError("The saved predictions do not match the selected model and threshold.")
+    fpr, tpr, _ = roc_curve(predictions["target"], predictions["probability"])
+    metadata = {
+        "run_id": run_path.name,
+        "selected_model": selected, "threshold": freeze["thresholds"][selected],
+        "comparison": read_json("pooled/comparison.json"),
+        "test": metrics["families"][selected]["tuned"], "test_rows": metrics["n"],
+        "dataset_rows": len(pd.read_csv(run_path / "historical_split.csv")),
+        "roc_curve": {"fpr": fpr, "tpr": tpr},
+        "retrospective_comparison": [
+            {"Model": name, "Cutoff": family["threshold"],
+             **{key: family["tuned"][key] for key in ("accuracy", "f1", "recall", "roc_auc")}}
+            for name, family in metrics["families"].items()
+        ],
+    }
+    return {"model": models[selected], "metadata": metadata,
+            "bn_model": models["Bayesian network"], "bn_threshold": freeze["thresholds"]["Bayesian network"]}
 
 
 @st.cache_data
@@ -105,9 +160,12 @@ def figure_style(fig, height=365):
 
 
 def prediction_page(bundle):
+    if st.session_state.get("prediction", {}).get("run_id") != bundle["metadata"]["run_id"]:
+        st.session_state.pop("prediction", None)
     hero("Understand the signal behind a prediction.",
          "Enter a patient profile to explore how our trained model classifies heart disease presence in the UCI dataset. Every input matches the features used during training.")
     st.markdown('<div class="note">For education and demonstration only. This model is not a diagnosis or a substitute for a clinician. A low score cannot rule out disease.</div>', unsafe_allow_html=True)
+    st.caption(f"Selected model: {bundle['metadata']['selected_model']} · historical disease-presence classification, not future disease-risk prediction.")
 
     with st.form("patient_profile"):
         st.subheader("Patient profile")
@@ -145,10 +203,13 @@ def prediction_page(bundle):
         }])
         errors = validate_features(row)
         if errors:
+            st.session_state.pop("prediction", None)
             st.error("Please correct the profile: " + "; ".join(errors))
         else:
             p = float(bundle["model"].predict_proba(clean_features(row))[0, 1])
-            st.session_state["prediction"] = {"probability": p, "inputs": row.to_dict("records")[0]}
+            bn_p = float(bundle["bn_model"].predict_proba(clean_features(row))[0, 1])
+            st.session_state["prediction"] = {"run_id": bundle["metadata"]["run_id"], "probability": p,
+                                              "bn_probability": bn_p, "inputs": row.to_dict("records")[0]}
 
     if "prediction" in st.session_state:
         probability = st.session_state["prediction"]["probability"]
@@ -159,20 +220,27 @@ def prediction_page(bundle):
                   else "The model classified this profile as no disease. This does not rule out disease.")
         st.markdown(f'<div class="result {"positive" if positive else ""}"><div class="result-label">Model output</div><div class="result-number">{probability:.1%}</div><div class="result-title">{title}</div><p>{detail}</p></div>', unsafe_allow_html=True)
         st.caption(f"Estimated probability of the dataset label ‘disease present’. Classification cutoff: {threshold:.0%}. The score is not an individual’s clinical risk.")
+        with st.expander("Bayesian Network · provisional comparison"):
+            bn_probability = st.session_state["prediction"]["bn_probability"]
+            bn_threshold = bundle["bn_threshold"]
+            st.metric("Bayesian Network · disease-present probability", f"{bn_probability:.1%}")
+            label = "disease present" if bn_probability >= bn_threshold else "no disease"
+            st.caption(f"Classification: {label} · cutoff: {bn_threshold:.0%}. Missing evidence is marginalized using the fitted probabilities.")
+            st.warning("Provisional statistical graph, not faculty approved or medically validated. Its edges do not establish medical causation.")
         with st.expander("Review the submitted inputs"):
             details = pd.DataFrame([{"Feature": key, "Value": str(value)} for key, value in st.session_state["prediction"]["inputs"].items()])
             st.dataframe(details, hide_index=True, width="stretch")
 
 
 def model_page(meta):
-    hero("How well does the model hold up?", "The model was selected by five-fold cross-validation on the training split, then evaluated once on a separate test split.")
+    hero("How well does the model hold up?", "Model selection used nested cross-validation on development data. Final scores are retrospective: the historical test set had already been reported and inspected.")
     comparison = pd.DataFrame(meta["comparison"])
     comparison = comparison[["model", "cv_f1", "cv_auc"]].sort_values("cv_f1", ascending=False).reset_index(drop=True)
-    winner = comparison.iloc[0]
-    runner_up = comparison.iloc[1]
+    winner = comparison.loc[comparison["model"] == meta["selected_model"]].iloc[0]
+    runner_up = comparison.loc[comparison["model"] != meta["selected_model"]].iloc[0]
     lead = winner["cv_f1"] - runner_up["cv_f1"]
     st.subheader("Model selection")
-    st.markdown('<p class="section-intro">The training data was divided into five validation folds. We selected the model with the highest mean F1 score, which rewards catching true heart-disease cases while keeping false alarms low. Higher is better.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-intro">On 550 selection records, five outer folds compared model families at cutoff 0.5; three inner folds selected hyperparameters within each training fold. The predefined rule selected the highest mean outer-fold F1 score. Higher is better.</p>', unsafe_allow_html=True)
     summary_left, summary_right = st.columns(2)
     summary_left.metric(f"{meta['selected_model']} · mean CV F1", f"{winner['cv_f1']:.3f}")
     summary_right.metric("Lead over the runner-up", f"+{lead:.3f}")
@@ -183,7 +251,7 @@ def model_page(meta):
         hovertemplate="%{y}<br>Mean CV F1: %{x:.4f}<extra></extra>",
     ))
     fig.update_yaxes(categoryorder="array", categoryarray=comparison["model"].iloc[::-1].tolist(), title="")
-    fig.update_xaxes(range=[0, 0.95], title="Mean five-fold CV F1")
+    fig.update_xaxes(range=[0, 0.95], title="Mean nested-CV F1 (five outer folds)")
     st.plotly_chart(figure_style(fig, 315), width="stretch")
     st.markdown(f'<div class="note"><strong>Why {meta["selected_model"]} was selected:</strong> it reached the highest mean validation F1 ({winner["cv_f1"]:.3f}), ahead of {runner_up["model"]} by {lead:.3f}. This is a small lead, so it supports the project’s selection rule without proving the model is universally superior.</div>', unsafe_allow_html=True)
     with st.expander("See all validation metrics"):
@@ -191,13 +259,17 @@ def model_page(meta):
         st.dataframe(display.style.format({"CV F1": "{:.3f}", "CV ROC-AUC": "{:.3f}"}), hide_index=True, width="stretch")
         auc_leader = max(meta["comparison"], key=lambda row: row["cv_auc"])["model"]
         st.caption(f"{auc_leader} had the highest CV ROC-AUC. {meta['selected_model']} was selected because F1 was the predefined selection metric.")
-    st.caption(f"The classification cutoff ({meta['threshold']:.2f}) was chosen from training-only out-of-fold predictions to maximize F1.")
+    st.caption(f"The classification cutoff ({meta['threshold']:.2f}) maximized F1 on a separate 184-record development cutoff partition, excluded from model and hyperparameter selection. Models remained fitted on the 550 selection records; no refit used cutoff or test rows.")
+    st.caption("Bayesian Network results use a provisional graph with unvalidated independence assumptions; its edges do not establish medical causation.")
     st.markdown('<div class="thin-rule"></div>', unsafe_allow_html=True)
-    st.subheader("Held-out test performance")
+    st.subheader("Retrospective historical test performance")
     cols = st.columns(3)
     for col, (label, key) in zip(cols, [("F1 score", "f1"), ("Recall", "recall"), ("ROC-AUC", "roc_auc")]):
         col.metric(label, f"{meta['test'][key]:.3f}")
     st.caption(f"{meta['test_rows']} test records. A positive label means original UCI target > 0. Recall matters because false negatives can occur.")
+    with st.expander("Compare all five models · retrospective results"):
+        st.dataframe(pd.DataFrame(meta["retrospective_comparison"]).style.format(precision=3), hide_index=True, width="stretch")
+        st.caption("Saved results at each model’s development-selected cutoff. Random Forest remains selected by nested-CV F1, not by this retrospective table. The Bayesian Network is provisional.")
     left, right = st.columns(2, gap="large")
     with left:
         st.markdown("#### ROC curve")
@@ -397,29 +469,33 @@ def data_page(meta):
         "The observed disease share rises with this count. These descriptive groups were defined for the chart, not used as a validated risk score.",
     ])
 
-    # Chapter 9: what the model learned
-    chapter(9, "Which inputs changed test ROC-AUC most when shuffled",
-            "We shuffled each input on the held-out set and measured the mean drop in ROC-AUC across 12 repeats. This is exploratory model reliance, not clinical importance.")
-    importance = pd.DataFrame(meta["importance"])
-    importance["label"] = importance["feature"].map(FEATURE_LABELS)
-    importance = importance.sort_values("mean_auc_drop", ascending=False).head(6)
-    top = importance.iloc[0]
-    fig = go.Figure(go.Bar(
-        x=importance["mean_auc_drop"], y=importance["label"], orientation="h", marker_cornerradius=4,
-        marker_color=[COLORS["teal"] if i < 3 else "#a9d3cc" for i in range(len(importance))],
-        text=importance["mean_auc_drop"].map(lambda value: f"{value:.3f}"), textposition="outside",
-        textfont=dict(color=COLORS["navy"], size=14),
-        hovertemplate="<b>%{y}</b><br>Mean ROC-AUC drop: %{x:.3f}<extra></extra>",
-    ))
-    fig.update_xaxes(range=[0, importance["mean_auc_drop"].max() * 1.2], title="Mean drop in test ROC-AUC",
-                     showgrid=True, gridcolor="#dbe6e4")
-    fig.update_yaxes(title="", autorange="reversed", gridcolor="rgba(0,0,0,0)")
-    fig.update_layout(bargap=0.35)
-    st.plotly_chart(figure_style(fig, 330), width="stretch")
-    takeaway([
-        f"Shuffling <strong>{top['label']}</strong> reduced ROC-AUC by {top['mean_auc_drop']:.3f} on average, the largest observed drop.",
-        "Correlated inputs can share predictive information, so these drops do not rank independent clinical effects.",
-    ])
+    if meta.get("importance"):
+        # Chapter 9: what the model learned
+        chapter(9, "Which inputs changed test ROC-AUC most when shuffled",
+                "We shuffled each input on the held-out set and measured the mean drop in ROC-AUC across 12 repeats. This is exploratory model reliance, not clinical importance.")
+        importance = pd.DataFrame(meta["importance"])
+        importance["label"] = importance["feature"].map(FEATURE_LABELS)
+        importance = importance.sort_values("mean_auc_drop", ascending=False).head(6)
+        top = importance.iloc[0]
+        fig = go.Figure(go.Bar(
+            x=importance["mean_auc_drop"], y=importance["label"], orientation="h", marker_cornerradius=4,
+            marker_color=[COLORS["teal"] if i < 3 else "#a9d3cc" for i in range(len(importance))],
+            text=importance["mean_auc_drop"].map(lambda value: f"{value:.3f}"), textposition="outside",
+            textfont=dict(color=COLORS["navy"], size=14),
+            hovertemplate="<b>%{y}</b><br>Mean ROC-AUC drop: %{x:.3f}<extra></extra>",
+        ))
+        fig.update_xaxes(range=[0, importance["mean_auc_drop"].max() * 1.2], title="Mean drop in test ROC-AUC",
+                         showgrid=True, gridcolor="#dbe6e4")
+        fig.update_yaxes(title="", autorange="reversed", gridcolor="rgba(0,0,0,0)")
+        fig.update_layout(bargap=0.35)
+        st.plotly_chart(figure_style(fig, 330), width="stretch")
+        takeaway([
+            f"Shuffling <strong>{top['label']}</strong> reduced ROC-AUC by {top['mean_auc_drop']:.3f} on average, the largest observed drop.",
+            "Correlated inputs can share predictive information, so these drops do not rank independent clinical effects.",
+        ])
+    else:
+        chapter(9, "Model feature importance",
+                "The verified run did not calculate permutation importance. No importance chart from a different model is shown.")
 
     st.markdown('<div class="thin-rule"></div>', unsafe_allow_html=True)
     st.markdown(f'<div class="summary"><div class="takeaway-label">The story in one paragraph</div><p>Positive labels were more common among older patients and men in these records. Exercise test variables and the asymptomatic chest-pain category showed large differences across groups. In the four-sign descriptive chart, the positive-label share rose from {sign_lookup["None"]:.0%} to {sign_lookup["All 4"]:.0%}. These are associations in a selected historical sample.</p></div>', unsafe_allow_html=True)
@@ -428,10 +504,11 @@ def data_page(meta):
 
 def main():
     style()
-    if not MODEL_PATH.exists():
-        st.error("The trained model is missing. Run `python train.py` before starting the app.")
+    try:
+        bundle = load_artifact(RUN_PATH)
+    except (OSError, ValueError, KeyError, ImportError) as error:
+        st.error(f"Cannot load the verified experiment artifacts: {error}. Restore the verified run and its matching Python dependencies before starting the app.")
         st.stop()
-    bundle = load_artifact(MODEL_PATH.stat().st_mtime_ns)
     with st.sidebar:
         st.markdown('<div class="brand"><span class="brand-mark"></span>HeartLens</div><div class="sidebar-copy">Heart disease prediction · UCI dataset</div>', unsafe_allow_html=True)
         page = st.radio("Explore", ["Prediction", "Data story", "Model studio"], label_visibility="collapsed")

@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "T008-C-project15-phase1-stage0",
+  "created_on": "2026-10-21",
+  "repository_commit_at_stage0": "1f953e5e4281cb355e7f205062ca666e2cd36779",
+  "status": "draft_pending_faculty_and_bn_specification",
+  "execution_authorized": false,
+  "scope": {
+    "project_number": 15,
+    "assigned_title": "Heart-Disease Risk — Domain-Structured Bayesian Network vs Neural Network",
+    "team": "T008",
+    "section": "C",
+    "phase": 1,
+    "prediction_task": "Historical disease-presence classification: num > 0, not future-event risk",
+    "families": ["Bayesian network", "Logistic regression", "Random forest", "Histogram gradient boosting", "XGBoost"],
+    "excluded": ["Phase 2 neural-network training", "hybrid architectures", "test-driven model optimization", "dataset modification", "UI redesign"],
+    "stage0_authorization": "Create only this file, config/bn_graph.json, docs/validation_protocol.md, and docs/bn_design.md; stop before Stage 1"
+  },
+  "data_contract": {
+    "source": "heart_disease_uci.csv",
+    "expected_sha256": "574f2fa2b43012fa25fca4fcdb36bd7c6bccdd0af4242f6c0e4c8633c5a072ae",
+    "expected_source_rows": 920,
+    "expected_retained_rows": 918,
+    "source_is_read_only": true,
+    "deduplication": "Keep first occurrence in source order, comparing all original columns except id; preserve source IDs and removed-row lineage",
+    "target": {"column": "num", "allowed_values": [0, 1, 2, 3, 4], "missing_allowed": false, "positive_values": [1, 2, 3, 4]},
+    "numeric_features": ["age", "trestbps", "chol", "thalch", "oldpeak"],
+    "categorical_features": ["sex", "cp", "fbs", "restecg", "exang", "slope"],
+    "forbidden_predictors": ["id", "dataset", "ca", "thal", "num"],
+    "deterministic_cleaning": "Preserve existing zero-to-missing conventions for trestbps/chol and boolean normalization; reject invalid schema/labels before modeling",
+    "patient_linkage": "Unavailable; source row IDs are not verified patient identifiers; exact-record deduplication does not establish patient independence"
+  },
+  "partitions": {
+    "historical_split": {
+      "method": "sklearn.model_selection.train_test_split on source-ordered retained records",
+      "test_size": 0.2,
+      "stratify": "binary target",
+      "shuffle": true,
+      "random_state": 42,
+      "development_name": "D",
+      "holdout_name": "T",
+      "expected_development_rows": 734,
+      "expected_holdout_rows": 184,
+      "expected_development_positive": 406,
+      "expected_holdout_positive": 102,
+      "holdout_status": "Already reported and inspected; any future results are retrospective evaluation, not newly untouched validation",
+      "holdout_restrictions": ["No fitting", "No family/configuration/graph selection", "No cutoff selection", "No calibration fitting", "No hospital development experiments", "No reshuffling to claim a fresh holdout"]
+    },
+    "development_split": {
+      "input": "D in its reconstructed split order",
+      "method": "stratified shuffled train_test_split",
+      "threshold_size": 0.25,
+      "random_state": 43,
+      "selection_name": "S",
+      "threshold_name": "C",
+      "expected_selection_rows": 550,
+      "expected_threshold_rows": 184,
+      "selection_use": "Nested family comparison, hyperparameter search, all learned transformations and model fitting",
+      "threshold_use": "Probabilities from frozen S-fitted models and decision-threshold selection only",
+      "refit_on_S_plus_C": false
+    },
+    "manifest_requirement": "Persist exact source IDs, order, duplicate lineage, partition and inner/outer-fold membership before fitting; expected counts are assertions to verify, not partitions already generated in Stage 0"
+  },
+  "selection": {
+    "outer_cv": {"class": "StratifiedKFold", "n_splits": 5, "shuffle": true, "random_state": 44},
+    "inner_cv": {"class": "StratifiedKFold", "n_splits": 3, "shuffle": true, "random_state": 45},
+    "final_search_cv": {"class": "StratifiedKFold", "n_splits": 3, "shuffle": true, "random_state": 46},
+    "probability_class": 1,
+    "default_threshold": 0.5,
+    "decision_comparator": ">=",
+    "inner_candidate_ranking": ["Highest unweighted mean inner-fold F1 at probability >= 0.50", "Highest unweighted mean inner-fold ROC-AUC", "Lexicographically smallest canonical JSON parameter object"],
+    "outer_procedure": "For each fixed family and outer fold: search only outer-training rows, refit its inner winner there, then predict outer-validation rows exactly once",
+    "family_ranking": ["Highest unweighted mean outer-fold F1 at probability >= 0.50", "Highest unweighted mean outer-fold ROC-AUC", "First family in fixed_family_tie_order"],
+    "fixed_family_tie_order": ["Bayesian network", "Logistic regression", "Random forest", "Histogram gradient boosting", "XGBoost"],
+    "tie_numeric_policy": "Exact equality of full-precision finite scores; no display rounding or tolerance-based tie grouping",
+    "canonical_parameter_policy": "json.dumps(params, sort_keys=True, separators=(',', ':'), allow_nan=False), compared as strings; expand only JSON-native scalar values",
+    "final_fit": "After family selection, search each family's grid on all S using final_search_cv and the inner_candidate_ranking rule; refit each winner on S only",
+    "deployment_selection": "Choose family on S before accessing C probabilities/labels for cutoff development; C and T rankings cannot replace it",
+    "oof_reporting": "Save each family's nested OOF probabilities and fold assignments; pooled OOF metrics are secondary, not the family-ranking statistic",
+    "selection_bias_disclosure": "The winning family's outer-CV score is still selected across families and is not an independent performance estimate for that selection",
+    "failure_policy": "Fail closed for an invalid candidate, fit failure, undefined selection metric or insufficient class support; do not silently drop families, alter folds or change grids"
+  },
+  "models": {
+    "baseline_preprocessing": "Existing numeric median imputation with indicators and StandardScaler; categorical mode imputation and dense unknown-tolerant one-hot encoding; fitted inside every CV fit",
+    "estimator_random_state": 42,
+    "grids": {
+      "Logistic regression": {"model__C": [0.05, 0.2, 1, 5], "model__l1_ratio": [0, 1]},
+      "Random forest": {"model__n_estimators": [200], "model__max_depth": [5, 10, null], "model__min_samples_leaf": [2, 5], "model__max_features": ["sqrt"]},
+      "Histogram gradient boosting": {"model__learning_rate": [0.03, 0.08], "model__max_leaf_nodes": [7, 15], "model__l2_regularization": [0, 1]},
+      "XGBoost": {"model__n_estimators": [150, 300], "model__max_depth": [2, 4], "model__learning_rate": [0.03, 0.1]},
+      "Bayesian network": null
+    },
+    "baseline_fixed_settings": {
+      "Logistic regression": {"max_iter": 2000, "solver": "liblinear"},
+      "Random forest": {"n_jobs": 1},
+      "Histogram gradient boosting": {"early_stopping": false},
+      "XGBoost": {"objective": "binary:logistic", "eval_metric": "logloss", "tree_method": "hist", "n_jobs": 1}
+    },
+    "parallelism": "One estimator thread; one CV worker by default; any increased worker budget must be explicit and recorded",
+    "bn_specification": "config/bn_graph.json",
+    "bn_grid_status": "Unresolved; finalize smoothing and binning policy after graph/missing-data review, before any comparative experiment",
+    "calibration": "Assess raw probabilities; no fitted recalibrator in the initial protocol",
+    "fairness": "Same eligible rows, eleven raw predictors, partitions/folds, metric definitions and cutoff policy; model-appropriate representations and unequal declared search budgets"
+  },
+  "threshold_selection": {
+    "partition": "C for pooled development; C_H for a hospital experiment",
+    "model_state": "Frozen after fitting on S or S_H; no fit or refit using threshold rows",
+    "grid": {"integer_start": 0, "integer_stop_inclusive": 100, "integer_step": 1, "divisor": 100},
+    "objective": "F1 on all threshold-partition rows, with zero_division=0",
+    "decision_comparator": ">=",
+    "ranking": ["Highest full-precision F1", "Smallest absolute integer distance from grid index 50", "Smallest integer grid index"],
+    "applies_to": "Each prespecified family separately; deployment family remains selected on S",
+    "required_outputs": ["Every threshold score", "Tie candidates", "Selected integer grid index and numeric threshold", "Per-row probabilities and decisions"],
+    "interpretation": "Maximized threshold-partition F1 is a development objective, not a generalization estimate or clinical utility claim"
+  },
+  "hospital_evaluation": {
+    "input_partition": "D only; never T",
+    "site_column": "dataset for partitioning/reporting only",
+    "site_order": ["Cleveland", "Hungary", "Switzerland", "VA Long Beach"],
+    "seed_map": {
+      "Cleveland": {"split": 143, "outer": 144, "inner": 145, "final_search": 146},
+      "Hungary": {"split": 243, "outer": 244, "inner": 245, "final_search": 246},
+      "Switzerland": {"split": 343, "outer": 344, "inner": 345, "final_search": 346},
+      "VA Long Beach": {"split": 443, "outer": 444, "inner": 445, "final_search": 446}
+    },
+    "procedure": "For each H, set D_H to its D rows; split D excluding H into S_H/C_H (75/25 stratified); repeat the entire nested family selection, final fitting and threshold procedure locally; evaluate every frozen family and the locally selected family on D_H",
+    "shared_objects_allowed": ["Frozen protocol", "Externally justified reviewed graph specification", "Fixed state vocabulary and search grids", "Deterministic cleaning rules"],
+    "shared_objects_forbidden": ["Pooled selected family", "Pooled fitted model or preprocessing", "Pooled learned bins or CPTs", "Pooled threshold", "Any held-out-hospital fitted state"],
+    "class_support": "Require both classes in scoring partitions and sufficient support for every fixed stratified CV split; otherwise record not estimable and stop that experiment, without retuning the protocol",
+    "role": "Secondary D-only transport assessment; no hospital result may revise pooled choices, graph, grids or reporting rules",
+    "comparability": "Different populations/counts from the historical full-dataset hospital checks; report actual D_H counts, not the old site counts",
+    "inner_cv_limitation": "Inner/outer selection CV is stratified over rows of the permitted source hospitals; it does not claim additional hospital-disjoint validation"
+  },
+  "evaluation": {
+    "final_label": "Retrospective evaluation on the previously reported and inspected historical holdout",
+    "report_thresholds": ["Fixed 0.50", "Family-specific threshold selected on C or C_H"],
+    "metrics": ["accuracy", "precision", "recall", "specificity", "f1", "roc_auc", "average_precision", "brier", "log_loss", "confusion_matrix"],
+    "confusion_matrix_order": [["TN", "FP"], ["FN", "TP"]],
+    "zero_division": 0,
+    "probability_requirements": "Class-1 probabilities must be finite and in [0,1]; do not clip stored predictions; record numerical clipping used only for log loss",
+    "log_loss_policy": "Binary class labels [0,1]; use float64 machine epsilon clipping only within metric calculation",
+    "reliability": "Five fixed equal-width probability bins on [0,1]; save bin counts, mean predictions and observed positive fractions; show empty bins and small-sample limitations",
+    "uncertainty": {"method": "2000 ordinary row-bootstrap resamples of saved evaluation predictions; percentile 95% intervals; no model refitting or threshold reselection", "random_state": 47, "paired_across_families": true, "undefined_auc_resamples": "Exclude only undefined resamples for that metric; report valid/invalid counts and null intervals if fewer than 1000 are valid", "limitations": "Conditional on the fitted model/split; not training-selection uncertainty, patient-cluster uncertainty, or a formal superiority test"},
+    "subgroups": "Descriptive sex and age strata with counts and class support; no subgroup-specific optimization; finalize exact strata before experiments",
+    "test_feature_importance": false,
+    "constant_reference": "Always-positive decisions and constant class-1 probability estimated from S (S_H for hospital runs); report under a separate reference label",
+    "freeze_before_scoring": ["Graph/edge evidence and assumptions", "State/binning/missingness policy", "All grids, seeds, folds and partitions", "Selected family, fitted candidates and thresholds", "Subgroup definitions and artifact schema", "Metrics and uncertainty rules"]
+  },
+  "reproducibility": {
+    "output_root": "artifacts/runs/<run_id>/",
+    "overwrite_existing_runs": false,
+    "preserve_legacy_artifacts": true,
+    "required": ["Protocol/graph snapshots and hashes", "Code commit and dirty diff hash", "Dataset hash", "Python/OS/package versions and dependency freeze", "Exact partitions/folds and duplicate lineage", "Complete search results and fit failures", "Nested OOF, threshold and evaluation predictions", "Threshold curves and selected-family record", "Reconstructable metrics", "Frozen models and BN graph/states/bins/CPTs", "Stage status and resource settings"],
+    "execution_gate": "Future implementation must fail closed on unresolved material specification, mismatched data, missing manifests or unapproved workload; Stage 0 creates documentation/configuration only, not an executable guard",
+    "amendments": "Version and explain any protocol/specification change before viewing new evaluation results; preserve prior snapshots; never silently redefine a completed experiment"
+  },
+  "open_questions": [
+    {"id": "F01", "owner": "faculty", "question": "Is a functioning domain-structured BN mandatory in Phase 1, and what counts as domain justification?", "status": "unanswered"},
+    {"id": "F02", "owner": "faculty", "question": "Is the neural-network comparison deferred to Phase 2 despite the assigned title?", "status": "unanswered"},
+    {"id": "F03", "owner": "faculty", "question": "Is the proposed F1-first default-cutoff selection criterion and separate threshold partition acceptable?", "status": "unanswered"},
+    {"id": "F04", "owner": "faculty", "question": "Is a discrete BN with explicit statistical rather than causal directions acceptable, and which features/measurement stage are required?", "status": "unanswered"},
+    {"id": "F05", "owner": "faculty", "question": "Are retrospective historical-holdout comparisons and D-only hospital checks acceptable given prior test exposure?", "status": "unanswered"},
+    {"id": "F06", "owner": "faculty", "question": "What title, authorship, contribution evidence, report length/template and presentation constraints apply?", "status": "unanswered"},
+    {"id": "D01", "owner": "team", "question": "Supply exact merged-CSV provenance, transformation history/license and any patient-linkage evidence", "status": "unanswered"},
+    {"id": "B01", "owner": "team/faculty", "question": "Resolve graph edges, independences, binning, smoothing grid and training/inference missingness assumptions", "status": "unanswered"},
+    {"id": "E01", "owner": "team", "question": "Finalize descriptive subgroup strata, BN library/version and experiment resource budget before runs", "status": "unanswered"}
+  ]
+}

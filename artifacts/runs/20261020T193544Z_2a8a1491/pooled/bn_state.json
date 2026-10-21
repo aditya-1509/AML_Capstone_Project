@@ -1,0 +1,703 @@
+{
+  "graph": {
+    "schema_version": "1.0",
+    "graph_id": "T008-C-project15-bn-draft",
+    "status": "provisional",
+    "approved": false,
+    "executable": true,
+    "protocol": "config/phase1_protocol.json",
+    "design_document": "docs/bn_design.md",
+    "interpretation": "Proposed probabilistic dependency model for historical disease presence; no causal interpretation approved",
+    "nodes": [
+      {
+        "name": "disease",
+        "role": "target",
+        "states": [
+          0,
+          1
+        ],
+        "definition": "num > 0 after validating num in {0,1,2,3,4}"
+      },
+      {
+        "name": "age",
+        "role": "numeric_predictor",
+        "states": null
+      },
+      {
+        "name": "trestbps",
+        "role": "numeric_predictor",
+        "states": null
+      },
+      {
+        "name": "chol",
+        "role": "numeric_predictor",
+        "states": null
+      },
+      {
+        "name": "thalch",
+        "role": "numeric_predictor",
+        "states": null
+      },
+      {
+        "name": "oldpeak",
+        "role": "numeric_predictor",
+        "states": null
+      },
+      {
+        "name": "sex",
+        "role": "categorical_predictor",
+        "states": [
+          "Female",
+          "Male"
+        ]
+      },
+      {
+        "name": "cp",
+        "role": "categorical_predictor",
+        "states": [
+          "typical angina",
+          "atypical angina",
+          "non-anginal",
+          "asymptomatic"
+        ]
+      },
+      {
+        "name": "fbs",
+        "role": "categorical_predictor",
+        "states": [
+          false,
+          true
+        ]
+      },
+      {
+        "name": "restecg",
+        "role": "categorical_predictor",
+        "states": [
+          "normal",
+          "st-t abnormality",
+          "lv hypertrophy"
+        ]
+      },
+      {
+        "name": "exang",
+        "role": "categorical_predictor",
+        "states": [
+          false,
+          true
+        ]
+      },
+      {
+        "name": "slope",
+        "role": "categorical_predictor",
+        "states": [
+          "upsloping",
+          "flat",
+          "downsloping"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "disease",
+        "age"
+      ],
+      [
+        "disease",
+        "trestbps"
+      ],
+      [
+        "disease",
+        "chol"
+      ],
+      [
+        "disease",
+        "thalch"
+      ],
+      [
+        "disease",
+        "oldpeak"
+      ],
+      [
+        "disease",
+        "sex"
+      ],
+      [
+        "disease",
+        "cp"
+      ],
+      [
+        "disease",
+        "fbs"
+      ],
+      [
+        "disease",
+        "restecg"
+      ],
+      [
+        "disease",
+        "exang"
+      ],
+      [
+        "disease",
+        "slope"
+      ],
+      [
+        "oldpeak",
+        "slope"
+      ]
+    ],
+    "edge_evidence": [
+      {
+        "parent": "disease",
+        "child": "age",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "trestbps",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "chol",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "thalch",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "oldpeak",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "sex",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "cp",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "fbs",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "restecg",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "exang",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "disease",
+        "child": "slope",
+        "dependency_rationale": "Permit this recorded feature distribution to differ by disease-presence label; a modeling assumption, not a demonstrated clinical relation",
+        "orientation_rationale": "Generative factorization of feature distributions conditional on class; not medical causal direction",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": null,
+        "source_url_or_doi": null,
+        "source_passage": null,
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      },
+      {
+        "parent": "oldpeak",
+        "child": "slope",
+        "dependency_rationale": "Retain a possible residual association between two exercise-ST descriptors, conditional on disease; not empirically established here",
+        "orientation_rationale": "Choose oldpeak before slope for a small two-parent CPT; no physiological direction claimed",
+        "support_status": "explicit_modeling_assumption",
+        "source_title": "UCI Heart Disease variable definitions only; not evidence for this edge",
+        "source_url_or_doi": "https://archive.ics.uci.edu/dataset/45/heart+disease",
+        "source_passage": "oldpeak = ST depression induced by exercise relative to rest; slope: the slope of the peak exercise ST segment",
+        "population_and_outcome_relevance": "Historical UCI disease-presence classification; this does not establish general-population risk",
+        "assumption_limitations": "Dependency and orientation remain unvalidated; omitted edges impose strong conditional independence",
+        "review_status": "provisional_not_faculty_approved"
+      }
+    ],
+    "max_parents": 2,
+    "max_parents_status": "Implemented bound for this provisional topology, pending domain review",
+    "conditional_independences": [
+      "All feature nodes except the oldpeak/slope pair are mutually independent conditional on disease",
+      "Slope is independent of other features conditional on disease and oldpeak",
+      "All oldpeak/slope dependencies on the other features are mediated by disease in this model"
+    ],
+    "conditional_independences_status": "Explicit strong modeling assumptions, not empirically established",
+    "parameter_estimation": {
+      "proposal": "Discrete CPTs with symmetric Dirichlet smoothing estimated only on permitted training rows",
+      "formula": "P(X_i=k | Pa_i=j) = (N_ijk + alpha_ijk) / (N_ij + sum_k alpha_ijk)",
+      "alpha_semantics": "Pseudocount per child state per parent configuration, not an unspecified equivalent-sample-size setting",
+      "alpha_grid": null,
+      "estimator_library": "Existing NumPy/pandas; local CPT counting and exact sum-product branch inference",
+      "status": "implemented_provisional_no_real_data_fit",
+      "alpha_default": 1.0
+    },
+    "discretization": {
+      "policy": "After training-only median imputation, compute 1/3 and 2/3 empirical quantiles; deduplicate and remove cuts at observed extrema. Intervals are left-closed at cuts (searchsorted side=right), with unbounded exterior intervals. Constant columns have one state. Reject nonfinite values and all-missing training columns.",
+      "status": "implemented_statistical_bins_not_clinical_cutoffs",
+      "requirements": [
+        "Clinical cutoffs require a directly supporting source",
+        "Any learned cut points must be fitted inside each training fold",
+        "Define interval boundaries, tied cut points, out-of-range values and all-missing training columns",
+        "No numeric bin values may be chosen from C, T or held-out-hospital outcomes"
+      ]
+    },
+    "missing_values": {
+      "training_proposal": "Training-only median/mode imputation before CPT counts; mode ties use first declared category; all-missing training columns raise ValueError",
+      "inference_proposal": "Omit unavailable observations from evidence and marginalize their nodes using the fitted joint distribution",
+      "invalid_categories": "Reject invalid values; do not silently treat invalid categories as missing clinical evidence",
+      "unseen_valid_states": "Use the frozen state vocabulary and smoothed CPTs; unseen numeric values use frozen interval definitions",
+      "assumptions": [
+        "Imputed training values are an approximation and suppress missing-value uncertainty",
+        "Inference marginalization does not repair bias in imputation-based parameter estimates",
+        "Site-dependent missingness may be informative; neither ignorability nor clinical validity has been established"
+      ],
+      "status": "implemented_approximation_pending_domain_review",
+      "automatic_extensions": false
+    },
+    "inference": {
+      "proposal": "Exact sum-product marginalization specialized to disease -> features plus oldpeak -> slope; sum missing independent leaves to one and explicitly sum the oldpeak/slope branch",
+      "class_order": [
+        0,
+        1
+      ],
+      "no_evidence_behavior": "Return fitted marginal P(disease), not necessarily a root CPT",
+      "status": "implemented_six_synthetic_tests_passed_no_real_data_fit"
+    },
+    "unresolved_assumptions": [
+      {
+        "id": "BN01",
+        "topic": "Prediction stage and eligible measurements",
+        "needs": "Faculty confirmation and source definitions; distinguish existing disease classification from future risk"
+      },
+      {
+        "id": "BN02",
+        "topic": "Demographic dependencies and their orientations",
+        "needs": "Literature passages plus explicit statistical/causal interpretation; no age-to-sex edge inherited from the audit"
+      },
+      {
+        "id": "BN03",
+        "topic": "Disease-to-measurement edges",
+        "needs": "Individual dependency/orientation justification; do not adopt a universal disease-to-all-features scaffold"
+      },
+      {
+        "id": "BN04",
+        "topic": "Residual dependencies among exercise-test measurements",
+        "needs": "Evidence or accepted modeling assumptions for each proposed edge, including any oldpeak/slope relationship"
+      },
+      {
+        "id": "BN05",
+        "topic": "Omitted edges and conditional independence",
+        "needs": "Explicit independence list and limitations, including demographic effects conditional on disease"
+      },
+      {
+        "id": "BN06",
+        "topic": "Discretization and CPT complexity",
+        "needs": "Fixed source-supported or fold-learned policy, parent bound, free-parameter count and sparse-cell treatment"
+      },
+      {
+        "id": "BN07",
+        "topic": "Missing-data estimation and inference",
+        "needs": "Review imputation/marginalization approximation and site-missingness limitations; define edge-case behavior"
+      },
+      {
+        "id": "BN08",
+        "topic": "Prior, library and final search grid",
+        "needs": "Choose alpha grid, compatible implementation and estimation semantics before comparative runs"
+      }
+    ],
+    "edge_record_required_fields": [
+      "parent",
+      "child",
+      "dependency_rationale",
+      "orientation_rationale",
+      "support_status",
+      "source_title",
+      "source_url_or_doi",
+      "source_passage",
+      "population_and_outcome_relevance",
+      "assumption_limitations",
+      "review_status"
+    ],
+    "allowed_support_statuses": [
+      "unresolved",
+      "literature_supported_dependency",
+      "explicit_modeling_assumption"
+    ],
+    "evidence_policy": "No edge is literature-supported without a checked source passage; association evidence does not establish causal orientation; retain unaccepted proposals outside edges",
+    "approval_requirements": [
+      "Faculty scope questions resolved where material",
+      "Topology specified and acyclic",
+      "Every edge has a complete reviewed evidence/assumption record",
+      "All material unresolved assumptions closed",
+      "Conditional independences reviewed",
+      "States, parent bound, binning, missing-data policy and alpha grid finalized",
+      "Protocol/graph cross-check passes",
+      "Explicit review decision recorded"
+    ],
+    "approval_record": null,
+    "execution_scope": "Explicit allow_provisional=True opt-in; only synthetic fitting authorized in Stage 2; no faculty approval or real-data experiment authorization",
+    "provisional_topology_rationale": "A class-conditional generative scaffold plus one dependence between recorded ST-test descriptors. This is a provisional statistical model, not an accepted medical causal graph.",
+    "implementation": "bayesian_network.py"
+  },
+  "states": {
+    "disease": [
+      0,
+      1
+    ],
+    "age": [
+      0,
+      1,
+      2
+    ],
+    "trestbps": [
+      0,
+      1,
+      2
+    ],
+    "chol": [
+      0,
+      1,
+      2
+    ],
+    "thalch": [
+      0,
+      1,
+      2
+    ],
+    "oldpeak": [
+      0,
+      1,
+      2
+    ],
+    "sex": [
+      "Female",
+      "Male"
+    ],
+    "cp": [
+      "typical angina",
+      "atypical angina",
+      "non-anginal",
+      "asymptomatic"
+    ],
+    "fbs": [
+      false,
+      true
+    ],
+    "restecg": [
+      "normal",
+      "st-t abnormality",
+      "lv hypertrophy"
+    ],
+    "exang": [
+      false,
+      true
+    ],
+    "slope": [
+      "upsloping",
+      "flat",
+      "downsloping"
+    ]
+  },
+  "bins": {
+    "age": [
+      50.0,
+      58.0
+    ],
+    "trestbps": [
+      124.0,
+      140.0
+    ],
+    "chol": [
+      226.0,
+      248.0
+    ],
+    "thalch": [
+      130.0,
+      150.0
+    ],
+    "oldpeak": [
+      0.0,
+      1.0
+    ]
+  },
+  "training_fill_values": {
+    "age": 54.0,
+    "trestbps": 130.0,
+    "chol": 237.0,
+    "thalch": 140.0,
+    "oldpeak": 0.5,
+    "sex": "Male",
+    "cp": "asymptomatic",
+    "fbs": false,
+    "restecg": "normal",
+    "exang": false,
+    "slope": "flat"
+  },
+  "cpts": {
+    "disease": [
+      0.447463768115942,
+      0.552536231884058
+    ],
+    "age": [
+      [
+        0.4538152610441767,
+        0.20521172638436483
+      ],
+      [
+        0.3253012048192771,
+        0.31596091205211724
+      ],
+      [
+        0.22088353413654618,
+        0.4788273615635179
+      ]
+    ],
+    "trestbps": [
+      [
+        0.37751004016064255,
+        0.2931596091205212
+      ],
+      [
+        0.3172690763052209,
+        0.3485342019543974
+      ],
+      [
+        0.30522088353413657,
+        0.3583061889250814
+      ]
+    ],
+    "chol": [
+      [
+        0.42971887550200805,
+        0.247557003257329
+      ],
+      [
+        0.23694779116465864,
+        0.41042345276872966
+      ],
+      [
+        0.3333333333333333,
+        0.34201954397394135
+      ]
+    ],
+    "thalch": [
+      [
+        0.14457831325301204,
+        0.4755700325732899
+      ],
+      [
+        0.3293172690763052,
+        0.3127035830618892
+      ],
+      [
+        0.5261044176706827,
+        0.21172638436482086
+      ]
+    ],
+    "oldpeak": [
+      [
+        0.012048192771084338,
+        0.026058631921824105
+      ],
+      [
+        0.7670682730923695,
+        0.41368078175895767
+      ],
+      [
+        0.22088353413654618,
+        0.5602605863192183
+      ]
+    ],
+    "sex": [
+      [
+        0.3467741935483871,
+        0.10130718954248366
+      ],
+      [
+        0.6532258064516129,
+        0.8986928104575164
+      ]
+    ],
+    "cp": [
+      [
+        0.06,
+        0.04220779220779221
+      ],
+      [
+        0.38,
+        0.06168831168831169
+      ],
+      [
+        0.308,
+        0.1525974025974026
+      ],
+      [
+        0.252,
+        0.7435064935064936
+      ]
+    ],
+    "fbs": [
+      [
+        0.8588709677419355,
+        0.8398692810457516
+      ],
+      [
+        0.14112903225806453,
+        0.16013071895424835
+      ]
+    ],
+    "restecg": [
+      [
+        0.6586345381526104,
+        0.5342019543973942
+      ],
+      [
+        0.14859437751004015,
+        0.23127035830618892
+      ],
+      [
+        0.1927710843373494,
+        0.23452768729641693
+      ]
+    ],
+    "exang": [
+      [
+        0.8588709677419355,
+        0.434640522875817
+      ],
+      [
+        0.14112903225806453,
+        0.565359477124183
+      ]
+    ],
+    "slope": [
+      [
+        [
+          0.6,
+          0.3160621761658031,
+          0.42105263157894735
+        ],
+        [
+          0.3,
+          0.21705426356589147,
+          0.10919540229885058
+        ]
+      ],
+      [
+        [
+          0.2,
+          0.6683937823834197,
+          0.43859649122807015
+        ],
+        [
+          0.5,
+          0.7751937984496124,
+          0.7528735632183908
+        ]
+      ],
+      [
+        [
+          0.2,
+          0.015544041450777202,
+          0.14035087719298245
+        ],
+        [
+          0.2,
+          0.007751937984496124,
+          0.13793103448275862
+        ]
+      ]
+    ]
+  },
+  "alpha": 1.0
+}

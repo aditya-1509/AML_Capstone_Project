@@ -1,0 +1,919 @@
+source_index,id,dataset,num,partition
+0,1,Cleveland,0,D_development
+1,2,Cleveland,2,T_retrospective
+2,3,Cleveland,1,D_development
+3,4,Cleveland,0,T_retrospective
+4,5,Cleveland,0,D_development
+5,6,Cleveland,0,D_development
+6,7,Cleveland,3,D_development
+7,8,Cleveland,0,D_development
+8,9,Cleveland,2,T_retrospective
+9,10,Cleveland,1,D_development
+10,11,Cleveland,0,D_development
+11,12,Cleveland,0,D_development
+12,13,Cleveland,2,D_development
+13,14,Cleveland,0,D_development
+14,15,Cleveland,0,D_development
+15,16,Cleveland,0,D_development
+16,17,Cleveland,1,D_development
+17,18,Cleveland,0,D_development
+18,19,Cleveland,0,D_development
+19,20,Cleveland,0,D_development
+20,21,Cleveland,0,T_retrospective
+21,22,Cleveland,0,D_development
+22,23,Cleveland,1,D_development
+23,24,Cleveland,3,D_development
+24,25,Cleveland,4,T_retrospective
+25,26,Cleveland,0,D_development
+26,27,Cleveland,0,D_development
+27,28,Cleveland,0,D_development
+28,29,Cleveland,0,D_development
+29,30,Cleveland,3,D_development
+30,31,Cleveland,0,D_development
+31,32,Cleveland,2,D_development
+32,33,Cleveland,1,D_development
+33,34,Cleveland,0,T_retrospective
+34,35,Cleveland,0,T_retrospective
+35,36,Cleveland,0,D_development
+36,37,Cleveland,3,D_development
+37,38,Cleveland,1,D_development
+38,39,Cleveland,3,T_retrospective
+39,40,Cleveland,0,D_development
+40,41,Cleveland,4,D_development
+41,42,Cleveland,0,D_development
+42,43,Cleveland,0,D_development
+43,44,Cleveland,0,D_development
+44,45,Cleveland,1,D_development
+45,46,Cleveland,4,D_development
+46,47,Cleveland,0,D_development
+47,48,Cleveland,4,D_development
+48,49,Cleveland,0,D_development
+49,50,Cleveland,0,D_development
+50,51,Cleveland,0,D_development
+51,52,Cleveland,0,D_development
+52,53,Cleveland,2,D_development
+53,54,Cleveland,0,D_development
+54,55,Cleveland,1,D_development
+55,56,Cleveland,1,T_retrospective
+56,57,Cleveland,1,D_development
+57,58,Cleveland,1,D_development
+58,59,Cleveland,0,D_development
+59,60,Cleveland,0,T_retrospective
+60,61,Cleveland,2,D_development
+61,62,Cleveland,0,D_development
+62,63,Cleveland,1,D_development
+63,64,Cleveland,0,D_development
+64,65,Cleveland,2,D_development
+65,66,Cleveland,2,D_development
+66,67,Cleveland,1,D_development
+67,68,Cleveland,0,D_development
+68,69,Cleveland,2,D_development
+69,70,Cleveland,1,D_development
+70,71,Cleveland,0,D_development
+71,72,Cleveland,3,D_development
+72,73,Cleveland,1,D_development
+73,74,Cleveland,1,D_development
+74,75,Cleveland,1,D_development
+75,76,Cleveland,0,D_development
+76,77,Cleveland,1,D_development
+77,78,Cleveland,0,D_development
+78,79,Cleveland,0,D_development
+79,80,Cleveland,3,D_development
+80,81,Cleveland,0,D_development
+81,82,Cleveland,0,T_retrospective
+82,83,Cleveland,0,D_development
+83,84,Cleveland,3,T_retrospective
+84,85,Cleveland,0,D_development
+85,86,Cleveland,0,D_development
+86,87,Cleveland,0,D_development
+87,88,Cleveland,0,T_retrospective
+88,89,Cleveland,0,T_retrospective
+89,90,Cleveland,0,T_retrospective
+90,91,Cleveland,0,D_development
+91,92,Cleveland,3,D_development
+92,93,Cleveland,0,T_retrospective
+93,94,Cleveland,0,T_retrospective
+94,95,Cleveland,0,T_retrospective
+95,96,Cleveland,1,D_development
+96,97,Cleveland,2,D_development
+97,98,Cleveland,3,D_development
+98,99,Cleveland,0,D_development
+99,100,Cleveland,0,D_development
+100,101,Cleveland,0,D_development
+101,102,Cleveland,0,T_retrospective
+102,103,Cleveland,0,D_development
+103,104,Cleveland,0,D_development
+104,105,Cleveland,3,D_development
+105,106,Cleveland,0,D_development
+106,107,Cleveland,2,D_development
+107,108,Cleveland,1,D_development
+108,109,Cleveland,2,T_retrospective
+109,110,Cleveland,3,T_retrospective
+110,111,Cleveland,1,D_development
+111,112,Cleveland,1,D_development
+112,113,Cleveland,0,D_development
+113,114,Cleveland,2,D_development
+114,115,Cleveland,2,D_development
+115,116,Cleveland,0,D_development
+116,117,Cleveland,0,D_development
+117,118,Cleveland,0,D_development
+118,119,Cleveland,3,D_development
+119,120,Cleveland,2,D_development
+120,121,Cleveland,3,D_development
+121,122,Cleveland,4,D_development
+122,123,Cleveland,0,D_development
+123,124,Cleveland,3,D_development
+124,125,Cleveland,1,T_retrospective
+125,126,Cleveland,0,D_development
+126,127,Cleveland,3,D_development
+127,128,Cleveland,3,D_development
+128,129,Cleveland,0,D_development
+129,130,Cleveland,0,D_development
+130,131,Cleveland,0,D_development
+131,132,Cleveland,0,T_retrospective
+132,133,Cleveland,0,D_development
+133,134,Cleveland,0,D_development
+134,135,Cleveland,0,D_development
+135,136,Cleveland,0,D_development
+136,137,Cleveland,4,D_development
+137,138,Cleveland,3,D_development
+138,139,Cleveland,1,D_development
+139,140,Cleveland,0,D_development
+140,141,Cleveland,0,D_development
+141,142,Cleveland,1,D_development
+142,143,Cleveland,0,D_development
+143,144,Cleveland,1,D_development
+144,145,Cleveland,0,D_development
+145,146,Cleveland,1,D_development
+146,147,Cleveland,4,D_development
+147,148,Cleveland,0,T_retrospective
+148,149,Cleveland,0,D_development
+149,150,Cleveland,0,D_development
+150,151,Cleveland,0,D_development
+151,152,Cleveland,0,D_development
+152,153,Cleveland,0,D_development
+153,154,Cleveland,4,D_development
+154,155,Cleveland,3,T_retrospective
+155,156,Cleveland,1,D_development
+156,157,Cleveland,1,D_development
+157,158,Cleveland,1,D_development
+158,159,Cleveland,2,D_development
+159,160,Cleveland,0,D_development
+160,161,Cleveland,0,T_retrospective
+161,162,Cleveland,4,D_development
+162,163,Cleveland,0,T_retrospective
+163,164,Cleveland,0,D_development
+164,165,Cleveland,0,D_development
+165,166,Cleveland,0,T_retrospective
+166,167,Cleveland,0,D_development
+167,168,Cleveland,0,D_development
+168,169,Cleveland,1,D_development
+169,170,Cleveland,0,D_development
+170,171,Cleveland,3,T_retrospective
+171,172,Cleveland,0,D_development
+172,173,Cleveland,1,D_development
+173,174,Cleveland,0,D_development
+174,175,Cleveland,4,D_development
+175,176,Cleveland,1,D_development
+176,177,Cleveland,0,D_development
+177,178,Cleveland,1,D_development
+178,179,Cleveland,0,D_development
+179,180,Cleveland,0,T_retrospective
+180,181,Cleveland,3,D_development
+181,182,Cleveland,2,D_development
+182,183,Cleveland,0,D_development
+183,184,Cleveland,0,D_development
+184,185,Cleveland,1,D_development
+185,186,Cleveland,0,T_retrospective
+186,187,Cleveland,0,D_development
+187,188,Cleveland,2,D_development
+188,189,Cleveland,1,D_development
+189,190,Cleveland,2,T_retrospective
+190,191,Cleveland,0,D_development
+191,192,Cleveland,3,D_development
+192,193,Cleveland,1,D_development
+193,194,Cleveland,2,T_retrospective
+194,195,Cleveland,0,T_retrospective
+195,196,Cleveland,3,D_development
+196,197,Cleveland,0,T_retrospective
+197,198,Cleveland,0,D_development
+198,199,Cleveland,0,D_development
+199,200,Cleveland,1,D_development
+200,201,Cleveland,0,D_development
+201,202,Cleveland,0,D_development
+202,203,Cleveland,0,D_development
+203,204,Cleveland,0,D_development
+204,205,Cleveland,0,D_development
+205,206,Cleveland,3,T_retrospective
+206,207,Cleveland,3,D_development
+207,208,Cleveland,3,T_retrospective
+208,209,Cleveland,0,D_development
+209,210,Cleveland,1,D_development
+210,211,Cleveland,0,D_development
+211,212,Cleveland,4,T_retrospective
+212,213,Cleveland,0,D_development
+213,214,Cleveland,3,D_development
+214,215,Cleveland,1,D_development
+215,216,Cleveland,0,D_development
+216,217,Cleveland,0,D_development
+217,218,Cleveland,0,D_development
+218,219,Cleveland,0,D_development
+219,220,Cleveland,0,T_retrospective
+220,221,Cleveland,0,D_development
+221,222,Cleveland,0,D_development
+222,223,Cleveland,0,D_development
+223,224,Cleveland,3,D_development
+224,225,Cleveland,1,T_retrospective
+225,226,Cleveland,0,D_development
+226,227,Cleveland,0,D_development
+227,228,Cleveland,0,D_development
+228,229,Cleveland,3,D_development
+229,230,Cleveland,2,D_development
+230,231,Cleveland,0,D_development
+231,232,Cleveland,2,D_development
+232,233,Cleveland,1,D_development
+233,234,Cleveland,0,D_development
+234,235,Cleveland,0,T_retrospective
+235,236,Cleveland,3,D_development
+236,237,Cleveland,2,T_retrospective
+237,238,Cleveland,1,D_development
+238,239,Cleveland,0,D_development
+239,240,Cleveland,0,D_development
+240,241,Cleveland,0,D_development
+241,242,Cleveland,0,T_retrospective
+242,243,Cleveland,0,D_development
+243,244,Cleveland,2,D_development
+244,245,Cleveland,0,D_development
+245,246,Cleveland,2,D_development
+246,247,Cleveland,2,D_development
+247,248,Cleveland,1,D_development
+248,249,Cleveland,3,D_development
+249,250,Cleveland,0,D_development
+250,251,Cleveland,0,D_development
+251,252,Cleveland,1,D_development
+252,253,Cleveland,0,D_development
+253,254,Cleveland,0,D_development
+254,255,Cleveland,0,D_development
+255,256,Cleveland,0,D_development
+256,257,Cleveland,0,D_development
+257,258,Cleveland,0,D_development
+258,259,Cleveland,0,D_development
+259,260,Cleveland,1,D_development
+260,261,Cleveland,0,D_development
+261,262,Cleveland,3,D_development
+262,263,Cleveland,0,D_development
+263,264,Cleveland,0,D_development
+264,265,Cleveland,4,D_development
+265,266,Cleveland,2,T_retrospective
+266,267,Cleveland,2,T_retrospective
+267,268,Cleveland,2,D_development
+268,269,Cleveland,1,T_retrospective
+269,270,Cleveland,0,T_retrospective
+270,271,Cleveland,1,D_development
+271,272,Cleveland,0,D_development
+272,273,Cleveland,2,T_retrospective
+273,274,Cleveland,0,T_retrospective
+274,275,Cleveland,1,D_development
+275,276,Cleveland,0,D_development
+276,277,Cleveland,0,D_development
+277,278,Cleveland,0,D_development
+278,279,Cleveland,1,T_retrospective
+279,280,Cleveland,0,D_development
+280,281,Cleveland,2,D_development
+281,282,Cleveland,0,D_development
+282,283,Cleveland,3,T_retrospective
+283,284,Cleveland,0,D_development
+284,285,Cleveland,2,T_retrospective
+285,286,Cleveland,4,D_development
+286,287,Cleveland,2,T_retrospective
+287,288,Cleveland,0,D_development
+288,289,Cleveland,0,D_development
+289,290,Cleveland,0,T_retrospective
+290,291,Cleveland,1,D_development
+291,292,Cleveland,0,T_retrospective
+292,293,Cleveland,2,D_development
+293,294,Cleveland,2,D_development
+294,295,Cleveland,1,D_development
+295,296,Cleveland,0,D_development
+296,297,Cleveland,3,D_development
+297,298,Cleveland,1,D_development
+298,299,Cleveland,1,D_development
+299,300,Cleveland,2,D_development
+300,301,Cleveland,3,D_development
+301,302,Cleveland,1,D_development
+302,303,Cleveland,0,D_development
+303,304,Cleveland,0,D_development
+304,305,Hungary,0,D_development
+305,306,Hungary,0,T_retrospective
+306,307,Hungary,0,D_development
+307,308,Hungary,0,D_development
+308,309,Hungary,0,T_retrospective
+309,310,Hungary,0,D_development
+310,311,Hungary,0,D_development
+311,312,Hungary,0,D_development
+312,313,Hungary,0,D_development
+313,314,Hungary,0,T_retrospective
+314,315,Hungary,0,D_development
+315,316,Hungary,0,D_development
+316,317,Hungary,0,D_development
+317,318,Hungary,0,D_development
+318,319,Hungary,0,D_development
+319,320,Hungary,0,D_development
+320,321,Hungary,0,D_development
+321,322,Hungary,0,D_development
+322,323,Hungary,0,D_development
+323,324,Hungary,0,D_development
+324,325,Hungary,0,D_development
+325,326,Hungary,0,D_development
+326,327,Hungary,0,T_retrospective
+327,328,Hungary,0,T_retrospective
+328,329,Hungary,0,T_retrospective
+329,330,Hungary,0,T_retrospective
+330,331,Hungary,0,T_retrospective
+331,332,Hungary,0,D_development
+332,333,Hungary,0,D_development
+333,334,Hungary,0,D_development
+334,335,Hungary,0,D_development
+335,336,Hungary,0,D_development
+336,337,Hungary,0,D_development
+337,338,Hungary,0,D_development
+338,339,Hungary,0,D_development
+339,340,Hungary,0,D_development
+340,341,Hungary,0,T_retrospective
+341,342,Hungary,0,D_development
+342,343,Hungary,0,D_development
+343,344,Hungary,0,D_development
+344,345,Hungary,0,T_retrospective
+345,346,Hungary,0,D_development
+346,347,Hungary,0,D_development
+347,348,Hungary,0,D_development
+348,349,Hungary,0,D_development
+349,350,Hungary,0,D_development
+350,351,Hungary,0,D_development
+351,352,Hungary,0,T_retrospective
+352,353,Hungary,0,D_development
+353,354,Hungary,0,T_retrospective
+354,355,Hungary,0,D_development
+355,356,Hungary,0,D_development
+356,357,Hungary,0,T_retrospective
+357,358,Hungary,0,D_development
+358,359,Hungary,0,D_development
+359,360,Hungary,0,D_development
+360,361,Hungary,0,D_development
+361,362,Hungary,0,D_development
+362,363,Hungary,0,D_development
+363,364,Hungary,0,D_development
+364,365,Hungary,0,D_development
+365,366,Hungary,0,D_development
+366,367,Hungary,0,D_development
+367,368,Hungary,0,D_development
+368,369,Hungary,0,D_development
+369,370,Hungary,0,D_development
+370,371,Hungary,0,D_development
+371,372,Hungary,0,D_development
+372,373,Hungary,0,D_development
+373,374,Hungary,0,D_development
+374,375,Hungary,0,T_retrospective
+375,376,Hungary,0,D_development
+376,377,Hungary,0,D_development
+377,378,Hungary,0,D_development
+378,379,Hungary,0,D_development
+379,380,Hungary,0,D_development
+380,381,Hungary,0,T_retrospective
+381,382,Hungary,0,D_development
+382,383,Hungary,0,T_retrospective
+383,384,Hungary,0,D_development
+384,385,Hungary,0,D_development
+385,386,Hungary,0,D_development
+386,387,Hungary,0,D_development
+387,388,Hungary,0,D_development
+388,389,Hungary,0,D_development
+389,390,Hungary,0,D_development
+390,391,Hungary,0,T_retrospective
+391,392,Hungary,0,T_retrospective
+392,393,Hungary,0,D_development
+393,394,Hungary,0,D_development
+394,395,Hungary,0,D_development
+395,396,Hungary,0,D_development
+396,397,Hungary,0,T_retrospective
+397,398,Hungary,0,D_development
+398,399,Hungary,0,T_retrospective
+399,400,Hungary,0,D_development
+400,401,Hungary,0,D_development
+401,402,Hungary,0,D_development
+402,403,Hungary,0,T_retrospective
+403,404,Hungary,0,T_retrospective
+404,405,Hungary,0,D_development
+406,407,Hungary,0,D_development
+407,408,Hungary,0,D_development
+408,409,Hungary,0,D_development
+409,410,Hungary,0,T_retrospective
+410,411,Hungary,0,T_retrospective
+411,412,Hungary,0,D_development
+412,413,Hungary,0,D_development
+413,414,Hungary,0,T_retrospective
+414,415,Hungary,0,D_development
+415,416,Hungary,0,D_development
+416,417,Hungary,0,T_retrospective
+417,418,Hungary,0,D_development
+418,419,Hungary,0,D_development
+419,420,Hungary,0,D_development
+420,421,Hungary,0,D_development
+421,422,Hungary,0,D_development
+422,423,Hungary,0,D_development
+423,424,Hungary,0,D_development
+424,425,Hungary,0,D_development
+425,426,Hungary,0,D_development
+426,427,Hungary,0,D_development
+427,428,Hungary,0,D_development
+428,429,Hungary,0,D_development
+429,430,Hungary,0,D_development
+430,431,Hungary,0,D_development
+431,432,Hungary,0,D_development
+432,433,Hungary,0,D_development
+433,434,Hungary,0,T_retrospective
+434,435,Hungary,0,D_development
+435,436,Hungary,0,T_retrospective
+436,437,Hungary,0,D_development
+437,438,Hungary,0,D_development
+438,439,Hungary,0,D_development
+439,440,Hungary,0,D_development
+440,441,Hungary,0,D_development
+441,442,Hungary,0,D_development
+442,443,Hungary,0,D_development
+443,444,Hungary,0,T_retrospective
+444,445,Hungary,0,D_development
+445,446,Hungary,0,D_development
+446,447,Hungary,0,T_retrospective
+447,448,Hungary,0,D_development
+448,449,Hungary,0,T_retrospective
+449,450,Hungary,0,T_retrospective
+450,451,Hungary,0,D_development
+451,452,Hungary,0,D_development
+452,453,Hungary,0,D_development
+453,454,Hungary,0,T_retrospective
+454,455,Hungary,0,D_development
+455,456,Hungary,0,T_retrospective
+456,457,Hungary,0,D_development
+457,458,Hungary,0,D_development
+458,459,Hungary,0,D_development
+459,460,Hungary,0,T_retrospective
+460,461,Hungary,0,D_development
+461,462,Hungary,0,D_development
+462,463,Hungary,0,D_development
+463,464,Hungary,0,D_development
+464,465,Hungary,0,D_development
+465,466,Hungary,0,D_development
+466,467,Hungary,0,D_development
+467,468,Hungary,0,D_development
+468,469,Hungary,0,T_retrospective
+469,470,Hungary,0,D_development
+470,471,Hungary,0,T_retrospective
+471,472,Hungary,0,D_development
+472,473,Hungary,0,D_development
+473,474,Hungary,0,D_development
+474,475,Hungary,0,D_development
+475,476,Hungary,0,D_development
+476,477,Hungary,0,D_development
+477,478,Hungary,0,D_development
+478,479,Hungary,0,D_development
+479,480,Hungary,0,T_retrospective
+480,481,Hungary,0,D_development
+481,482,Hungary,0,D_development
+482,483,Hungary,0,D_development
+483,484,Hungary,0,T_retrospective
+484,485,Hungary,0,T_retrospective
+485,486,Hungary,0,T_retrospective
+486,487,Hungary,0,D_development
+487,488,Hungary,0,D_development
+488,489,Hungary,0,T_retrospective
+489,490,Hungary,0,D_development
+490,491,Hungary,0,D_development
+491,492,Hungary,1,D_development
+492,493,Hungary,1,D_development
+493,494,Hungary,1,D_development
+494,495,Hungary,1,D_development
+495,496,Hungary,1,T_retrospective
+496,497,Hungary,1,T_retrospective
+497,498,Hungary,1,D_development
+498,499,Hungary,1,T_retrospective
+499,500,Hungary,1,D_development
+500,501,Hungary,1,D_development
+501,502,Hungary,1,D_development
+502,503,Hungary,1,D_development
+503,504,Hungary,1,T_retrospective
+504,505,Hungary,1,D_development
+505,506,Hungary,1,T_retrospective
+506,507,Hungary,1,D_development
+507,508,Hungary,1,D_development
+508,509,Hungary,1,D_development
+509,510,Hungary,1,T_retrospective
+510,511,Hungary,1,D_development
+511,512,Hungary,1,T_retrospective
+512,513,Hungary,1,D_development
+513,514,Hungary,1,D_development
+514,515,Hungary,1,T_retrospective
+515,516,Hungary,1,D_development
+516,517,Hungary,1,D_development
+517,518,Hungary,1,D_development
+518,519,Hungary,1,D_development
+519,520,Hungary,1,D_development
+520,521,Hungary,1,D_development
+521,522,Hungary,1,D_development
+522,523,Hungary,1,D_development
+523,524,Hungary,1,D_development
+524,525,Hungary,1,D_development
+525,526,Hungary,1,D_development
+526,527,Hungary,1,D_development
+527,528,Hungary,1,D_development
+528,529,Hungary,1,D_development
+529,530,Hungary,1,T_retrospective
+530,531,Hungary,1,D_development
+531,532,Hungary,1,T_retrospective
+532,533,Hungary,1,D_development
+533,534,Hungary,1,D_development
+534,535,Hungary,1,D_development
+535,536,Hungary,1,D_development
+536,537,Hungary,1,T_retrospective
+537,538,Hungary,1,D_development
+538,539,Hungary,1,D_development
+539,540,Hungary,1,D_development
+540,541,Hungary,1,T_retrospective
+541,542,Hungary,1,D_development
+542,543,Hungary,1,D_development
+543,544,Hungary,1,T_retrospective
+544,545,Hungary,1,D_development
+545,546,Hungary,1,D_development
+546,547,Hungary,1,D_development
+547,548,Hungary,1,D_development
+548,549,Hungary,1,D_development
+549,550,Hungary,1,D_development
+550,551,Hungary,1,D_development
+551,552,Hungary,1,D_development
+552,553,Hungary,1,D_development
+553,554,Hungary,1,D_development
+554,555,Hungary,1,D_development
+555,556,Hungary,1,T_retrospective
+556,557,Hungary,1,D_development
+557,558,Hungary,1,D_development
+558,559,Hungary,1,D_development
+559,560,Hungary,1,D_development
+560,561,Hungary,1,D_development
+561,562,Hungary,1,D_development
+562,563,Hungary,1,D_development
+563,564,Hungary,1,D_development
+564,565,Hungary,1,D_development
+565,566,Hungary,1,D_development
+566,567,Hungary,1,D_development
+567,568,Hungary,1,D_development
+568,569,Hungary,1,D_development
+569,570,Hungary,1,T_retrospective
+570,571,Hungary,1,D_development
+571,572,Hungary,1,T_retrospective
+572,573,Hungary,1,D_development
+573,574,Hungary,1,T_retrospective
+574,575,Hungary,1,T_retrospective
+575,576,Hungary,1,D_development
+576,577,Hungary,1,D_development
+577,578,Hungary,1,D_development
+578,579,Hungary,1,D_development
+579,580,Hungary,1,D_development
+580,581,Hungary,1,T_retrospective
+581,582,Hungary,1,D_development
+582,583,Hungary,1,D_development
+583,584,Hungary,1,D_development
+584,585,Hungary,1,D_development
+585,586,Hungary,1,D_development
+586,587,Hungary,1,D_development
+587,588,Hungary,1,D_development
+588,589,Hungary,1,T_retrospective
+589,590,Hungary,1,T_retrospective
+590,591,Hungary,1,T_retrospective
+591,592,Hungary,1,D_development
+592,593,Hungary,1,D_development
+593,594,Hungary,1,D_development
+594,595,Hungary,1,D_development
+595,596,Hungary,1,D_development
+596,597,Hungary,1,D_development
+597,598,Switzerland,1,T_retrospective
+598,599,Switzerland,1,T_retrospective
+599,600,Switzerland,3,D_development
+600,601,Switzerland,1,D_development
+601,602,Switzerland,2,T_retrospective
+602,603,Switzerland,1,D_development
+603,604,Switzerland,0,D_development
+604,605,Switzerland,1,D_development
+605,606,Switzerland,2,D_development
+606,607,Switzerland,1,T_retrospective
+607,608,Switzerland,2,D_development
+608,609,Switzerland,2,D_development
+609,610,Switzerland,1,T_retrospective
+610,611,Switzerland,2,T_retrospective
+611,612,Switzerland,3,D_development
+612,613,Switzerland,4,D_development
+613,614,Switzerland,2,D_development
+614,615,Switzerland,0,D_development
+615,616,Switzerland,1,D_development
+616,617,Switzerland,1,D_development
+617,618,Switzerland,1,D_development
+618,619,Switzerland,3,D_development
+619,620,Switzerland,2,D_development
+620,621,Switzerland,1,D_development
+621,622,Switzerland,2,D_development
+622,623,Switzerland,1,T_retrospective
+623,624,Switzerland,3,D_development
+624,625,Switzerland,3,D_development
+625,626,Switzerland,1,T_retrospective
+626,627,Switzerland,2,D_development
+627,628,Switzerland,4,D_development
+628,629,Switzerland,3,T_retrospective
+629,630,Switzerland,2,D_development
+630,631,Switzerland,1,D_development
+631,632,Switzerland,2,T_retrospective
+632,633,Switzerland,2,T_retrospective
+633,634,Switzerland,2,T_retrospective
+634,635,Switzerland,2,D_development
+635,636,Switzerland,2,D_development
+636,637,Switzerland,2,D_development
+637,638,Switzerland,3,D_development
+638,639,Switzerland,0,D_development
+639,640,Switzerland,1,T_retrospective
+640,641,Switzerland,1,D_development
+641,642,Switzerland,1,D_development
+642,643,Switzerland,4,D_development
+643,644,Switzerland,2,T_retrospective
+644,645,Switzerland,0,D_development
+645,646,Switzerland,2,T_retrospective
+646,647,Switzerland,3,D_development
+647,648,Switzerland,1,D_development
+648,649,Switzerland,0,D_development
+649,650,Switzerland,1,D_development
+650,651,Switzerland,4,D_development
+651,652,Switzerland,2,D_development
+652,653,Switzerland,0,D_development
+653,654,Switzerland,2,D_development
+654,655,Switzerland,2,D_development
+655,656,Switzerland,1,D_development
+656,657,Switzerland,2,D_development
+657,658,Switzerland,2,D_development
+658,659,Switzerland,3,D_development
+659,660,Switzerland,1,D_development
+660,661,Switzerland,1,D_development
+661,662,Switzerland,3,D_development
+662,663,Switzerland,2,D_development
+663,664,Switzerland,3,D_development
+664,665,Switzerland,2,D_development
+665,666,Switzerland,1,T_retrospective
+666,667,Switzerland,1,D_development
+667,668,Switzerland,4,D_development
+668,669,Switzerland,1,T_retrospective
+669,670,Switzerland,1,D_development
+670,671,Switzerland,3,D_development
+671,672,Switzerland,2,D_development
+672,673,Switzerland,1,D_development
+673,674,Switzerland,1,D_development
+674,675,Switzerland,1,D_development
+675,676,Switzerland,3,T_retrospective
+676,677,Switzerland,1,T_retrospective
+677,678,Switzerland,3,D_development
+678,679,Switzerland,3,D_development
+679,680,Switzerland,1,D_development
+680,681,Switzerland,3,D_development
+681,682,Switzerland,1,D_development
+682,683,Switzerland,1,T_retrospective
+683,684,Switzerland,3,D_development
+684,685,Switzerland,3,D_development
+685,686,Switzerland,3,D_development
+686,687,Switzerland,1,D_development
+687,688,Switzerland,2,D_development
+688,689,Switzerland,2,D_development
+689,690,Switzerland,2,D_development
+690,691,Switzerland,1,D_development
+691,692,Switzerland,1,D_development
+692,693,Switzerland,3,D_development
+693,694,Switzerland,2,T_retrospective
+694,695,Switzerland,1,D_development
+695,696,Switzerland,3,D_development
+696,697,Switzerland,1,D_development
+697,698,Switzerland,2,T_retrospective
+698,699,Switzerland,3,T_retrospective
+699,700,Switzerland,3,D_development
+700,701,Switzerland,1,D_development
+701,702,Switzerland,3,D_development
+702,703,Switzerland,1,D_development
+703,704,Switzerland,1,T_retrospective
+704,705,Switzerland,1,D_development
+705,706,Switzerland,3,D_development
+706,707,Switzerland,0,D_development
+707,708,Switzerland,3,T_retrospective
+708,709,Switzerland,1,D_development
+709,710,Switzerland,3,D_development
+710,711,Switzerland,2,D_development
+711,712,Switzerland,3,D_development
+712,713,Switzerland,1,D_development
+713,714,Switzerland,1,T_retrospective
+714,715,Switzerland,3,D_development
+715,716,Switzerland,1,T_retrospective
+716,717,Switzerland,3,D_development
+717,718,Switzerland,0,D_development
+718,719,Switzerland,1,D_development
+719,720,Switzerland,1,D_development
+720,721,VA Long Beach,2,D_development
+721,722,VA Long Beach,0,T_retrospective
+722,723,VA Long Beach,2,D_development
+723,724,VA Long Beach,1,D_development
+724,725,VA Long Beach,0,D_development
+725,726,VA Long Beach,0,D_development
+726,727,VA Long Beach,3,D_development
+727,728,VA Long Beach,0,D_development
+728,729,VA Long Beach,3,D_development
+729,730,VA Long Beach,1,D_development
+730,731,VA Long Beach,0,T_retrospective
+731,732,VA Long Beach,1,D_development
+732,733,VA Long Beach,1,D_development
+733,734,VA Long Beach,1,D_development
+734,735,VA Long Beach,1,T_retrospective
+735,736,VA Long Beach,0,D_development
+736,737,VA Long Beach,4,D_development
+737,738,VA Long Beach,1,D_development
+738,739,VA Long Beach,0,D_development
+739,740,VA Long Beach,0,D_development
+740,741,VA Long Beach,2,T_retrospective
+741,742,VA Long Beach,1,D_development
+742,743,VA Long Beach,3,D_development
+743,744,VA Long Beach,0,D_development
+744,745,VA Long Beach,2,D_development
+745,746,VA Long Beach,2,D_development
+746,747,VA Long Beach,2,D_development
+747,748,VA Long Beach,1,D_development
+748,749,VA Long Beach,1,D_development
+749,750,VA Long Beach,3,D_development
+750,751,VA Long Beach,3,D_development
+751,752,VA Long Beach,3,D_development
+752,753,VA Long Beach,3,T_retrospective
+753,754,VA Long Beach,3,T_retrospective
+754,755,VA Long Beach,2,D_development
+755,756,VA Long Beach,3,D_development
+756,757,VA Long Beach,2,D_development
+757,758,VA Long Beach,0,D_development
+758,759,VA Long Beach,1,D_development
+759,760,VA Long Beach,0,D_development
+760,761,VA Long Beach,3,D_development
+761,762,VA Long Beach,1,D_development
+762,763,VA Long Beach,3,D_development
+763,764,VA Long Beach,0,D_development
+764,765,VA Long Beach,4,T_retrospective
+765,766,VA Long Beach,2,T_retrospective
+766,767,VA Long Beach,1,D_development
+767,768,VA Long Beach,0,D_development
+768,769,VA Long Beach,2,T_retrospective
+769,770,VA Long Beach,0,T_retrospective
+770,771,VA Long Beach,1,D_development
+771,772,VA Long Beach,0,T_retrospective
+772,773,VA Long Beach,2,D_development
+773,774,VA Long Beach,0,T_retrospective
+774,775,VA Long Beach,1,D_development
+775,776,VA Long Beach,2,T_retrospective
+776,777,VA Long Beach,2,D_development
+777,778,VA Long Beach,3,D_development
+778,779,VA Long Beach,0,D_development
+779,780,VA Long Beach,1,D_development
+780,781,VA Long Beach,0,D_development
+781,782,VA Long Beach,2,D_development
+782,783,VA Long Beach,1,D_development
+783,784,VA Long Beach,4,D_development
+784,785,VA Long Beach,2,D_development
+785,786,VA Long Beach,2,D_development
+786,787,VA Long Beach,3,D_development
+787,788,VA Long Beach,1,D_development
+788,789,VA Long Beach,1,D_development
+789,790,VA Long Beach,1,D_development
+790,791,VA Long Beach,0,D_development
+791,792,VA Long Beach,2,D_development
+792,793,VA Long Beach,0,D_development
+793,794,VA Long Beach,3,D_development
+794,795,VA Long Beach,3,D_development
+795,796,VA Long Beach,1,D_development
+796,797,VA Long Beach,2,D_development
+797,798,VA Long Beach,3,D_development
+798,799,VA Long Beach,2,D_development
+799,800,VA Long Beach,1,D_development
+800,801,VA Long Beach,0,D_development
+801,802,VA Long Beach,2,D_development
+802,803,VA Long Beach,2,D_development
+803,804,VA Long Beach,2,D_development
+804,805,VA Long Beach,4,T_retrospective
+805,806,VA Long Beach,2,D_development
+806,807,VA Long Beach,3,D_development
+807,808,VA Long Beach,0,D_development
+808,809,VA Long Beach,1,D_development
+809,810,VA Long Beach,1,D_development
+810,811,VA Long Beach,3,D_development
+811,812,VA Long Beach,0,D_development
+812,813,VA Long Beach,3,T_retrospective
+813,814,VA Long Beach,1,D_development
+814,815,VA Long Beach,0,D_development
+815,816,VA Long Beach,3,T_retrospective
+816,817,VA Long Beach,0,D_development
+817,818,VA Long Beach,1,T_retrospective
+818,819,VA Long Beach,1,D_development
+819,820,VA Long Beach,0,D_development
+820,821,VA Long Beach,1,T_retrospective
+821,822,VA Long Beach,3,D_development
+822,823,VA Long Beach,1,D_development
+823,824,VA Long Beach,1,D_development
+824,825,VA Long Beach,0,T_retrospective
+825,826,VA Long Beach,3,T_retrospective
+826,827,VA Long Beach,1,D_development
+827,828,VA Long Beach,1,D_development
+828,829,VA Long Beach,0,D_development
+829,830,VA Long Beach,0,D_development
+830,831,VA Long Beach,3,D_development
+831,832,VA Long Beach,0,D_development
+832,833,VA Long Beach,3,D_development
+833,834,VA Long Beach,1,D_development
+834,835,VA Long Beach,1,D_development
+835,836,VA Long Beach,3,T_retrospective
+836,837,VA Long Beach,2,T_retrospective
+837,838,VA Long Beach,2,D_development
+838,839,VA Long Beach,3,D_development
+839,840,VA Long Beach,1,D_development
+840,841,VA Long Beach,2,T_retrospective
+841,842,VA Long Beach,3,D_development
+842,843,VA Long Beach,1,D_development
+843,844,VA Long Beach,0,D_development
+844,845,VA Long Beach,1,D_development
+845,846,VA Long Beach,4,D_development
+846,847,VA Long Beach,1,D_development
+847,848,VA Long Beach,2,D_development
+848,849,VA Long Beach,0,D_development
+849,850,VA Long Beach,0,D_development
+850,851,VA Long Beach,1,D_development
+851,852,VA Long Beach,3,D_development
+852,853,VA Long Beach,1,T_retrospective
+853,854,VA Long Beach,0,D_development
+854,855,VA Long Beach,3,D_development
+855,856,VA Long Beach,0,T_retrospective
+856,857,VA Long Beach,3,D_development
+857,858,VA Long Beach,3,T_retrospective
+858,859,VA Long Beach,0,D_development
+859,860,VA Long Beach,2,D_development
+860,861,VA Long Beach,0,D_development
+861,862,VA Long Beach,4,D_development
+862,863,VA Long Beach,2,D_development
+863,864,VA Long Beach,4,D_development
+864,865,VA Long Beach,0,D_development
+865,866,VA Long Beach,0,D_development
+866,867,VA Long Beach,0,D_development
+867,868,VA Long Beach,1,D_development
+868,869,VA Long Beach,3,D_development
+869,870,VA Long Beach,3,D_development
+870,871,VA Long Beach,0,D_development
+871,872,VA Long Beach,3,D_development
+872,873,VA Long Beach,1,D_development
+873,874,VA Long Beach,1,D_development
+874,875,VA Long Beach,2,T_retrospective
+875,876,VA Long Beach,2,T_retrospective
+876,877,VA Long Beach,2,T_retrospective
+877,878,VA Long Beach,2,D_development
+878,879,VA Long Beach,2,D_development
+879,880,VA Long Beach,1,D_development
+880,881,VA Long Beach,4,D_development
+881,882,VA Long Beach,3,D_development
+882,883,VA Long Beach,3,T_retrospective
+883,884,VA Long Beach,3,D_development
+884,885,VA Long Beach,1,D_development
+885,886,VA Long Beach,3,D_development
+886,887,VA Long Beach,2,D_development
+887,888,VA Long Beach,0,T_retrospective
+888,889,VA Long Beach,2,D_development
+889,890,VA Long Beach,1,D_development
+890,891,VA Long Beach,1,D_development
+891,892,VA Long Beach,0,D_development
+892,893,VA Long Beach,3,D_development
+893,894,VA Long Beach,1,T_retrospective
+894,895,VA Long Beach,0,D_development
+895,896,VA Long Beach,0,T_retrospective
+896,897,VA Long Beach,4,T_retrospective
+897,898,VA Long Beach,2,D_development
+898,899,VA Long Beach,3,D_development
+899,900,VA Long Beach,1,D_development
+900,901,VA Long Beach,1,D_development
+901,902,VA Long Beach,0,D_development
+902,903,VA Long Beach,1,D_development
+903,904,VA Long Beach,1,T_retrospective
+904,905,VA Long Beach,0,D_development
+905,906,VA Long Beach,1,D_development
+906,907,VA Long Beach,3,D_development
+908,909,VA Long Beach,2,D_development
+909,910,VA Long Beach,0,D_development
+910,911,VA Long Beach,0,T_retrospective
+911,912,VA Long Beach,4,D_development
+912,913,VA Long Beach,3,D_development
+913,914,VA Long Beach,1,T_retrospective
+914,915,VA Long Beach,2,D_development
+915,916,VA Long Beach,1,D_development
+916,917,VA Long Beach,0,D_development
+917,918,VA Long Beach,2,D_development
+918,919,VA Long Beach,0,T_retrospective
+919,920,VA Long Beach,1,D_development

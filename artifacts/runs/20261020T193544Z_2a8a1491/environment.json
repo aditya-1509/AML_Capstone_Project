@@ -1,0 +1,16 @@
+{
+  "python": "3.13.6 (v3.13.6:4e665351082, Aug  6 2025, 11:22:35) [Clang 16.0.0 (clang-1600.0.26.6)]",
+  "executable": "/private/tmp/heart-stage4-jli6zx6j/venv/bin/python",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "scipy": "1.18.1",
+    "xgboost": "3.4.1",
+    "threadpoolctl": "3.7.0"
+  },
+  "DYLD_LIBRARY_PATH": "/private/tmp/heart-stage4-jli6zx6j/venv/lib/python3.13/site-packages/sklearn/.dylibs",
+  "worker_limit": 1
+}

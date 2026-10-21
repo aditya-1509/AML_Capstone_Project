@@ -7,13 +7,14 @@ from pathlib import Path
 
 import pandas as pd
 
-from modeling import FEATURES, clean_features, deduplicate_records
+from modeling import FEATURES, clean_features, deduplicate_records, validate_dataset
 
 ROOT = Path(__file__).resolve().parent
 
 
 def main() -> None:
     raw = pd.read_csv(ROOT / "heart_disease_uci.csv")
+    validate_dataset(raw)
     data = deduplicate_records(raw)
     cleaned = clean_features(data)
     data["positive"] = (data["num"] > 0).astype(int)
@@ -27,7 +28,10 @@ def main() -> None:
         "missing_after_zero_cleaning": {k: int(v) for k, v in cleaned.isna().sum().items()},
         "site_summary": [
             {"site": str(site), "rows": len(group), "positive": int(group["positive"].sum()),
-             "positive_rate": float(group["positive"].mean())}
+             "positive_rate": float(group["positive"].mean()),
+             "missing_after_zero_cleaning": {
+                 name: int(count) for name, count in cleaned.loc[group.index].isna().sum().items()
+             }}
             for site, group in data.groupby("dataset")
         ],
         "numeric_summary": {

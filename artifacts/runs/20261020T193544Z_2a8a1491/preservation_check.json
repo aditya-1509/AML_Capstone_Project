@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "existing_files_changed": [
+    "tests/test_validation.py",
+    "train.py"
+  ],
+  "new_source_file": "experiment.py",
+  "new_run_directory": "artifacts/runs/20261020T193544Z_2a8a1491",
+  "new_run_files": 101,
+  "protected_existing_files_unchanged": 29,
+  "source_code_matches_executed_snapshot": true,
+  "dataset_sha256": "574f2fa2b43012fa25fca4fcdb36bd7c6bccdd0af4242f6c0e4c8633c5a072ae",
+  "git_HEAD_unchanged": true,
+  "temporary_environment_removed": true
+}
