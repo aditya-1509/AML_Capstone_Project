@@ -1,0 +1,443 @@
+{
+  "source_file": "heart_disease_uci.csv",
+  "source_rows": 920,
+  "source_columns": [
+    "id",
+    "age",
+    "sex",
+    "dataset",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalch",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal",
+    "num"
+  ],
+  "source_dtypes": {
+    "id": "int64",
+    "age": "int64",
+    "sex": "str",
+    "dataset": "str",
+    "cp": "str",
+    "trestbps": "float64",
+    "chol": "float64",
+    "fbs": "object",
+    "restecg": "str",
+    "thalch": "float64",
+    "exang": "object",
+    "oldpeak": "float64",
+    "slope": "str",
+    "ca": "float64",
+    "thal": "str",
+    "num": "int64"
+  },
+  "sample_records": [
+    {
+      "id": 1,
+      "age": 63,
+      "sex": "Male",
+      "dataset": "Cleveland",
+      "cp": "typical angina",
+      "trestbps": 145.0,
+      "chol": 233.0,
+      "fbs": true,
+      "restecg": "lv hypertrophy",
+      "thalch": 150.0,
+      "exang": false,
+      "oldpeak": 2.3,
+      "slope": "downsloping",
+      "ca": 0.0,
+      "thal": "fixed defect",
+      "num": 0
+    },
+    {
+      "id": 2,
+      "age": 67,
+      "sex": "Male",
+      "dataset": "Cleveland",
+      "cp": "asymptomatic",
+      "trestbps": 160.0,
+      "chol": 286.0,
+      "fbs": false,
+      "restecg": "lv hypertrophy",
+      "thalch": 108.0,
+      "exang": true,
+      "oldpeak": 1.5,
+      "slope": "flat",
+      "ca": 3.0,
+      "thal": "normal",
+      "num": 2
+    },
+    {
+      "id": 3,
+      "age": 67,
+      "sex": "Male",
+      "dataset": "Cleveland",
+      "cp": "asymptomatic",
+      "trestbps": 120.0,
+      "chol": 229.0,
+      "fbs": false,
+      "restecg": "lv hypertrophy",
+      "thalch": 129.0,
+      "exang": true,
+      "oldpeak": 2.6,
+      "slope": "flat",
+      "ca": 2.0,
+      "thal": "reversable defect",
+      "num": 1
+    },
+    {
+      "id": 4,
+      "age": 37,
+      "sex": "Male",
+      "dataset": "Cleveland",
+      "cp": "non-anginal",
+      "trestbps": 130.0,
+      "chol": 250.0,
+      "fbs": false,
+      "restecg": "normal",
+      "thalch": 187.0,
+      "exang": false,
+      "oldpeak": 3.5,
+      "slope": "downsloping",
+      "ca": 0.0,
+      "thal": "normal",
+      "num": 0
+    },
+    {
+      "id": 5,
+      "age": 41,
+      "sex": "Female",
+      "dataset": "Cleveland",
+      "cp": "atypical angina",
+      "trestbps": 130.0,
+      "chol": 204.0,
+      "fbs": false,
+      "restecg": "lv hypertrophy",
+      "thalch": 172.0,
+      "exang": false,
+      "oldpeak": 1.4,
+      "slope": "upsloping",
+      "ca": 0.0,
+      "thal": "normal",
+      "num": 0
+    }
+  ],
+  "duplicate_analysis": {
+    "duplicate_records_ignoring_id": 2,
+    "analysis_rows_after_deduplication": 918,
+    "deduplication_rule": "exact duplicate across all columns except id; retained first source occurrence"
+  },
+  "data_quality_checks": {
+    "schema_and_target_validation": "passed; required columns/types/domains checked by validate_dataset",
+    "invalid_categories_or_out_of_range_values": "none detected; invalid records cause validation to stop",
+    "unresolved_exact_duplicates_ignoring_id": 0,
+    "source_ids_missing_or_repeated": 0,
+    "site_labels_missing_or_blank": 0
+  },
+  "feature_types": {
+    "numeric": [
+      "age",
+      "trestbps",
+      "chol",
+      "thalch",
+      "oldpeak"
+    ],
+    "categorical": [
+      "sex",
+      "cp",
+      "fbs",
+      "restecg",
+      "exang",
+      "slope"
+    ],
+    "excluded_from_predictors": {
+      "id": "source row identifier",
+      "dataset": "collection site; retained for descriptive shift checks",
+      "num": "outcome; never included in the feature matrix",
+      "ca": "excluded: 609/918 missing",
+      "thal": "excluded: 484/918 missing"
+    }
+  },
+  "target": {
+    "source_column": "num",
+    "validated_values": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "binary_definition": "positive = num > 0; negative = num == 0",
+    "counts": {
+      "0": 410,
+      "1": 508
+    },
+    "positive_rate": 0.5533769063180828,
+    "imbalance_ratio_majority_to_minority": 1.2390243902439024
+  },
+  "missing_values_after_documented_cleaning": {
+    "rule": "zero trestbps/chol readings treated as missing; no rows dropped or values imputed",
+    "by_feature": {
+      "age": 0,
+      "trestbps": 60,
+      "chol": 201,
+      "thalch": 55,
+      "oldpeak": 62,
+      "sex": 0,
+      "cp": 0,
+      "fbs": 90,
+      "restecg": 2,
+      "exang": 55,
+      "slope": 307
+    },
+    "percent_by_feature": {
+      "age": 0.0,
+      "trestbps": 6.535947712418301,
+      "chol": 21.895424836601308,
+      "thalch": 5.991285403050109,
+      "oldpeak": 6.753812636165578,
+      "sex": 0.0,
+      "cp": 0.0,
+      "fbs": 9.803921568627452,
+      "restecg": 0.2178649237472767,
+      "exang": 5.991285403050109,
+      "slope": 33.44226579520697
+    }
+  },
+  "duplicate_rows_remaining_after_deduplication": 0,
+  "categorical_values": {
+    "sex": {
+      "Male": 725,
+      "Female": 193
+    },
+    "cp": {
+      "asymptomatic": 496,
+      "non-anginal": 203,
+      "atypical angina": 173,
+      "typical angina": 46
+    },
+    "fbs": {
+      "False": 690,
+      "True": 138,
+      "nan": 90
+    },
+    "restecg": {
+      "normal": 550,
+      "lv hypertrophy": 188,
+      "st-t abnormality": 178,
+      "nan": 2
+    },
+    "exang": {
+      "False": 527,
+      "True": 336,
+      "nan": 55
+    },
+    "slope": {
+      "flat": 345,
+      "nan": 307,
+      "upsloping": 203,
+      "downsloping": 63
+    }
+  },
+  "numeric_descriptives_after_documented_cleaning": {
+    "age": {
+      "count": 918.0,
+      "mean": 53.510893246187365,
+      "std": 9.43261650673201,
+      "min": 28.0,
+      "25%": 47.0,
+      "50%": 54.0,
+      "75%": 60.0,
+      "max": 77.0
+    },
+    "trestbps": {
+      "count": 858.0,
+      "mean": 132.2913752913753,
+      "std": 18.53229406182303,
+      "min": 80.0,
+      "25%": 120.0,
+      "50%": 130.0,
+      "75%": 140.0,
+      "max": 200.0
+    },
+    "chol": {
+      "count": 717.0,
+      "mean": 246.87168758716876,
+      "std": 58.55866794200911,
+      "min": 85.0,
+      "25%": 210.0,
+      "50%": 240.0,
+      "75%": 277.0,
+      "max": 603.0
+    },
+    "thalch": {
+      "count": 863.0,
+      "mean": 137.5422943221321,
+      "std": 25.936523581984584,
+      "min": 60.0,
+      "25%": 120.0,
+      "50%": 140.0,
+      "75%": 157.0,
+      "max": 202.0
+    },
+    "oldpeak": {
+      "count": 856.0,
+      "mean": 0.8808411214953271,
+      "std": 1.0916727839081446,
+      "min": -2.6,
+      "25%": 0.0,
+      "50%": 0.5,
+      "75%": 1.5,
+      "max": 6.2
+    }
+  },
+  "numeric_pearson_correlations_after_documented_cleaning": {
+    "age": {
+      "age": 1.0,
+      "trestbps": 0.2522634246292608,
+      "chol": 0.08371091751647468,
+      "thalch": -0.36526140953611763,
+      "oldpeak": 0.25858355325521587
+    },
+    "trestbps": {
+      "age": 0.2522634246292608,
+      "trestbps": 1.0,
+      "chol": 0.08953797263183536,
+      "thalch": -0.10059202746968035,
+      "oldpeak": 0.17169794960730766
+    },
+    "chol": {
+      "age": 0.08371091751647468,
+      "trestbps": 0.08953797263183536,
+      "chol": 1.0,
+      "thalch": -0.047886340137229075,
+      "oldpeak": 0.04640127520061456
+    },
+    "thalch": {
+      "age": -0.36526140953611763,
+      "trestbps": -0.10059202746968035,
+      "chol": -0.047886340137229075,
+      "thalch": 1.0,
+      "oldpeak": -0.15130779288890256
+    },
+    "oldpeak": {
+      "age": 0.25858355325521587,
+      "trestbps": 0.17169794960730766,
+      "chol": 0.04640127520061456,
+      "thalch": -0.15130779288890256,
+      "oldpeak": 1.0
+    }
+  },
+  "site_summary": [
+    {
+      "site": "Cleveland",
+      "rows": 303,
+      "positive": 139,
+      "negative": 164,
+      "positive_rate": 0.45874587458745875,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 0,
+        "chol": 0,
+        "thalch": 0,
+        "oldpeak": 0,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 0,
+        "restecg": 0,
+        "exang": 0,
+        "slope": 0
+      }
+    },
+    {
+      "site": "Hungary",
+      "rows": 293,
+      "positive": 106,
+      "negative": 187,
+      "positive_rate": 0.36177474402730375,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 1,
+        "chol": 22,
+        "thalch": 1,
+        "oldpeak": 0,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 8,
+        "restecg": 1,
+        "exang": 1,
+        "slope": 189
+      }
+    },
+    {
+      "site": "Switzerland",
+      "rows": 123,
+      "positive": 115,
+      "negative": 8,
+      "positive_rate": 0.9349593495934959,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 2,
+        "chol": 123,
+        "thalch": 1,
+        "oldpeak": 6,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 75,
+        "restecg": 1,
+        "exang": 1,
+        "slope": 17
+      }
+    },
+    {
+      "site": "VA Long Beach",
+      "rows": 199,
+      "positive": 148,
+      "negative": 51,
+      "positive_rate": 0.7437185929648241,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 57,
+        "chol": 56,
+        "thalch": 53,
+        "oldpeak": 56,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 7,
+        "restecg": 0,
+        "exang": 53,
+        "slope": 101
+      }
+    }
+  ],
+  "preprocessing_handoff": {
+    "deterministic_before_split": [
+      "validate required schema and target domain",
+      "deduplicate exact records ignoring id",
+      "convert numeric fields",
+      "treat zero trestbps/chol as missing"
+    ],
+    "fit_only_inside_training_partitions": [
+      "numeric median imputation",
+      "missingness indicators",
+      "numeric scaling",
+      "categorical mode imputation",
+      "one-hot encoding"
+    ],
+    "excluded_predictors": [
+      "id",
+      "dataset",
+      "num",
+      "ca",
+      "thal"
+    ],
+    "no_train_test_split_or_learned_transform_fitted_by_this_report": true
+  }
+}
