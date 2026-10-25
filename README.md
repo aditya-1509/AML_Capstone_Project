@@ -1,6 +1,56 @@
-# AML Capstone Project: Phase 1 — Data Ingestion & Exploratory Data Analysis
+# AML Capstone Project: Phase 1 — Data, EDA and Machine Learning
 
 This repository contains the Phase 1 implementation for the Advanced Machine Learning (AML) Capstone Project, focusing on **rigorous data ingestion, clinical schema validation, and reproducible exploratory data analysis (EDA)** on the multi-center UCI Heart Disease dataset.
+
+
+## Completed ML workflow
+
+[Verified results, model comparison and hospital checks](artifacts/runs/20261025T151903Z_ea0f799c/RESULTS.md).
+The recorded run passed 48 tests and its 25 frozen models are checked with `verify_run.py`.
+
+The original `modeling.py`, `train_baselines.py` and baseline tests remain intact.
+The remaining Phase 1 ML implementation is adapted from the team's existing
+HeartLens project, with separate `advanced_modeling.py` helpers so the original
+baseline API remains available. No individual authorship of the reused code is implied.
+
+- `train.py`: five-family nested CV (five outer / three inner folds), deterministic hyperparameter selection, final S-only fitting, cutoff selection and frozen evaluation.
+- `bayesian_network.py`: discrete smoothed BN with training-only bins/imputation and missing-evidence inference. The graph is provisional, not faculty approved or causal.
+- `experiment.py`: pooled and four independent D-only hospital experiments; exact fold memberships, search traces, frozen models, thresholds, predictions, bootstrap intervals, reliability bins and subgroup summaries.
+- `verify_run.py`: reload saved models, reproduce probabilities and metrics, reconstruct cutoff/CV decisions and verify partition isolation.
+- `summarize_run.py`: generate the result table, ROC curves and selected-model confusion matrix from saved evidence.
+
+The original 918 retained rows and split rules are preserved: development D=734,
+retrospective T=184; D gives S=550 for selection/fitting and C=184 for cutoffs.
+All learned preprocessing is fitted inside its permitted training fold. The family
+is chosen on S, before C or T scoring; models are never refitted on S+C.
+The previously inspected historical holdout is retrospective, not a new untouched test.
+Hospital experiments exclude T and repeat the full selection procedure independently.
+Neural-network implementation remains Phase 2.
+
+Run the complete workflow explicitly (about 2,940 fits; one worker):
+
+```bash
+python train.py --run-experiment --allow-provisional-bn
+python verify_run.py artifacts/runs/<run_id>
+python summarize_run.py artifacts/runs/<run_id>
+```
+
+On macOS, XGBoost requires an OpenMP runtime. If its import reports a missing
+`libomp.dylib`, install the system OpenMP dependency or supply an existing
+compatible runtime through `DYLD_LIBRARY_PATH`. The recorded run used the runtime
+bundled with its scikit-learn wheel; see its `environment.json`.
+
+Existing baseline-only execution remains available:
+
+```bash
+python train_baselines.py --output artifacts/my_baseline_run
+python -m pytest tests -q
+```
+
+Protocol and graph assumptions are recorded in `config/` and `docs/`. The imported
+protocol retains its historical draft/faculty questions; each executed run stores
+an effective protocol declaring the provisional exploratory settings. Results
+support an academic disease-presence comparison, not a clinical screening claim.
 
 ---
 

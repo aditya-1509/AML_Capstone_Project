@@ -1,0 +1,5 @@
+{
+  "status": "PASS",
+  "models_verified": 25,
+  "checks": "Model hashes and prediction round trips; metric reconstruction; cutoff selection; nested fold scores/family selection; partition and hospital isolation"
+}

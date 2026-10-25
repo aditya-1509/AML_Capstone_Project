@@ -1,0 +1,54 @@
+{
+  "status": "complete",
+  "started_at_utc": "2026-10-25T15:19:03.764103+00:00",
+  "failures": [],
+  "run_directory": "/private/tmp/aml-capstone-publish/artifacts/runs/20261025T151903Z_ea0f799c",
+  "mode": "user-authorized exploratory provisional BN",
+  "limitations": [
+    "BN graph is provisional, not faculty approved and not causal evidence",
+    "BN alpha=1 only; unequal search budgets",
+    "Historical holdout evaluation is retrospective",
+    "Faculty questions and merged-dataset provenance remain unresolved",
+    "Bootstrap intervals condition on fitted models and do not resolve patient linkage or selection uncertainty"
+  ],
+  "initial_environment_issue": "See environment.json for the runtime and thread settings used in this run",
+  "code_sha256": {
+    "train.py": "fc217c55fb56a0ef7bcab3ff3a24d05e32c9021534764187c48e396d10872932",
+    "experiment.py": "e18c7b792b2c72b04979e4e541ee074d4ce433e6bb4fa0e8972800db5b1d3bc8",
+    "advanced_modeling.py": "ad6eb4b2dd02f3921641ac588bbbb5cc56cd571a4398f402cc047e6462d80f53",
+    "modeling.py": "c38c891e2d3befc8f7bb345e2e54a2f6666d98ec889d1d0c6d55d4c4731b348d",
+    "data_loader.py": "c68a3bf19fe5ad073603c079f6825799d994b3975a271624ed3f987e10dfb128",
+    "bayesian_network.py": "0a0cc9f7f089cb7d5f78dea3aa2bd2bb5df5ecc9972d9b8cb5049e7c84b58843",
+    "requirements.txt": "3d8db891c4cac77b8c88b5893977d2e24f77251c95d7c38e1c9b0ee9d18a9f22",
+    "config/phase1_protocol.json": "3245a8de7780b140c0f82c230b992978a391039c163b250b499bcfdf7782fc68",
+    "config/bn_graph.json": "bb4d1a7cc6b201ecd9286d3d1386436ff8c4c26c3330e4a8738041e028d82743",
+    "tests/test_modeling.py": "47f2663a358fccf5dad6fb9a678274e8082347ec88f242575add26a243269f51",
+    "tests/test_validation.py": "ede5090ac9be234feea98160cc50924e10c831df8a1d1706c33f84321893c30d",
+    "tests/test_bayesian_network.py": "079e3bcb0966cfd6234c9aca28df9ce34ebdedc27aa0e11421400d18a5781867"
+  },
+  "git_head": "37166a29bbe41b29ab042c96c4193d450c3e3112",
+  "git_status": " M requirements.txt\n?? advanced_modeling.py\n?? artifacts/runs/\n?? bayesian_network.py\n?? config/\n?? docs/\n?? experiment.py\n?? tests/test_bayesian_network.py\n?? tests/test_modeling.py\n?? tests/test_validation.py\n?? train.py\n",
+  "source_sha256": "e76825d8d9ca0b9491ac1aef9261020c8eb6ab39315b65185a47cf619bc89da0",
+  "configuration_counts": {
+    "Logistic regression": 8,
+    "Random forest": 6,
+    "Histogram gradient boosting": 8,
+    "XGBoost": 8,
+    "Bayesian network": 1
+  },
+  "planned_fits_per_experiment": 588,
+  "planned_experiments": [
+    "pooled",
+    "Cleveland",
+    "Hungary",
+    "Switzerland",
+    "VA Long Beach"
+  ],
+  "elapsed_seconds": 195.87739187499938,
+  "finished_at_utc": "2026-10-25T15:22:19.640699+00:00",
+  "warnings": [
+    "'penalty' was deprecated in version 1.8 and will be removed in 1.10. To avoid this warning, leave 'penalty' set to its default value and use 'l1_ratio' or 'C' instead. Use l1_ratio=0 instead of penalty='l2', l1_ratio=1 instead of penalty='l1', l1_ratio set to a float between 0 and 1 instead of penalty='elasticnet', and C=np.inf instead of penalty=None.",
+    "Could not find the number of physical cores for the following reason:\ninvalid literal for int() with base 10: ''\nReturning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.",
+    "Inconsistent values: penalty=l1 with l1_ratio=0.0. penalty is deprecated. Please use l1_ratio only."
+  ]
+}

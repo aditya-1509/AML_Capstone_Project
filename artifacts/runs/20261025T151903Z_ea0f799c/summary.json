@@ -1,0 +1,640 @@
+{
+  "pooled_selected_model": "Random forest",
+  "hospitals": {
+    "Cleveland": {
+      "n": 248,
+      "selected_model": "Logistic regression",
+      "families": {
+        "Logistic regression": {
+          "threshold": 0.44,
+          "tuned": {
+            "accuracy": 0.7983870967741935,
+            "precision": 0.7404580152671756,
+            "recall": 0.8584070796460177,
+            "specificity": 0.7481481481481481,
+            "f1": 0.7950819672131147,
+            "roc_auc": 0.861225827597509,
+            "average_precision": 0.852260286600137,
+            "brier": 0.15454875058363826,
+            "log_loss": 0.4768463580453837,
+            "confusion_matrix": [
+              [
+                101,
+                34
+              ],
+              [
+                16,
+                97
+              ]
+            ]
+          }
+        },
+        "Random forest": {
+          "threshold": 0.47,
+          "tuned": {
+            "accuracy": 0.782258064516129,
+            "precision": 0.7286821705426356,
+            "recall": 0.831858407079646,
+            "specificity": 0.7407407407407407,
+            "f1": 0.7768595041322314,
+            "roc_auc": 0.8577515568666011,
+            "average_precision": 0.8271798800667116,
+            "brier": 0.16167579634613768,
+            "log_loss": 0.4941462342598636,
+            "confusion_matrix": [
+              [
+                100,
+                35
+              ],
+              [
+                19,
+                94
+              ]
+            ]
+          }
+        },
+        "Histogram gradient boosting": {
+          "threshold": 0.43,
+          "tuned": {
+            "accuracy": 0.75,
+            "precision": 0.673469387755102,
+            "recall": 0.8761061946902655,
+            "specificity": 0.6444444444444445,
+            "f1": 0.7615384615384615,
+            "roc_auc": 0.8571615863651262,
+            "average_precision": 0.8307497956019056,
+            "brier": 0.15964701575608345,
+            "log_loss": 0.48698191309507727,
+            "confusion_matrix": [
+              [
+                87,
+                48
+              ],
+              [
+                14,
+                99
+              ]
+            ]
+          }
+        },
+        "XGBoost": {
+          "threshold": 0.43,
+          "tuned": {
+            "accuracy": 0.7096774193548387,
+            "precision": 0.6289308176100629,
+            "recall": 0.8849557522123894,
+            "specificity": 0.562962962962963,
+            "f1": 0.7352941176470589,
+            "roc_auc": 0.8577187807276303,
+            "average_precision": 0.8344648733970667,
+            "brier": 0.1626238868374478,
+            "log_loss": 0.49259337294951466,
+            "confusion_matrix": [
+              [
+                76,
+                59
+              ],
+              [
+                13,
+                100
+              ]
+            ]
+          }
+        },
+        "Bayesian network": {
+          "threshold": 0.49,
+          "tuned": {
+            "accuracy": 0.7620967741935484,
+            "precision": 0.7109375,
+            "recall": 0.8053097345132744,
+            "specificity": 0.725925925925926,
+            "f1": 0.7551867219917012,
+            "roc_auc": 0.8520485086856768,
+            "average_precision": 0.8270312778895453,
+            "brier": 0.16238007610490063,
+            "log_loss": 0.5229063207739076,
+            "confusion_matrix": [
+              [
+                98,
+                37
+              ],
+              [
+                22,
+                91
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "Hungary": {
+      "n": 229,
+      "selected_model": "Random forest",
+      "families": {
+        "Logistic regression": {
+          "threshold": 0.39,
+          "tuned": {
+            "accuracy": 0.5589519650655022,
+            "precision": 0.4508670520231214,
+            "recall": 0.9285714285714286,
+            "specificity": 0.3448275862068966,
+            "f1": 0.6070038910505836,
+            "roc_auc": 0.8251231527093595,
+            "average_precision": 0.7659645018083369,
+            "brier": 0.1986531762332018,
+            "log_loss": 0.5826700537380964,
+            "confusion_matrix": [
+              [
+                50,
+                95
+              ],
+              [
+                6,
+                78
+              ]
+            ]
+          }
+        },
+        "Random forest": {
+          "threshold": 0.41,
+          "tuned": {
+            "accuracy": 0.7161572052401747,
+            "precision": 0.5736434108527132,
+            "recall": 0.8809523809523809,
+            "specificity": 0.6206896551724138,
+            "f1": 0.6948356807511737,
+            "roc_auc": 0.8711822660098523,
+            "average_precision": 0.8044851192104493,
+            "brier": 0.1596021566068051,
+            "log_loss": 0.4898848162000366,
+            "confusion_matrix": [
+              [
+                90,
+                55
+              ],
+              [
+                10,
+                74
+              ]
+            ]
+          }
+        },
+        "Histogram gradient boosting": {
+          "threshold": 0.27,
+          "tuned": {
+            "accuracy": 0.6462882096069869,
+            "precision": 0.5104895104895105,
+            "recall": 0.8690476190476191,
+            "specificity": 0.5172413793103449,
+            "f1": 0.6431718061674009,
+            "roc_auc": 0.8398193760262725,
+            "average_precision": 0.7671591566581358,
+            "brier": 0.18449157027819255,
+            "log_loss": 0.5705274761549758,
+            "confusion_matrix": [
+              [
+                75,
+                70
+              ],
+              [
+                11,
+                73
+              ]
+            ]
+          }
+        },
+        "XGBoost": {
+          "threshold": 0.31,
+          "tuned": {
+            "accuracy": 0.6506550218340611,
+            "precision": 0.5133333333333333,
+            "recall": 0.9166666666666666,
+            "specificity": 0.496551724137931,
+            "f1": 0.6581196581196581,
+            "roc_auc": 0.8532840722495896,
+            "average_precision": 0.7953041583231399,
+            "brier": 0.16981378797134186,
+            "log_loss": 0.513362497332156,
+            "confusion_matrix": [
+              [
+                72,
+                73
+              ],
+              [
+                7,
+                77
+              ]
+            ]
+          }
+        },
+        "Bayesian network": {
+          "threshold": 0.2,
+          "tuned": {
+            "accuracy": 0.7379912663755459,
+            "precision": 0.5952380952380952,
+            "recall": 0.8928571428571429,
+            "specificity": 0.6482758620689655,
+            "f1": 0.7142857142857143,
+            "roc_auc": 0.8814860426929393,
+            "average_precision": 0.8311591561035112,
+            "brier": 0.13886725393953156,
+            "log_loss": 0.44846498839747945,
+            "confusion_matrix": [
+              [
+                94,
+                51
+              ],
+              [
+                9,
+                75
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "Switzerland": {
+      "n": 96,
+      "selected_model": "Random forest",
+      "families": {
+        "Logistic regression": {
+          "threshold": 0.45,
+          "tuned": {
+            "accuracy": 0.7916666666666666,
+            "precision": 0.9594594594594594,
+            "recall": 0.8068181818181818,
+            "specificity": 0.625,
+            "f1": 0.8765432098765432,
+            "roc_auc": 0.71875,
+            "average_precision": 0.9606038073196215,
+            "brier": 0.18099928877755392,
+            "log_loss": 0.5405719802455361,
+            "confusion_matrix": [
+              [
+                5,
+                3
+              ],
+              [
+                17,
+                71
+              ]
+            ]
+          }
+        },
+        "Random forest": {
+          "threshold": 0.44,
+          "tuned": {
+            "accuracy": 0.78125,
+            "precision": 0.9466666666666667,
+            "recall": 0.8068181818181818,
+            "specificity": 0.5,
+            "f1": 0.8711656441717791,
+            "roc_auc": 0.7471590909090908,
+            "average_precision": 0.9675655741278856,
+            "brier": 0.18254656619861845,
+            "log_loss": 0.5485028906944911,
+            "confusion_matrix": [
+              [
+                4,
+                4
+              ],
+              [
+                17,
+                71
+              ]
+            ]
+          }
+        },
+        "Histogram gradient boosting": {
+          "threshold": 0.4,
+          "tuned": {
+            "accuracy": 0.8125,
+            "precision": 0.9605263157894737,
+            "recall": 0.8295454545454546,
+            "specificity": 0.625,
+            "f1": 0.8902439024390244,
+            "roc_auc": 0.7940340909090909,
+            "average_precision": 0.9751406208146537,
+            "brier": 0.18916266250281843,
+            "log_loss": 0.5572327689292016,
+            "confusion_matrix": [
+              [
+                5,
+                3
+              ],
+              [
+                15,
+                73
+              ]
+            ]
+          }
+        },
+        "XGBoost": {
+          "threshold": 0.34,
+          "tuned": {
+            "accuracy": 0.8541666666666666,
+            "precision": 0.9625,
+            "recall": 0.875,
+            "specificity": 0.625,
+            "f1": 0.9166666666666666,
+            "roc_auc": 0.78125,
+            "average_precision": 0.971382681129607,
+            "brier": 0.1868304467660531,
+            "log_loss": 0.5544243412247968,
+            "confusion_matrix": [
+              [
+                5,
+                3
+              ],
+              [
+                11,
+                77
+              ]
+            ]
+          }
+        },
+        "Bayesian network": {
+          "threshold": 0.5,
+          "tuned": {
+            "accuracy": 0.7604166666666666,
+            "precision": 0.9710144927536232,
+            "recall": 0.7613636363636364,
+            "specificity": 0.75,
+            "f1": 0.8535031847133758,
+            "roc_auc": 0.7869318181818181,
+            "average_precision": 0.9724296580228012,
+            "brier": 0.16214153705923984,
+            "log_loss": 0.49528828606859715,
+            "confusion_matrix": [
+              [
+                6,
+                2
+              ],
+              [
+                21,
+                67
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "VA Long Beach": {
+      "n": 161,
+      "selected_model": "Logistic regression",
+      "families": {
+        "Logistic regression": {
+          "threshold": 0.3,
+          "tuned": {
+            "accuracy": 0.7515527950310559,
+            "precision": 0.7579617834394905,
+            "recall": 0.9834710743801653,
+            "specificity": 0.05,
+            "f1": 0.8561151079136691,
+            "roc_auc": 0.7078512396694215,
+            "average_precision": 0.8641014341329559,
+            "brier": 0.17250802644348917,
+            "log_loss": 0.5374136887327575,
+            "confusion_matrix": [
+              [
+                2,
+                38
+              ],
+              [
+                2,
+                119
+              ]
+            ]
+          }
+        },
+        "Random forest": {
+          "threshold": 0.34,
+          "tuned": {
+            "accuracy": 0.7639751552795031,
+            "precision": 0.782312925170068,
+            "recall": 0.9504132231404959,
+            "specificity": 0.2,
+            "f1": 0.8582089552238806,
+            "roc_auc": 0.687603305785124,
+            "average_precision": 0.8406245749899263,
+            "brier": 0.17953236401414216,
+            "log_loss": 0.5477596907133612,
+            "confusion_matrix": [
+              [
+                8,
+                32
+              ],
+              [
+                6,
+                115
+              ]
+            ]
+          }
+        },
+        "Histogram gradient boosting": {
+          "threshold": 0.52,
+          "tuned": {
+            "accuracy": 0.7018633540372671,
+            "precision": 0.7967479674796748,
+            "recall": 0.8099173553719008,
+            "specificity": 0.375,
+            "f1": 0.8032786885245902,
+            "roc_auc": 0.653305785123967,
+            "average_precision": 0.8300236490666255,
+            "brier": 0.2061035716087394,
+            "log_loss": 0.6483957522609001,
+            "confusion_matrix": [
+              [
+                15,
+                25
+              ],
+              [
+                23,
+                98
+              ]
+            ]
+          }
+        },
+        "XGBoost": {
+          "threshold": 0.52,
+          "tuned": {
+            "accuracy": 0.7515527950310559,
+            "precision": 0.8403361344537815,
+            "recall": 0.8264462809917356,
+            "specificity": 0.525,
+            "f1": 0.8333333333333334,
+            "roc_auc": 0.6833677685950414,
+            "average_precision": 0.8400172613935167,
+            "brier": 0.18705879750369217,
+            "log_loss": 0.572067477193706,
+            "confusion_matrix": [
+              [
+                21,
+                19
+              ],
+              [
+                21,
+                100
+              ]
+            ]
+          }
+        },
+        "Bayesian network": {
+          "threshold": 0.32,
+          "tuned": {
+            "accuracy": 0.7639751552795031,
+            "precision": 0.7862068965517242,
+            "recall": 0.9421487603305785,
+            "specificity": 0.225,
+            "f1": 0.8571428571428571,
+            "roc_auc": 0.7181818181818183,
+            "average_precision": 0.8739089549163009,
+            "brier": 0.18598929727214145,
+            "log_loss": 0.6517408909530753,
+            "confusion_matrix": [
+              [
+                9,
+                31
+              ],
+              [
+                7,
+                114
+              ]
+            ]
+          }
+        }
+      }
+    }
+  },
+  "retrospective": {
+    "n": 184,
+    "label": "Retrospective evaluation on the previously reported and inspected historical holdout",
+    "families": {
+      "Logistic regression": {
+        "threshold": 0.51,
+        "tuned": {
+          "accuracy": 0.8315217391304348,
+          "precision": 0.8256880733944955,
+          "recall": 0.8823529411764706,
+          "specificity": 0.7682926829268293,
+          "f1": 0.8530805687203792,
+          "roc_auc": 0.9124820659971306,
+          "average_precision": 0.9294246830927979,
+          "brier": 0.12269822888778936,
+          "log_loss": 0.3936969728206338,
+          "confusion_matrix": [
+            [
+              63,
+              19
+            ],
+            [
+              12,
+              90
+            ]
+          ]
+        },
+        "search_refit_seconds": 2.6117429160003667
+      },
+      "Random forest": {
+        "threshold": 0.38,
+        "tuned": {
+          "accuracy": 0.8043478260869565,
+          "precision": 0.7538461538461538,
+          "recall": 0.9607843137254902,
+          "specificity": 0.6097560975609756,
+          "f1": 0.8448275862068966,
+          "roc_auc": 0.9029172644667623,
+          "average_precision": 0.9169425486715419,
+          "brier": 0.13077944223992471,
+          "log_loss": 0.41621851579352936,
+          "confusion_matrix": [
+            [
+              50,
+              32
+            ],
+            [
+              4,
+              98
+            ]
+          ]
+        },
+        "search_refit_seconds": 21.55799116700291
+      },
+      "Histogram gradient boosting": {
+        "threshold": 0.37,
+        "tuned": {
+          "accuracy": 0.8152173913043478,
+          "precision": 0.7698412698412699,
+          "recall": 0.9509803921568627,
+          "specificity": 0.6463414634146342,
+          "f1": 0.8508771929824561,
+          "roc_auc": 0.8945480631276901,
+          "average_precision": 0.9065391141851488,
+          "brier": 0.13176708149189234,
+          "log_loss": 0.41874282231222554,
+          "confusion_matrix": [
+            [
+              53,
+              29
+            ],
+            [
+              5,
+              97
+            ]
+          ]
+        },
+        "search_refit_seconds": 9.149750583999776
+      },
+      "XGBoost": {
+        "threshold": 0.34,
+        "tuned": {
+          "accuracy": 0.8043478260869565,
+          "precision": 0.746268656716418,
+          "recall": 0.9803921568627451,
+          "specificity": 0.5853658536585366,
+          "f1": 0.847457627118644,
+          "roc_auc": 0.9038737446197991,
+          "average_precision": 0.9099462010466783,
+          "brier": 0.12731331925679576,
+          "log_loss": 0.409320721627115,
+          "confusion_matrix": [
+            [
+              48,
+              34
+            ],
+            [
+              2,
+              100
+            ]
+          ]
+        },
+        "search_refit_seconds": 5.712443958000222
+      },
+      "Bayesian network": {
+        "threshold": 0.54,
+        "tuned": {
+          "accuracy": 0.7880434782608695,
+          "precision": 0.8058252427184466,
+          "recall": 0.8137254901960784,
+          "specificity": 0.7560975609756098,
+          "f1": 0.8097560975609757,
+          "roc_auc": 0.87649450023912,
+          "average_precision": 0.8942742308353017,
+          "brier": 0.15444771024081994,
+          "log_loss": 0.5028450655444496,
+          "confusion_matrix": [
+            [
+              62,
+              20
+            ],
+            [
+              19,
+              83
+            ]
+          ]
+        },
+        "search_refit_seconds": 0.535691126000529
+      }
+    }
+  }
+}

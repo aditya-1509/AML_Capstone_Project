@@ -1,0 +1,157 @@
+2026-10-25T15:19:03.764111+00:00 RUN_DIRECTORY=/private/tmp/aml-capstone-publish/artifacts/runs/20261025T151903Z_ea0f799c
+2026-10-25T15:19:04.326895+00:00 Five families; 588 fits per experiment; all partitions saved before fitting
+2026-10-25T15:19:04.815529+00:00 pooled: Logistic regression: outer fold 1/5 completed in 0.44s
+2026-10-25T15:19:05.263752+00:00 pooled: Logistic regression: outer fold 2/5 completed in 0.44s
+2026-10-25T15:19:05.724111+00:00 pooled: Logistic regression: outer fold 3/5 completed in 0.45s
+2026-10-25T15:19:06.158885+00:00 pooled: Logistic regression: outer fold 4/5 completed in 0.43s
+2026-10-25T15:19:06.587169+00:00 pooled: Logistic regression: outer fold 5/5 completed in 0.42s
+2026-10-25T15:19:10.176431+00:00 pooled: Random forest: outer fold 1/5 completed in 3.57s
+2026-10-25T15:19:13.764181+00:00 pooled: Random forest: outer fold 2/5 completed in 3.57s
+2026-10-25T15:19:17.363255+00:00 pooled: Random forest: outer fold 3/5 completed in 3.58s
+2026-10-25T15:19:20.945358+00:00 pooled: Random forest: outer fold 4/5 completed in 3.56s
+2026-10-25T15:19:24.528753+00:00 pooled: Random forest: outer fold 5/5 completed in 3.57s
+2026-10-25T15:19:25.996710+00:00 pooled: Histogram gradient boosting: outer fold 1/5 completed in 1.46s
+2026-10-25T15:19:27.472852+00:00 pooled: Histogram gradient boosting: outer fold 2/5 completed in 1.47s
+2026-10-25T15:19:28.919445+00:00 pooled: Histogram gradient boosting: outer fold 3/5 completed in 1.44s
+2026-10-25T15:19:30.386780+00:00 pooled: Histogram gradient boosting: outer fold 4/5 completed in 1.46s
+2026-10-25T15:19:31.871058+00:00 pooled: Histogram gradient boosting: outer fold 5/5 completed in 1.47s
+2026-10-25T15:19:32.812050+00:00 pooled: XGBoost: outer fold 1/5 completed in 0.93s
+2026-10-25T15:19:33.740971+00:00 pooled: XGBoost: outer fold 2/5 completed in 0.92s
+2026-10-25T15:19:34.676031+00:00 pooled: XGBoost: outer fold 3/5 completed in 0.93s
+2026-10-25T15:19:35.663668+00:00 pooled: XGBoost: outer fold 4/5 completed in 0.98s
+2026-10-25T15:19:36.612433+00:00 pooled: XGBoost: outer fold 5/5 completed in 0.94s
+2026-10-25T15:19:36.717679+00:00 pooled: Bayesian network: outer fold 1/5 completed in 0.09s
+2026-10-25T15:19:36.815948+00:00 pooled: Bayesian network: outer fold 2/5 completed in 0.09s
+2026-10-25T15:19:36.915265+00:00 pooled: Bayesian network: outer fold 3/5 completed in 0.09s
+2026-10-25T15:19:37.013031+00:00 pooled: Bayesian network: outer fold 4/5 completed in 0.09s
+2026-10-25T15:19:37.108704+00:00 pooled: Bayesian network: outer fold 5/5 completed in 0.08s
+2026-10-25T15:19:37.536973+00:00 pooled: Logistic regression: final S-only search/refit completed in 0.43s
+2026-10-25T15:19:41.243377+00:00 pooled: Random forest: final S-only search/refit completed in 3.71s
+2026-10-25T15:19:43.096190+00:00 pooled: Histogram gradient boosting: final S-only search/refit completed in 1.85s
+2026-10-25T15:19:44.107593+00:00 pooled: XGBoost: final S-only search/refit completed in 1.01s
+2026-10-25T15:19:44.202692+00:00 pooled: Bayesian network: final S-only search/refit completed in 0.09s
+2026-10-25T15:19:45.486274+00:00 Cleveland: Logistic regression: outer fold 1/5 completed in 0.41s
+2026-10-25T15:19:45.901994+00:00 Cleveland: Logistic regression: outer fold 2/5 completed in 0.41s
+2026-10-25T15:19:46.311719+00:00 Cleveland: Logistic regression: outer fold 3/5 completed in 0.40s
+2026-10-25T15:19:46.725646+00:00 Cleveland: Logistic regression: outer fold 4/5 completed in 0.41s
+2026-10-25T15:19:47.136176+00:00 Cleveland: Logistic regression: outer fold 5/5 completed in 0.40s
+2026-10-25T15:19:50.497164+00:00 Cleveland: Random forest: outer fold 1/5 completed in 3.34s
+2026-10-25T15:19:53.856603+00:00 Cleveland: Random forest: outer fold 2/5 completed in 3.34s
+2026-10-25T15:19:57.237534+00:00 Cleveland: Random forest: outer fold 3/5 completed in 3.36s
+2026-10-25T15:20:00.608705+00:00 Cleveland: Random forest: outer fold 4/5 completed in 3.35s
+2026-10-25T15:20:04.002028+00:00 Cleveland: Random forest: outer fold 5/5 completed in 3.38s
+2026-10-25T15:20:05.216802+00:00 Cleveland: Histogram gradient boosting: outer fold 1/5 completed in 1.21s
+2026-10-25T15:20:06.454018+00:00 Cleveland: Histogram gradient boosting: outer fold 2/5 completed in 1.23s
+2026-10-25T15:20:07.662515+00:00 Cleveland: Histogram gradient boosting: outer fold 3/5 completed in 1.20s
+2026-10-25T15:20:08.881305+00:00 Cleveland: Histogram gradient boosting: outer fold 4/5 completed in 1.21s
+2026-10-25T15:20:10.111919+00:00 Cleveland: Histogram gradient boosting: outer fold 5/5 completed in 1.22s
+2026-10-25T15:20:10.982295+00:00 Cleveland: XGBoost: outer fold 1/5 completed in 0.86s
+2026-10-25T15:20:11.830488+00:00 Cleveland: XGBoost: outer fold 2/5 completed in 0.84s
+2026-10-25T15:20:12.714688+00:00 Cleveland: XGBoost: outer fold 3/5 completed in 0.88s
+2026-10-25T15:20:13.571117+00:00 Cleveland: XGBoost: outer fold 4/5 completed in 0.85s
+2026-10-25T15:20:14.444559+00:00 Cleveland: XGBoost: outer fold 5/5 completed in 0.87s
+2026-10-25T15:20:14.531796+00:00 Cleveland: Bayesian network: outer fold 1/5 completed in 0.08s
+2026-10-25T15:20:14.618060+00:00 Cleveland: Bayesian network: outer fold 2/5 completed in 0.08s
+2026-10-25T15:20:14.704230+00:00 Cleveland: Bayesian network: outer fold 3/5 completed in 0.08s
+2026-10-25T15:20:14.792015+00:00 Cleveland: Bayesian network: outer fold 4/5 completed in 0.08s
+2026-10-25T15:20:14.880773+00:00 Cleveland: Bayesian network: outer fold 5/5 completed in 0.08s
+2026-10-25T15:20:15.296714+00:00 Cleveland: Logistic regression: final S-only search/refit completed in 0.42s
+2026-10-25T15:20:18.761127+00:00 Cleveland: Random forest: final S-only search/refit completed in 3.46s
+2026-10-25T15:20:20.095798+00:00 Cleveland: Histogram gradient boosting: final S-only search/refit completed in 1.33s
+2026-10-25T15:20:21.615800+00:00 Cleveland: XGBoost: final S-only search/refit completed in 1.52s
+2026-10-25T15:20:21.713981+00:00 Cleveland: Bayesian network: final S-only search/refit completed in 0.10s
+2026-10-25T15:20:23.248094+00:00 Cleveland: independent evaluation and outputs complete
+2026-10-25T15:20:24.133915+00:00 Hungary: Logistic regression: outer fold 1/5 completed in 0.87s
+2026-10-25T15:20:24.586980+00:00 Hungary: Logistic regression: outer fold 2/5 completed in 0.44s
+2026-10-25T15:20:25.001344+00:00 Hungary: Logistic regression: outer fold 3/5 completed in 0.41s
+2026-10-25T15:20:25.415065+00:00 Hungary: Logistic regression: outer fold 4/5 completed in 0.41s
+2026-10-25T15:20:25.851640+00:00 Hungary: Logistic regression: outer fold 5/5 completed in 0.43s
+2026-10-25T15:20:29.241102+00:00 Hungary: Random forest: outer fold 1/5 completed in 3.37s
+2026-10-25T15:20:32.620363+00:00 Hungary: Random forest: outer fold 2/5 completed in 3.36s
+2026-10-25T15:20:36.004247+00:00 Hungary: Random forest: outer fold 3/5 completed in 3.37s
+2026-10-25T15:20:39.400469+00:00 Hungary: Random forest: outer fold 4/5 completed in 3.38s
+2026-10-25T15:20:42.809815+00:00 Hungary: Random forest: outer fold 5/5 completed in 3.39s
+2026-10-25T15:20:44.041197+00:00 Hungary: Histogram gradient boosting: outer fold 1/5 completed in 1.22s
+2026-10-25T15:20:45.261353+00:00 Hungary: Histogram gradient boosting: outer fold 2/5 completed in 1.21s
+2026-10-25T15:20:46.492086+00:00 Hungary: Histogram gradient boosting: outer fold 3/5 completed in 1.22s
+2026-10-25T15:20:47.715269+00:00 Hungary: Histogram gradient boosting: outer fold 4/5 completed in 1.22s
+2026-10-25T15:20:48.932004+00:00 Hungary: Histogram gradient boosting: outer fold 5/5 completed in 1.21s
+2026-10-25T15:20:49.806349+00:00 Hungary: XGBoost: outer fold 1/5 completed in 0.87s
+2026-10-25T15:20:50.677417+00:00 Hungary: XGBoost: outer fold 2/5 completed in 0.86s
+2026-10-25T15:20:51.532769+00:00 Hungary: XGBoost: outer fold 3/5 completed in 0.85s
+2026-10-25T15:20:52.396839+00:00 Hungary: XGBoost: outer fold 4/5 completed in 0.86s
+2026-10-25T15:20:53.251293+00:00 Hungary: XGBoost: outer fold 5/5 completed in 0.85s
+2026-10-25T15:20:53.342946+00:00 Hungary: Bayesian network: outer fold 1/5 completed in 0.08s
+2026-10-25T15:20:53.432160+00:00 Hungary: Bayesian network: outer fold 2/5 completed in 0.08s
+2026-10-25T15:20:53.519066+00:00 Hungary: Bayesian network: outer fold 3/5 completed in 0.08s
+2026-10-25T15:20:53.606796+00:00 Hungary: Bayesian network: outer fold 4/5 completed in 0.08s
+2026-10-25T15:20:53.693092+00:00 Hungary: Bayesian network: outer fold 5/5 completed in 0.08s
+2026-10-25T15:20:54.101433+00:00 Hungary: Logistic regression: final S-only search/refit completed in 0.41s
+2026-10-25T15:20:57.592881+00:00 Hungary: Random forest: final S-only search/refit completed in 3.49s
+2026-10-25T15:20:58.949896+00:00 Hungary: Histogram gradient boosting: final S-only search/refit completed in 1.36s
+2026-10-25T15:20:59.831136+00:00 Hungary: XGBoost: final S-only search/refit completed in 0.88s
+2026-10-25T15:20:59.914659+00:00 Hungary: Bayesian network: final S-only search/refit completed in 0.08s
+2026-10-25T15:21:01.321135+00:00 Hungary: independent evaluation and outputs complete
+2026-10-25T15:21:01.736505+00:00 Switzerland: Logistic regression: outer fold 1/5 completed in 0.40s
+2026-10-25T15:21:02.152382+00:00 Switzerland: Logistic regression: outer fold 2/5 completed in 0.41s
+2026-10-25T15:21:02.575422+00:00 Switzerland: Logistic regression: outer fold 3/5 completed in 0.42s
+2026-10-25T15:21:02.992645+00:00 Switzerland: Logistic regression: outer fold 4/5 completed in 0.41s
+2026-10-25T15:21:03.415547+00:00 Switzerland: Logistic regression: outer fold 5/5 completed in 0.42s
+2026-10-25T15:21:06.898291+00:00 Switzerland: Random forest: outer fold 1/5 completed in 3.47s
+2026-10-25T15:21:10.373855+00:00 Switzerland: Random forest: outer fold 2/5 completed in 3.46s
+2026-10-25T15:21:13.849798+00:00 Switzerland: Random forest: outer fold 3/5 completed in 3.46s
+2026-10-25T15:21:17.350920+00:00 Switzerland: Random forest: outer fold 4/5 completed in 3.48s
+2026-10-25T15:21:20.931431+00:00 Switzerland: Random forest: outer fold 5/5 completed in 3.56s
+2026-10-25T15:21:22.282673+00:00 Switzerland: Histogram gradient boosting: outer fold 1/5 completed in 1.34s
+2026-10-25T15:21:23.663491+00:00 Switzerland: Histogram gradient boosting: outer fold 2/5 completed in 1.37s
+2026-10-25T15:21:25.000489+00:00 Switzerland: Histogram gradient boosting: outer fold 3/5 completed in 1.33s
+2026-10-25T15:21:26.349312+00:00 Switzerland: Histogram gradient boosting: outer fold 4/5 completed in 1.34s
+2026-10-25T15:21:27.725391+00:00 Switzerland: Histogram gradient boosting: outer fold 5/5 completed in 1.37s
+2026-10-25T15:21:28.642616+00:00 Switzerland: XGBoost: outer fold 1/5 completed in 0.91s
+2026-10-25T15:21:29.531469+00:00 Switzerland: XGBoost: outer fold 2/5 completed in 0.88s
+2026-10-25T15:21:30.425051+00:00 Switzerland: XGBoost: outer fold 3/5 completed in 0.89s
+2026-10-25T15:21:31.358852+00:00 Switzerland: XGBoost: outer fold 4/5 completed in 0.92s
+2026-10-25T15:21:32.334209+00:00 Switzerland: XGBoost: outer fold 5/5 completed in 0.97s
+2026-10-25T15:21:32.433911+00:00 Switzerland: Bayesian network: outer fold 1/5 completed in 0.09s
+2026-10-25T15:21:32.533210+00:00 Switzerland: Bayesian network: outer fold 2/5 completed in 0.09s
+2026-10-25T15:21:32.630277+00:00 Switzerland: Bayesian network: outer fold 3/5 completed in 0.09s
+2026-10-25T15:21:32.727522+00:00 Switzerland: Bayesian network: outer fold 4/5 completed in 0.09s
+2026-10-25T15:21:32.824879+00:00 Switzerland: Bayesian network: outer fold 5/5 completed in 0.09s
+2026-10-25T15:21:33.244918+00:00 Switzerland: Logistic regression: final S-only search/refit completed in 0.42s
+2026-10-25T15:21:36.887064+00:00 Switzerland: Random forest: final S-only search/refit completed in 3.64s
+2026-10-25T15:21:38.389303+00:00 Switzerland: Histogram gradient boosting: final S-only search/refit completed in 1.50s
+2026-10-25T15:21:39.373985+00:00 Switzerland: XGBoost: final S-only search/refit completed in 0.98s
+2026-10-25T15:21:39.465730+00:00 Switzerland: Bayesian network: final S-only search/refit completed in 0.09s
+2026-10-25T15:21:40.750266+00:00 Switzerland: independent evaluation and outputs complete
+2026-10-25T15:21:41.161195+00:00 VA Long Beach: Logistic regression: outer fold 1/5 completed in 0.40s
+2026-10-25T15:21:41.594362+00:00 VA Long Beach: Logistic regression: outer fold 2/5 completed in 0.43s
+2026-10-25T15:21:41.998280+00:00 VA Long Beach: Logistic regression: outer fold 3/5 completed in 0.40s
+2026-10-25T15:21:42.407496+00:00 VA Long Beach: Logistic regression: outer fold 4/5 completed in 0.40s
+2026-10-25T15:21:42.816595+00:00 VA Long Beach: Logistic regression: outer fold 5/5 completed in 0.40s
+2026-10-25T15:21:46.234892+00:00 VA Long Beach: Random forest: outer fold 1/5 completed in 3.40s
+2026-10-25T15:21:49.646417+00:00 VA Long Beach: Random forest: outer fold 2/5 completed in 3.39s
+2026-10-25T15:21:53.072133+00:00 VA Long Beach: Random forest: outer fold 3/5 completed in 3.41s
+2026-10-25T15:21:56.485230+00:00 VA Long Beach: Random forest: outer fold 4/5 completed in 3.40s
+2026-10-25T15:21:59.886232+00:00 VA Long Beach: Random forest: outer fold 5/5 completed in 3.38s
+2026-10-25T15:22:01.173677+00:00 VA Long Beach: Histogram gradient boosting: outer fold 1/5 completed in 1.28s
+2026-10-25T15:22:02.464195+00:00 VA Long Beach: Histogram gradient boosting: outer fold 2/5 completed in 1.28s
+2026-10-25T15:22:03.779613+00:00 VA Long Beach: Histogram gradient boosting: outer fold 3/5 completed in 1.31s
+2026-10-25T15:22:05.064886+00:00 VA Long Beach: Histogram gradient boosting: outer fold 4/5 completed in 1.28s
+2026-10-25T15:22:06.357791+00:00 VA Long Beach: Histogram gradient boosting: outer fold 5/5 completed in 1.28s
+2026-10-25T15:22:07.240678+00:00 VA Long Beach: XGBoost: outer fold 1/5 completed in 0.88s
+2026-10-25T15:22:08.123321+00:00 VA Long Beach: XGBoost: outer fold 2/5 completed in 0.88s
+2026-10-25T15:22:09.015255+00:00 VA Long Beach: XGBoost: outer fold 3/5 completed in 0.88s
+2026-10-25T15:22:09.948358+00:00 VA Long Beach: XGBoost: outer fold 4/5 completed in 0.92s
+2026-10-25T15:22:10.847212+00:00 VA Long Beach: XGBoost: outer fold 5/5 completed in 0.89s
+2026-10-25T15:22:10.940196+00:00 VA Long Beach: Bayesian network: outer fold 1/5 completed in 0.08s
+2026-10-25T15:22:11.031025+00:00 VA Long Beach: Bayesian network: outer fold 2/5 completed in 0.08s
+2026-10-25T15:22:11.122375+00:00 VA Long Beach: Bayesian network: outer fold 3/5 completed in 0.08s
+2026-10-25T15:22:11.214364+00:00 VA Long Beach: Bayesian network: outer fold 4/5 completed in 0.08s
+2026-10-25T15:22:11.306758+00:00 VA Long Beach: Bayesian network: outer fold 5/5 completed in 0.08s
+2026-10-25T15:22:11.728398+00:00 VA Long Beach: Logistic regression: final S-only search/refit completed in 0.42s
+2026-10-25T15:22:15.261080+00:00 VA Long Beach: Random forest: final S-only search/refit completed in 3.53s
+2026-10-25T15:22:16.685770+00:00 VA Long Beach: Histogram gradient boosting: final S-only search/refit completed in 1.42s
+2026-10-25T15:22:17.598936+00:00 VA Long Beach: XGBoost: final S-only search/refit completed in 0.91s
+2026-10-25T15:22:17.685460+00:00 VA Long Beach: Bayesian network: final S-only search/refit completed in 0.09s
+2026-10-25T15:22:19.070821+00:00 VA Long Beach: independent evaluation and outputs complete
+2026-10-25T15:22:19.640578+00:00 All five families completed pooled and four independent hospital experiments
