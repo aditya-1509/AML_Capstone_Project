@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="259" viewBox="0 0 880 259">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #1e293b; }
+    .title { font-size: 19px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 12px; fill: #64748b; }
+    .label { font-size: 13px; font-weight: 500; fill: #334155; }
+    .val { font-size: 12px; font-weight: 600; fill: #1e293b; }
+    .axis { font-size: 11px; fill: #64748b; font-weight: 600; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <text x="28" y="34" class="title">Observed Heart Disease Positive Rate by Clinical Site</text>
+  <text x="28" y="52" class="subtitle">UCI Heart Disease Clinical Dataset Audit</text>
+  <text x="198" y="90" text-anchor="end" class="label">Cleveland</text>
+  <rect x="210" y="72" width="299.30" height="22" rx="4" fill="#059669"/>
+  <text x="519.30" y="88" class="val">45.9%</text>
+  <text x="198" y="126" text-anchor="end" class="label">Hungary</text>
+  <rect x="210" y="108" width="236.03" height="22" rx="4" fill="#059669"/>
+  <text x="456.03" y="124" class="val">36.2%</text>
+  <text x="198" y="162" text-anchor="end" class="label">Switzerland</text>
+  <rect x="210" y="144" width="610.00" height="22" rx="4" fill="#059669"/>
+  <text x="830.00" y="160" class="val">93.5%</text>
+  <text x="198" y="198" text-anchor="end" class="label">VA Long Beach</text>
+  <rect x="210" y="180" width="485.23" height="22" rx="4" fill="#059669"/>
+  <text x="705.23" y="196" class="val">74.4%</text>
+  <text x="210" y="245" class="axis">Positive Prevalence (%)</text>
+</svg>

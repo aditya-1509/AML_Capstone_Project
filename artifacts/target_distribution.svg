@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="187" viewBox="0 0 880 187">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #1e293b; }
+    .title { font-size: 19px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 12px; fill: #64748b; }
+    .label { font-size: 13px; font-weight: 500; fill: #334155; }
+    .val { font-size: 12px; font-weight: 600; fill: #1e293b; }
+    .axis { font-size: 11px; fill: #64748b; font-weight: 600; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <text x="28" y="34" class="title">Target Class Distribution (num &gt; 0 vs num == 0)</text>
+  <text x="28" y="52" class="subtitle">UCI Heart Disease Clinical Dataset Audit</text>
+  <text x="198" y="90" text-anchor="end" class="label">Negative (No Disease, num=0)</text>
+  <rect x="210" y="72" width="492.32" height="22" rx="4" fill="#2563eb"/>
+  <text x="712.32" y="88" class="val">410</text>
+  <text x="198" y="126" text-anchor="end" class="label">Positive (Heart Disease, num&gt;0)</text>
+  <rect x="210" y="108" width="610.00" height="22" rx="4" fill="#2563eb"/>
+  <text x="830.00" y="124" class="val">508</text>
+  <text x="210" y="173" class="axis">Number of Records</text>
+</svg>

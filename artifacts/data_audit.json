@@ -1,0 +1,343 @@
+{
+  "dataset_name": "UCI Heart Disease (Multi-Center)",
+  "source_rows": 920,
+  "deduplicated_analysis_rows": 918,
+  "duplicates_removed": 2,
+  "features": {
+    "numeric": [
+      "age",
+      "trestbps",
+      "chol",
+      "thalch",
+      "oldpeak"
+    ],
+    "categorical": [
+      "sex",
+      "cp",
+      "fbs",
+      "restecg",
+      "exang",
+      "slope"
+    ],
+    "excluded_predictors": {
+      "id": "Arbitrary patient identifier",
+      "dataset": "Clinical site / hospital cohort (reserved for shift validation)",
+      "ca": "Excluded due to severe missingness (609/918 missing)",
+      "thal": "Excluded due to severe missingness (484/918 missing)"
+    }
+  },
+  "target": {
+    "definition": "num > 0 indicates presence of heart disease (positive); num == 0 indicates absence (negative)",
+    "binary_counts": {
+      "negative_0": 410,
+      "positive_1": 508
+    },
+    "positive_prevalence": 0.5533769063180828,
+    "multiclass_stages": {
+      "stage_0": 410,
+      "stage_1": 265,
+      "stage_2": 108,
+      "stage_3": 107,
+      "stage_4": 28
+    }
+  },
+  "site_heterogeneity": [
+    {
+      "site": "Cleveland",
+      "records": 303,
+      "positive_count": 139,
+      "negative_count": 164,
+      "positive_rate": 0.45874587458745875,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 0,
+        "chol": 0,
+        "thalch": 0,
+        "oldpeak": 0,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 0,
+        "restecg": 0,
+        "exang": 0,
+        "slope": 0
+      }
+    },
+    {
+      "site": "Hungary",
+      "records": 293,
+      "positive_count": 106,
+      "negative_count": 187,
+      "positive_rate": 0.36177474402730375,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 1,
+        "chol": 22,
+        "thalch": 1,
+        "oldpeak": 0,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 8,
+        "restecg": 1,
+        "exang": 1,
+        "slope": 189
+      }
+    },
+    {
+      "site": "Switzerland",
+      "records": 123,
+      "positive_count": 115,
+      "negative_count": 8,
+      "positive_rate": 0.9349593495934959,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 2,
+        "chol": 123,
+        "thalch": 1,
+        "oldpeak": 6,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 75,
+        "restecg": 1,
+        "exang": 1,
+        "slope": 17
+      }
+    },
+    {
+      "site": "VA Long Beach",
+      "records": 199,
+      "positive_count": 148,
+      "negative_count": 51,
+      "positive_rate": 0.7437185929648241,
+      "missing_by_feature": {
+        "age": 0,
+        "trestbps": 57,
+        "chol": 56,
+        "thalch": 53,
+        "oldpeak": 56,
+        "sex": 0,
+        "cp": 0,
+        "fbs": 7,
+        "restecg": 0,
+        "exang": 53,
+        "slope": 101
+      }
+    }
+  ],
+  "numeric_descriptives": {
+    "age": {
+      "nonmissing_count": 918,
+      "missing_count": 0,
+      "mean": 53.510893246187365,
+      "std": 9.43261650673201,
+      "min": 28.0,
+      "25%": 47.0,
+      "50%_median": 54.0,
+      "75%": 60.0,
+      "max": 77.0
+    },
+    "trestbps": {
+      "nonmissing_count": 858,
+      "missing_count": 60,
+      "mean": 132.2913752913753,
+      "std": 18.53229406182303,
+      "min": 80.0,
+      "25%": 120.0,
+      "50%_median": 130.0,
+      "75%": 140.0,
+      "max": 200.0
+    },
+    "chol": {
+      "nonmissing_count": 717,
+      "missing_count": 201,
+      "mean": 246.87168758716876,
+      "std": 58.55866794200911,
+      "min": 85.0,
+      "25%": 210.0,
+      "50%_median": 240.0,
+      "75%": 277.0,
+      "max": 603.0
+    },
+    "thalch": {
+      "nonmissing_count": 863,
+      "missing_count": 55,
+      "mean": 137.5422943221321,
+      "std": 25.936523581984584,
+      "min": 60.0,
+      "25%": 120.0,
+      "50%_median": 140.0,
+      "75%": 157.0,
+      "max": 202.0
+    },
+    "oldpeak": {
+      "nonmissing_count": 856,
+      "missing_count": 62,
+      "mean": 0.8808411214953271,
+      "std": 1.0916727839081444,
+      "min": -2.6,
+      "25%": 0.0,
+      "50%_median": 0.5,
+      "75%": 1.5,
+      "max": 6.2
+    }
+  },
+  "categorical_breakdown": {
+    "sex": {
+      "Female": {
+        "negative": 143,
+        "positive": 50
+      },
+      "Male": {
+        "negative": 267,
+        "positive": 458
+      }
+    },
+    "cp": {
+      "asymptomatic": {
+        "negative": 104,
+        "positive": 392
+      },
+      "atypical angina": {
+        "negative": 149,
+        "positive": 24
+      },
+      "non-anginal": {
+        "negative": 131,
+        "positive": 72
+      },
+      "typical angina": {
+        "negative": 26,
+        "positive": 20
+      }
+    },
+    "fbs": {
+      "False": {
+        "negative": 352,
+        "positive": 338
+      },
+      "True": {
+        "negative": 44,
+        "positive": 94
+      },
+      "nan": {
+        "negative": 14,
+        "positive": 76
+      }
+    },
+    "restecg": {
+      "lv hypertrophy": {
+        "negative": 82,
+        "positive": 106
+      },
+      "normal": {
+        "negative": 267,
+        "positive": 283
+      },
+      "st-t abnormality": {
+        "negative": 61,
+        "positive": 117
+      },
+      "nan": {
+        "negative": 0,
+        "positive": 2
+      }
+    },
+    "exang": {
+      "False": {
+        "negative": 335,
+        "positive": 192
+      },
+      "True": {
+        "negative": 55,
+        "positive": 281
+      },
+      "nan": {
+        "negative": 20,
+        "positive": 35
+      }
+    },
+    "slope": {
+      "downsloping": {
+        "negative": 14,
+        "positive": 49
+      },
+      "flat": {
+        "negative": 79,
+        "positive": 266
+      },
+      "upsloping": {
+        "negative": 125,
+        "positive": 78
+      },
+      "nan": {
+        "negative": 192,
+        "positive": 115
+      }
+    }
+  },
+  "missingness_summary": {
+    "rule": "0 trestbps and 0 chol values converted to NaN prior to analysis",
+    "missing_counts": {
+      "age": 0,
+      "trestbps": 60,
+      "chol": 201,
+      "thalch": 55,
+      "oldpeak": 62,
+      "sex": 0,
+      "cp": 0,
+      "fbs": 90,
+      "restecg": 2,
+      "exang": 55,
+      "slope": 307
+    },
+    "missing_percentages": {
+      "age": 0.0,
+      "trestbps": 6.535947712418301,
+      "chol": 21.895424836601308,
+      "thalch": 5.991285403050109,
+      "oldpeak": 6.753812636165578,
+      "sex": 0.0,
+      "cp": 0.0,
+      "fbs": 9.803921568627452,
+      "restecg": 0.2178649237472767,
+      "exang": 5.991285403050109,
+      "slope": 33.44226579520697
+    }
+  },
+  "pearson_correlations": {
+    "age": {
+      "age": 1.0,
+      "trestbps": 0.2522634246292608,
+      "chol": 0.08371091751647468,
+      "thalch": -0.36526140953611763,
+      "oldpeak": 0.25858355325521587
+    },
+    "trestbps": {
+      "age": 0.2522634246292608,
+      "trestbps": 1.0,
+      "chol": 0.08953797263183536,
+      "thalch": -0.10059202746968035,
+      "oldpeak": 0.17169794960730766
+    },
+    "chol": {
+      "age": 0.08371091751647468,
+      "trestbps": 0.08953797263183536,
+      "chol": 1.0,
+      "thalch": -0.047886340137229075,
+      "oldpeak": 0.04640127520061456
+    },
+    "thalch": {
+      "age": -0.36526140953611763,
+      "trestbps": -0.10059202746968035,
+      "chol": -0.047886340137229075,
+      "thalch": 1.0,
+      "oldpeak": -0.15130779288890256
+    },
+    "oldpeak": {
+      "age": 0.25858355325521587,
+      "trestbps": 0.17169794960730766,
+      "chol": 0.04640127520061456,
+      "thalch": -0.15130779288890256,
+      "oldpeak": 1.0
+    }
+  }
+}
