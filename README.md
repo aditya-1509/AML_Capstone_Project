@@ -1,173 +1,258 @@
-# AML Capstone Project: Phase 1 — Data, EDA and Machine Learning
+# AML Capstone Project — Heart Disease Classification
 
-This repository contains the Phase 1 implementation for the Advanced Machine Learning (AML) Capstone Project, focusing on **rigorous data ingestion, clinical schema validation, and reproducible exploratory data analysis (EDA)** on the multi-center UCI Heart Disease dataset.
+A reproducible Phase 1 machine learning project using the multi-center UCI Heart Disease dataset. The workflow covers data validation, exploratory data analysis, preprocessing, baseline classifiers, nested cross-validation, hyperparameter tuning, a provisional Bayesian Network, cutoff selection, and retrospective evaluation.
 
+**Repository:** [AML_Capstone_Project](https://github.com/nishtha-09-gupta/AML_Capstone_Project)
 
-## Completed ML workflow
+> This is an academic classification project. It predicts recorded disease presence (`num > 0`), not future cardiovascular risk. The models are not clinically validated. Neural-network implementation remains Phase 2.
 
-[Verified results, model comparison and hospital checks](artifacts/runs/20261025T151903Z_ea0f799c/RESULTS.md).
-The recorded run passed 48 tests and its 25 frozen models are checked with `verify_run.py`.
+## Dataset
 
-The original `modeling.py`, `train_baselines.py` and baseline tests remain intact.
-The remaining Phase 1 ML implementation is adapted from the team's existing
-HeartLens project, with separate `advanced_modeling.py` helpers so the original
-baseline API remains available. No individual authorship of the reused code is implied.
+The supplied CSV contains **920 records and 16 columns** from Cleveland, Hungary, Switzerland, and VA Long Beach. Removing two exact duplicate records while ignoring the arbitrary row ID leaves **918 records**.
 
-- `train.py`: five-family nested CV (five outer / three inner folds), deterministic hyperparameter selection, final S-only fitting, cutoff selection and frozen evaluation.
-- `bayesian_network.py`: discrete smoothed BN with training-only bins/imputation and missing-evidence inference. The graph is provisional, not faculty approved or causal.
-- `experiment.py`: pooled and four independent D-only hospital experiments; exact fold memberships, search traces, frozen models, thresholds, predictions, bootstrap intervals, reliability bins and subgroup summaries.
-- `verify_run.py`: reload saved models, reproduce probabilities and metrics, reconstruct cutoff/CV decisions and verify partition isolation.
-- `summarize_run.py`: generate the result table, ROC curves and selected-model confusion matrix from saved evidence.
+| Binary target | Definition | Records |
+| --- | --- | ---: |
+| Negative | `num == 0` | 410 |
+| Positive | `num > 0` | 508 |
 
-The original 918 retained rows and split rules are preserved: development D=734,
-retrospective T=184; D gives S=550 for selection/fitting and C=184 for cutoffs.
-All learned preprocessing is fitted inside its permitted training fold. The family
-is chosen on S, before C or T scoring; models are never refitted on S+C.
-The previously inspected historical holdout is retrospective, not a new untouched test.
-Hospital experiments exclude T and repeat the full selection procedure independently.
-Neural-network implementation remains Phase 2.
+The original target values range from 0 to 4. This project converts them into a binary disease-presence label and does not model severity. Deduplicated records are not necessarily verified unique patients; patient linkage is unavailable.
 
-Run the complete workflow explicitly (about 2,940 fits; one worker):
+### Predictors and cleaning
 
-```bash
-python train.py --run-experiment --allow-provisional-bn
-python verify_run.py artifacts/runs/<run_id>
-python summarize_run.py artifacts/runs/<run_id>
-```
+| Type | Included variables |
+| --- | --- |
+| Numeric | `age`, `trestbps`, `chol`, `thalch`, `oldpeak` |
+| Categorical | `sex`, `cp`, `fbs`, `restecg`, `exang`, `slope` |
 
-On macOS, XGBoost requires an OpenMP runtime. If its import reports a missing
-`libomp.dylib`, install the system OpenMP dependency or supply an existing
-compatible runtime through `DYLD_LIBRARY_PATH`. The recorded run used the runtime
-bundled with its scikit-learn wheel; see its `environment.json`.
+Excluded predictors are `id`, `dataset`, `ca`, `thal`, and the target `num`. Hospital labels are used only for grouping and evaluation. `ca` and `thal` are excluded because of extensive missingness.
 
-Existing baseline-only execution remains available:
+Cleaning and preprocessing include:
 
-```bash
-python train_baselines.py --output artifacts/my_baseline_run
-python -m pytest tests -q
-```
+- Schema, category, range, source-ID, and target validation.
+- Exact-record deduplication, retaining the first occurrence.
+- Conversion of zero blood-pressure and cholesterol entries to missing values.
+- Numeric median imputation, missing-value indicators, and standardization for conventional classifiers.
+- Categorical mode imputation and one-hot encoding, with unknown categories tolerated at prediction time.
+- Training-only fitting of every learned transformation inside each cross-validation fit.
 
-Protocol and graph assumptions are recorded in `config/` and `docs/`. The imported
-protocol retains its historical draft/faculty questions; each executed run stores
-an effective protocol declaring the provisional exploratory settings. Results
-support an academic disease-presence comparison, not a clinical screening claim.
+The Bayesian Network uses its own training-fitted imputation, discretization, and conditional probability tables.
 
----
+## Implemented Models
 
-## 1. Project Overview & Clinical Context
+| Model | Role |
+| --- | --- |
+| Logistic Regression | Linear classification baseline and tuned candidate |
+| Random Forest | Ensemble baseline and tuned candidate |
+| Histogram Gradient Boosting | Boosted-tree candidate |
+| XGBoost | Gradient-boosted-tree candidate |
+| Bayesian Network | Provisional discrete probabilistic classifier |
 
-Cardiovascular diseases are the leading cause of global mortality. The objective of this project is to build an auditable machine learning foundation to support coronary artery disease screening. 
+The original baseline workflow evaluates Logistic Regression and Random Forest through five-fold cross-validation. The extended workflow compares all five families using nested cross-validation.
 
-The dataset aggregates clinical observations across **four international medical institutions**:
-1. **Cleveland Clinic Foundation** (Cleveland, OH, USA)
-2. **Hungarian Institute of Cardiology** (Budapest, Hungary)
-3. **University Hospital** (Zurich, Switzerland)
-4. **V.A. Medical Center** (Long Beach, CA, USA)
+The Bayesian Network specifies disease-to-feature dependencies and an additional `oldpeak` to `slope` dependency. It estimates smoothed conditional probability tables with `alpha=1` and supports inference with missing evidence. Its topology and independence assumptions remain provisional; arrow directions do not establish medical causation. Its single smoothing setting and unequal search budgets across families limit comparisons.
 
-### Key Clinical Definitions
-- **Target (`num`)**: Integer severity scale ranging from `0` (angiographic disease < 50% diameter stenosis / negative) to `1`, `2`, `3`, `4` (significant stenosis / positive).
-- **Binary Outcome (`positive`)**: Defined as `num > 0` (presence of coronary heart disease) vs `num == 0` (absence of heart disease).
-
----
-
-## 2. Data Ingestion & Clinical Quality Assurance
-
-Data cleaning and validation policies are enforced deterministically in `data_loader.py` before any modeling:
-
-### A. Deduplication
-- Across all four clinical sites, **2 exact duplicate patient records** (excluding arbitrary row `id`) were detected and removed, leaving **918 unique patients** from the original 920 records.
-
-### B. Physiological Sanity & Zero-as-Missing Cleaning
-- In the raw dataset, several records contain `trestbps = 0` (resting blood pressure) or `chol = 0` (serum cholesterol). 
-- Because blood pressure or serum cholesterol of 0 mg/dL is physiologically incompatible with life, these values represent unrecorded clinical tests.
-- `data_loader.clean_features()` automatically converts these zero entries to `NaN` (missing) to prevent corrupting feature distributions.
-
-### C. Predictor Scope & Exclusions
-- **Retained Continuous Features (`5`)**: `age`, `trestbps`, `chol`, `thalch`, `oldpeak`
-- **Retained Categorical Features (`6`)**: `sex`, `cp`, `fbs`, `restecg`, `exang`, `slope`
-- **Excluded Variables**:
-  - `id`: Arbitrary row identifier.
-  - `dataset`: Medical center identifier (retained exclusively for cross-site shift checks).
-  - `ca` and `thal`: Excluded from primary predictive features because they are missing in >60% of patients across European and VA centers.
-
----
-
-## 3. Key Exploratory Data Analysis (EDA) Insights
-
-The EDA pipeline (`eda.py`) computes descriptive metrics and exports structured vector visualizations into `artifacts/`:
-
-### A. Target Distribution & Balance
-- **Total Validated Records**: 918 patients
-- **Class Balance**: 
-  - **Negative (`num == 0`)**: 410 patients (44.7%)
-  - **Positive (`num > 0`)**: 508 patients (55.3%)
-- The binary target exhibits balanced prevalence across the combined multi-center cohort, avoiding acute class imbalance.
-
-### B. Multi-Center Site Heterogeneity
-Substantial clinical differences exist across collection sites:
-| Site | Total Records | Positive Count | Positive Prevalence (%) |
-| :--- | :---: | :---: | :---: |
-| **Cleveland** | 303 | 139 | 45.9% |
-| **Hungary** | 293 | 106 | 36.2% |
-| **VA Long Beach** | 199 | 151 | 75.9% |
-| **Switzerland** | 123 | 112 | 91.1% |
-
-*Takeaway*: The Swiss and VA Long Beach cohorts consist predominantly of high-risk patients with advanced coronary symptoms, whereas Cleveland and Hungarian cohorts show lower positive rates.
-
-### C. Clinical Risk Correlates
-- **Maximum Heart Rate (`thalch`)**: Shows a strong negative correlation with heart disease diagnosis ($r \approx -0.40$). Patients with heart disease achieve significantly lower peak heart rates during stress testing.
-- **ST Depression (`oldpeak`)**: Positively correlated with coronary disease ($r \approx +0.40$), serving as a strong electrocardiographic biomarker.
-- **Chest Pain Type (`cp`)**: Patients presenting with asymptomatic ischemia have significantly higher rates of coronary stenosis compared to non-anginal pain.
-
----
-
-## 4. Repository Structure
+## Validation Workflow
 
 ```text
-├── heart_disease_uci.csv       # Raw UCI multi-center heart disease dataset (920 records)
-├── data_loader.py              # Ingestion, clinical cleaning, and schema validation
-├── eda.py                      # Exploratory data analysis pipeline & plot generator
-├── requirements.txt            # Dependency specification
-├── .gitignore                  # Git ignore rules
-├── artifacts/                  # Generated audit files and vector visual charts
-│   ├── data_audit.json         # Complete structured audit metrics in JSON
-│   ├── target_distribution.svg # Class balance visualization
-│   ├── missing_values.svg      # Feature missingness breakdown
-│   ├── positive_rate_by_site.svg # Site prevalence comparison
-│   └── correlation_heatmap.svg # Inter-feature correlation heatmap
-├── notebooks/                  # Interactive notebooks
-│   └── eda_walkthrough.ipynb   # Guided step-by-step EDA walkthrough
-└── tests/                      # Automated quality assurance tests
-    └── test_data_loader.py     # Schema and validation unit tests
+918 retained records
+├── Development D: 734 records
+│   ├── Selection S: 550 records
+│   │   ├── Five outer folds for family comparison
+│   │   ├── Three inner folds for hyperparameter selection
+│   │   └── Final three-fold search and fitting on S
+│   └── Cutoff C: 184 records
+│       └── Select each frozen model's decision threshold
+└── Retrospective evaluation T: 184 records
+    └── Evaluate frozen models and decisions
 ```
 
----
+The historical stratified split uses seed 42. The S/C split uses seed 43; outer, inner, and final-search cross-validation use seeds 44, 45, and 46 respectively.
 
-## 5. Getting Started & Reproducibility
+Family selection uses the highest mean outer-fold F1 at probability cutoff 0.50. ROC-AUC breaks exact F1 ties, followed by the recorded fixed family order. Inner searches rank configurations by mean F1, then ROC-AUC, then canonical parameter JSON.
 
-### 1. Environment Setup
-Clone the repository and install dependencies:
+Each frozen model receives a separate cutoff selected on C by maximizing F1 over 0.00–1.00 in steps of 0.01. Ties choose the point nearest 0.50, then the smaller point. Predictions use `probability >= cutoff`.
+
+Models are fitted on S only, with **no S+C refit**. Neither cutoff scores nor retrospective evaluation scores can replace the family selected on S. The winning family's CV score still has selection optimism.
+
+**The historical holdout was previously inspected in the source project. Its results are retrospective, not a newly untouched test.**
+
+## Results
+
+Recorded run: `artifacts/runs/20261025T151903Z_ea0f799c/`.
+
+Random Forest was selected by nested-CV F1. The remaining metrics below use each model's C-selected cutoff on the **184-record retrospective evaluation partition**.
+
+| Model | Nested CV F1 | Cutoff | Accuracy | Precision | Recall | F1 | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Logistic Regression | 0.8231 | 0.51 | 0.8315 | 0.8257 | 0.8824 | 0.8531 | 0.9125 |
+| Random Forest | **0.8358** | 0.38 | 0.8043 | 0.7538 | 0.9608 | 0.8448 | 0.9029 |
+| Histogram Gradient Boosting | 0.8104 | 0.37 | 0.8152 | 0.7698 | 0.9510 | 0.8509 | 0.8945 |
+| XGBoost | 0.8308 | 0.34 | 0.8043 | 0.7463 | 0.9804 | 0.8475 | 0.9039 |
+| Bayesian Network | 0.8179 | 0.54 | 0.7880 | 0.8058 | 0.8137 | 0.8098 | 0.8765 |
+
+Logistic Regression's higher retrospective F1 and ROC-AUC do not change the predefined model-selection decision.
+
+### Selected-model confusion matrix
+
+Random Forest at cutoff **0.38**:
+
+| Actual / Predicted | Negative | Positive |
+| --- | ---: | ---: |
+| Negative | TN: 50 | FP: 32 |
+| Positive | FN: 4 | TP: 98 |
+
+Specificity is **0.6098**. The cutoff is a statistical operating point selected on development data, not a medically established threshold.
+
+### Hospital holdout checks
+
+Each check uses development records only, holds out one hospital, and repeats family selection, model fitting, and cutoff selection independently using the remaining hospitals. Historical T records and pooled learned state are excluded.
+
+| Held-out hospital | Locally selected model | Evaluation records | F1 | Always-positive F1 | Specificity | ROC-AUC |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Cleveland | Logistic Regression | 248 | 0.7951 | 0.6260 | 0.7481 | 0.8612 |
+| Hungary | Random Forest | 229 | 0.6948 | 0.5367 | 0.6207 | 0.8712 |
+| Switzerland | Random Forest | 96 | 0.8712 | 0.9565 | 0.5000 | 0.7472 |
+| VA Long Beach | Logistic Regression | 161 | 0.8561 | 0.8582 | 0.0500 | 0.7079 |
+
+Switzerland and VA Long Beach do not outperform their same-row always-positive reference on F1. These findings and the low VA specificity constrain claims about transfer across hospitals.
+
+## Repository Structure
+
+```text
+AML_Capstone_Project/
+├── heart_disease_uci.csv       # Source dataset
+├── data_loader.py             # Ingestion, validation and cleaning
+├── eda.py                     # EDA and descriptive charts
+├── modeling.py                # Original baseline preprocessing/models
+├── train_baselines.py         # Two-model five-fold baseline workflow
+├── advanced_modeling.py       # Extended modeling data-contract helpers
+├── bayesian_network.py        # Provisional discrete BN
+├── train.py                   # Nested selection, tuning and evaluation
+├── experiment.py              # Complete experiment and artifact persistence
+├── verify_run.py              # Saved-model and result verification
+├── summarize_run.py           # Result tables and diagnostic charts
+├── requirements.txt           # Runtime and test dependencies
+├── config/
+│   ├── phase1_protocol.json   # Protocol, grids and seeds
+│   └── bn_graph.json          # BN structure and assumptions
+├── docs/
+│   ├── validation_protocol.md
+│   └── bn_design.md
+├── notebooks/
+│   └── eda_walkthrough.ipynb
+├── tests/                     # Data, baseline, BN and isolation tests
+└── artifacts/
+    ├── data_audit.json        # Descriptive audit
+    └── runs/
+        └── 20261025T151903Z_ea0f799c/
+            ├── RESULTS.md
+            ├── effective_protocol.json
+            ├── manifest.json
+            ├── verification.json
+            ├── requirements-freeze.txt
+            ├── roc_curves.png
+            ├── selected_confusion_matrix.png
+            ├── pooled/
+            └── hospital_*/
+```
+
+Each experiment folder contains fitted models, exact partitions, nested out-of-fold predictions, complete search traces, cutoff curves/predictions, evaluation predictions, and metrics.
+
+## Setup
+
 ```bash
 git clone https://github.com/nishtha-09-gupta/AML_Capstone_Project.git
 cd AML_Capstone_Project
-
-# Create and activate virtual environment
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install required packages
-pip install -r requirements.txt
 ```
 
-### 2. Run Data Loading & Validation Tests
-Execute the automated test suite to verify data integrity and cleaning rules:
+Activate the environment:
+
 ```bash
-pytest tests/ -v
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 ```
 
-### 3. Run EDA Pipeline & Recreate Artifacts
-Execute `eda.py` to re-generate the full structured data audit and vector visual plots:
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Saved model loading should use the package versions recorded in the run's `requirements-freeze.txt` and `environment.json`. The general requirements file allows version ranges and does not guarantee cross-version model compatibility.
+
+On macOS, XGBoost requires an OpenMP runtime. If importing XGBoost reports a missing `libomp.dylib`, install a compatible runtime or supply its directory through `DYLD_LIBRARY_PATH`. The recorded run used the runtime bundled with its scikit-learn wheel.
+
+## Run the Project
+
+### Run tests
+
+```bash
+python -m pytest tests -q
+```
+
+Recorded verification: **48 tests passed**, with **39 subtests passed**.
+
+### Generate EDA artifacts
+
 ```bash
 python eda.py
 ```
-Outputs are saved directly into the `artifacts/` folder.
+
+This regenerates the descriptive audit and EDA outputs in `artifacts/`.
+
+### Run the original baselines
+
+```bash
+python train_baselines.py --output artifacts/my_baseline_run
+```
+
+Choose a new output directory. The baseline runner does not overwrite existing results.
+
+### Run the complete ML experiment
+
+```bash
+python train.py --run-experiment --allow-provisional-bn
+```
+
+Both flags are required. The run performs approximately **2,940 fits** across the pooled experiment and four hospital experiments, using one worker. It creates a new timestamped folder under `artifacts/runs/` and preserves earlier runs. Real-data training does not start on module import.
+
+The root protocol retains historical draft questions. Each run stores an effective protocol declaring its provisional exploratory settings before fitting.
+
+### Verify the recorded models and results
+
+```bash
+python verify_run.py artifacts/runs/20261025T151903Z_ea0f799c
+```
+
+The recorded verification reports **PASS for all 25 saved models**. Checks include model hashes, reproduced probabilities, metric reconstruction, cutoff selection, nested fold scores, family selection, and partition/hospital isolation. Verification writes `verification.json` in the selected run folder.
+
+### Regenerate the result summary and charts
+
+```bash
+python summarize_run.py artifacts/runs/20261025T151903Z_ea0f799c
+```
+
+This writes `RESULTS.md`, ROC curves, and the selected-model confusion matrix from saved predictions, without retraining. Replace the run path in these commands to inspect a newly generated experiment.
+
+## Reproducibility and Limitations
+
+- Exact source IDs, split/fold memberships, seeds, code snapshots, source/model hashes, environment details, and dependency versions are saved with the run.
+- Evaluation includes accuracy, precision, recall, specificity, F1, ROC-AUC, average precision, Brier score, log loss, and confusion matrices.
+- Reliability bins and sex/age subgroup summaries are descriptive and do not establish calibration or fairness.
+- The 2,000 paired row-bootstrap resamples condition on the fitted models and cutoffs. They do not capture training, family-selection, or patient-cluster uncertainty.
+- The BN's structure and independence assumptions still need domain review. No causal interpretation is established.
+- Dataset acquisition/merge history and patient linkage remain incomplete. Exact-record deduplication does not establish patient independence.
+- No prospective clinical evaluation or clinical utility assessment is complete.
+- The extended ML code was adapted from the team's existing HeartLens implementation. Individual contributions should be documented accurately.
+
+## Data Attribution
+
+The underlying data is the **UCI Heart Disease dataset**, credited to Andras Janosi, William Steinbrunn, Matthias Pfisterer, and Robert Detrano.
+
+Dataset DOI: [10.24432/C52P4X](https://doi.org/10.24432/C52P4X).
+
+Attribution to UCI does not by itself establish the exact acquisition and transformation history of the merged CSV supplied with this project.
