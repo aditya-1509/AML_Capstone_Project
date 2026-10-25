@@ -1,0 +1,198 @@
+{
+  "stage": "Fixed baseline cross-validation on selection records only",
+  "target": "Disease presence: num > 0",
+  "features": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalch",
+    "oldpeak",
+    "sex",
+    "cp",
+    "fbs",
+    "restecg",
+    "exang",
+    "slope"
+  ],
+  "source_sha256": "e76825d8d9ca0b9491ac1aef9261020c8eb6ab39315b65185a47cf619bc89da0",
+  "source_rows": 920,
+  "retained_rows": 918,
+  "partition_sizes": {
+    "selection": 550,
+    "cutoff": 184,
+    "retrospective": 184
+  },
+  "seeds": {
+    "historical_split": 42,
+    "selection_cutoff_split": 43,
+    "cv": 44,
+    "estimator": 42
+  },
+  "cv_folds": 5,
+  "decision_threshold": 0.5,
+  "metric_aggregation": "Unweighted fold mean; sample SD (ddof=1), not a confidence interval",
+  "preprocessing": "Training-fold median imputation, numeric missing indicators/scaling, categorical mode/one-hot encoding",
+  "evaluation_status": "Cutoff and retrospective partitions were not fitted or scored by this run. The historical retrospective partition was previously inspected in the source project; it is not a new untouched test.",
+  "validation_scope": "Row-stratified CV; no hospital-disjoint or clinical validation",
+  "versions": {
+    "python": "3.14.7",
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1"
+  },
+  "models": {
+    "Logistic regression": {
+      "parameters": {
+        "C": 1.0,
+        "class_weight": null,
+        "dual": false,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "l1_ratio": 0.0,
+        "max_iter": 2000,
+        "n_jobs": null,
+        "penalty": "deprecated",
+        "random_state": 42,
+        "solver": "liblinear",
+        "tol": 0.0001,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "fold_scores": [
+        {
+          "fold": 1,
+          "accuracy": 0.8727272727272727,
+          "precision": 0.8709677419354839,
+          "recall": 0.9,
+          "f1": 0.8852459016393442,
+          "roc_auc": 0.9229999999999999
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.7545454545454545,
+          "precision": 0.765625,
+          "recall": 0.8032786885245902,
+          "f1": 0.784,
+          "roc_auc": 0.8330545332887254
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.7909090909090909,
+          "precision": 0.8275862068965517,
+          "recall": 0.7868852459016393,
+          "f1": 0.8067226890756303,
+          "roc_auc": 0.8869187019069923
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.8,
+          "precision": 0.782608695652174,
+          "recall": 0.8852459016393442,
+          "f1": 0.8307692307692308,
+          "roc_auc": 0.8474406155904984
+        },
+        {
+          "fold": 5,
+          "accuracy": 0.8,
+          "precision": 0.819672131147541,
+          "recall": 0.819672131147541,
+          "f1": 0.819672131147541,
+          "roc_auc": 0.8588156574105051
+        }
+      ],
+      "mean": {
+        "accuracy": 0.8036363636363635,
+        "precision": 0.8132919551263502,
+        "recall": 0.839016393442623,
+        "f1": 0.8252819905263493,
+        "roc_auc": 0.8698459016393443
+      },
+      "sd": {
+        "accuracy": 0.04292988710224579,
+        "precision": 0.04118594932364991,
+        "recall": 0.05055988597036389,
+        "f1": 0.03776870852920613,
+        "roc_auc": 0.03568650514306012
+      }
+    },
+    "Random forest": {
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 2,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 200,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "fold_scores": [
+        {
+          "fold": 1,
+          "accuracy": 0.8272727272727273,
+          "precision": 0.8596491228070176,
+          "recall": 0.8166666666666667,
+          "f1": 0.8376068376068376,
+          "roc_auc": 0.9053333333333333
+        },
+        {
+          "fold": 2,
+          "accuracy": 0.7727272727272727,
+          "precision": 0.78125,
+          "recall": 0.819672131147541,
+          "f1": 0.8,
+          "roc_auc": 0.8437604550016727
+        },
+        {
+          "fold": 3,
+          "accuracy": 0.7909090909090909,
+          "precision": 0.8064516129032258,
+          "recall": 0.819672131147541,
+          "f1": 0.8130081300813008,
+          "roc_auc": 0.8812311809969889
+        },
+        {
+          "fold": 4,
+          "accuracy": 0.8272727272727273,
+          "precision": 0.8,
+          "recall": 0.9180327868852459,
+          "f1": 0.8549618320610687,
+          "roc_auc": 0.8501170960187353
+        },
+        {
+          "fold": 5,
+          "accuracy": 0.8272727272727273,
+          "precision": 0.8088235294117647,
+          "recall": 0.9016393442622951,
+          "f1": 0.8527131782945736,
+          "roc_auc": 0.8527935764469722
+        }
+      ],
+      "mean": {
+        "accuracy": 0.8090909090909092,
+        "precision": 0.8112348530244015,
+        "recall": 0.855136612021858,
+        "f1": 0.8316579956087562,
+        "roc_auc": 0.8666471283595405
+      },
+      "sd": {
+        "accuracy": 0.02571297386132901,
+        "precision": 0.029145963355070616,
+        "recall": 0.05028376582275998,
+        "f1": 0.024350689941989346,
+        "roc_auc": 0.02597248416005968
+      }
+    }
+  }
+}
