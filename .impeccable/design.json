@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T01:01:08.312258+00:00",
+  "title": "Design System: Heartlens",
+  "extensions": {
+    "colorMeta": {
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "tonalRamp": [
+          "oklch(15.0% 0.0135 78.26)",
+          "oklch(26.4% 0.0135 78.26)",
+          "oklch(37.9% 0.0135 78.26)",
+          "oklch(49.3% 0.0135 78.26)",
+          "oklch(60.7% 0.0135 78.26)",
+          "oklch(72.1% 0.0135 78.26)",
+          "oklch(83.6% 0.0135 78.26)",
+          "oklch(95.0% 0.0135 78.26)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15.0% 0.0228 71.78)",
+          "oklch(26.4% 0.0228 71.78)",
+          "oklch(37.9% 0.0228 71.78)",
+          "oklch(49.3% 0.0228 71.78)",
+          "oklch(60.7% 0.0228 71.78)",
+          "oklch(72.1% 0.0228 71.78)",
+          "oklch(83.6% 0.0228 71.78)",
+          "oklch(95.0% 0.0228 71.78)"
+        ]
+      },
+      "hero": {
+        "role": "neutral",
+        "displayName": "Peach Hero",
+        "tonalRamp": [
+          "oklch(15.0% 0.0381 64.73)",
+          "oklch(26.4% 0.0381 64.73)",
+          "oklch(37.9% 0.0381 64.73)",
+          "oklch(49.3% 0.0381 64.73)",
+          "oklch(60.7% 0.0381 64.73)",
+          "oklch(72.1% 0.0381 64.73)",
+          "oklch(83.6% 0.0381 64.73)",
+          "oklch(95.0% 0.0381 64.73)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Brown Ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0351 41.69)",
+          "oklch(26.4% 0.0351 41.69)",
+          "oklch(37.9% 0.0351 41.69)",
+          "oklch(49.3% 0.0351 41.69)",
+          "oklch(60.7% 0.0351 41.69)",
+          "oklch(72.1% 0.0351 41.69)",
+          "oklch(83.6% 0.0351 41.69)",
+          "oklch(95.0% 0.0351 41.69)"
+        ]
+      },
+      "rust": {
+        "role": "primary",
+        "displayName": "Terracotta",
+        "tonalRamp": [
+          "oklch(15.0% 0.1259 37.86)",
+          "oklch(26.4% 0.1259 37.86)",
+          "oklch(37.9% 0.1259 37.86)",
+          "oklch(49.3% 0.1259 37.86)",
+          "oklch(60.7% 0.1259 37.86)",
+          "oklch(72.1% 0.1259 37.86)",
+          "oklch(83.6% 0.1259 37.86)",
+          "oklch(95.0% 0.1259 37.86)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Brown",
+        "tonalRamp": [
+          "oklch(15.0% 0.0405 49.70)",
+          "oklch(26.4% 0.0405 49.70)",
+          "oklch(37.9% 0.0405 49.70)",
+          "oklch(49.3% 0.0405 49.70)",
+          "oklch(60.7% 0.0405 49.70)",
+          "oklch(72.1% 0.0405 49.70)",
+          "oklch(83.6% 0.0405 49.70)",
+          "oklch(95.0% 0.0405 49.70)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Warm Line",
+        "tonalRamp": [
+          "oklch(15.0% 0.0337 67.34)",
+          "oklch(26.4% 0.0337 67.34)",
+          "oklch(37.9% 0.0337 67.34)",
+          "oklch(49.3% 0.0337 67.34)",
+          "oklch(60.7% 0.0337 67.34)",
+          "oklch(72.1% 0.0337 67.34)",
+          "oklch(83.6% 0.0337 67.34)",
+          "oklch(95.0% 0.0337 67.34)"
+        ]
+      },
+      "supporting-ink": {
+        "role": "neutral",
+        "displayName": "Supporting Ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0490 49.00)",
+          "oklch(26.4% 0.0490 49.00)",
+          "oklch(37.9% 0.0490 49.00)",
+          "oklch(49.3% 0.0490 49.00)",
+          "oklch(60.7% 0.0490 49.00)",
+          "oklch(72.1% 0.0490 49.00)",
+          "oklch(83.6% 0.0490 49.00)",
+          "oklch(95.0% 0.0490 49.00)"
+        ]
+      },
+      "metric-surface": {
+        "role": "neutral",
+        "displayName": "Metric Surface",
+        "tonalRamp": [
+          "oklch(15.0% 0.0057 84.57)",
+          "oklch(26.4% 0.0057 84.57)",
+          "oklch(37.9% 0.0057 84.57)",
+          "oklch(49.3% 0.0057 84.57)",
+          "oklch(60.7% 0.0057 84.57)",
+          "oklch(72.1% 0.0057 84.57)",
+          "oklch(83.6% 0.0057 84.57)",
+          "oklch(95.0% 0.0057 84.57)"
+        ]
+      },
+      "sidebar-copy": {
+        "role": "neutral",
+        "displayName": "Sidebar Copy",
+        "tonalRamp": [
+          "oklch(15.0% 0.0401 64.79)",
+          "oklch(26.4% 0.0401 64.79)",
+          "oklch(37.9% 0.0401 64.79)",
+          "oklch(49.3% 0.0401 64.79)",
+          "oklch(60.7% 0.0401 64.79)",
+          "oklch(72.1% 0.0401 64.79)",
+          "oklch(83.6% 0.0401 64.79)",
+          "oklch(95.0% 0.0401 64.79)"
+        ]
+      },
+      "sidebar-hover": {
+        "role": "neutral",
+        "displayName": "Sidebar Hover",
+        "tonalRamp": [
+          "oklch(15.0% 0.0512 47.46)",
+          "oklch(26.4% 0.0512 47.46)",
+          "oklch(37.9% 0.0512 47.46)",
+          "oklch(49.3% 0.0512 47.46)",
+          "oklch(60.7% 0.0512 47.46)",
+          "oklch(72.1% 0.0512 47.46)",
+          "oklch(83.6% 0.0512 47.46)",
+          "oklch(95.0% 0.0512 47.46)"
+        ]
+      },
+      "chart-brown": {
+        "role": "secondary",
+        "displayName": "Warm Brown",
+        "tonalRamp": [
+          "oklch(15.0% 0.0620 56.42)",
+          "oklch(26.4% 0.0620 56.42)",
+          "oklch(37.9% 0.0620 56.42)",
+          "oklch(49.3% 0.0620 56.42)",
+          "oklch(60.7% 0.0620 56.42)",
+          "oklch(72.1% 0.0620 56.42)",
+          "oklch(83.6% 0.0620 56.42)",
+          "oklch(95.0% 0.0620 56.42)"
+        ]
+      },
+      "chart-ochre": {
+        "role": "secondary",
+        "displayName": "Ochre",
+        "tonalRamp": [
+          "oklch(15.0% 0.1144 60.14)",
+          "oklch(26.4% 0.1144 60.14)",
+          "oklch(37.9% 0.1144 60.14)",
+          "oklch(49.3% 0.1144 60.14)",
+          "oklch(60.7% 0.1144 60.14)",
+          "oklch(72.1% 0.1144 60.14)",
+          "oklch(83.6% 0.1144 60.14)",
+          "oklch(95.0% 0.1144 60.14)"
+        ]
+      },
+      "chart-sage": {
+        "role": "secondary",
+        "displayName": "Sage",
+        "tonalRamp": [
+          "oklch(15.0% 0.0418 148.49)",
+          "oklch(26.4% 0.0418 148.49)",
+          "oklch(37.9% 0.0418 148.49)",
+          "oklch(49.3% 0.0418 148.49)",
+          "oklch(60.7% 0.0418 148.49)",
+          "oklch(72.1% 0.0418 148.49)",
+          "oklch(83.6% 0.0418 148.49)",
+          "oklch(95.0% 0.0418 148.49)"
+        ]
+      },
+      "chart-mauve": {
+        "role": "secondary",
+        "displayName": "Mauve",
+        "tonalRamp": [
+          "oklch(15.0% 0.0764 2.75)",
+          "oklch(26.4% 0.0764 2.75)",
+          "oklch(37.9% 0.0764 2.75)",
+          "oklch(49.3% 0.0764 2.75)",
+          "oklch(60.7% 0.0764 2.75)",
+          "oklch(72.1% 0.0764 2.75)",
+          "oklch(83.6% 0.0764 2.75)",
+          "oklch(95.0% 0.0764 2.75)"
+        ]
+      },
+      "chart-grid": {
+        "role": "neutral",
+        "displayName": "Chart Grid",
+        "tonalRamp": [
+          "oklch(15.0% 0.0266 71.17)",
+          "oklch(26.4% 0.0266 71.17)",
+          "oklch(37.9% 0.0266 71.17)",
+          "oklch(49.3% 0.0266 71.17)",
+          "oklch(60.7% 0.0266 71.17)",
+          "oklch(72.1% 0.0266 71.17)",
+          "oklch(83.6% 0.0266 71.17)",
+          "oklch(95.0% 0.0266 71.17)"
+        ]
+      },
+      "chart-subdued": {
+        "role": "neutral",
+        "displayName": "Subdued Tan",
+        "tonalRamp": [
+          "oklch(15.0% 0.0548 60.27)",
+          "oklch(26.4% 0.0548 60.27)",
+          "oklch(37.9% 0.0548 60.27)",
+          "oklch(49.3% 0.0548 60.27)",
+          "oklch(60.7% 0.0548 60.27)",
+          "oklch(72.1% 0.0548 60.27)",
+          "oklch(83.6% 0.0548 60.27)",
+          "oklch(95.0% 0.0548 60.27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Bold Page Title",
+        "purpose": "Banner title on each page."
+      },
+      "sidebar-brand": {
+        "displayName": "Sidebar Brand",
+        "purpose": "HeartLens wordmark."
+      },
+      "score": {
+        "displayName": "Live Score",
+        "purpose": "Terracotta model percentage."
+      },
+      "metric": {
+        "displayName": "Evidence Metric",
+        "purpose": "Compact bold numerical evidence."
+      }
+    },
+    "shadows": [
+      {
+        "name": "mobile-result-separation",
+        "value": "0 -2px 12px #3B261E20",
+        "purpose": "Separates the fixed mobile result strip from scrolling content."
+      }
+    ],
+    "motion": [
+      {
+        "name": "reduced-motion",
+        "value": "@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;}}",
+        "purpose": "Disables authored transitions and smooth scrolling when reduced motion is requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "750px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Two-link sidebar",
+      "kind": "nav",
+      "refersTo": "sidebar",
+      "description": "The implemented two-destination sidebar, including active, hover and keyboard focus states.",
+      "html": "<nav class=\"ds-sidebar\" aria-label=\"Study\"><div class=\"ds-brand\">HeartLens</div><div class=\"ds-description\">Heart disease prediction \u00b7 UCI dataset</div><a class=\"ds-active\" href=\"#prediction\" aria-current=\"page\">Prediction</a><a href=\"#models\">Model studio</a><div class=\"ds-notes\">UCI-derived cohort \u00b7 918 records \u00b7 4 hospitals<br><br>Educational model. No diagnostic use.<br><br>Phase 1 \u00b7 Machine Learning</div></nav>",
+      "css": ".ds-sidebar{background:var(--ink,#3B261E);color:var(--cream,#FCF6ED);padding:2rem 1.3rem;min-width:245px;max-width:260px;font-family:\"DM Sans\",sans-serif}.ds-brand{font-size:1.5rem;font-weight:800;letter-spacing:-.03em}.ds-description{font-size:.74rem;line-height:1.5;color:#E5CDB7;margin:.3rem 0 1.6rem}.ds-notes{font-size:.74rem;line-height:1.65;color:#E5CDB7;margin-top:3rem}.ds-sidebar a{display:block;color:var(--cream,#FCF6ED);text-decoration:none;padding:.65rem .8rem;border-radius:8px}.ds-sidebar a.ds-active{background:#765238}.ds-sidebar a:hover{background:#654535}.ds-sidebar a:focus-visible{outline:3px solid #BC783B;outline-offset:3px}"
+    },
+    {
+      "name": "Page banner",
+      "kind": "card",
+      "refersTo": "page-hero",
+      "description": "The warm page-introduction container used on both pages.",
+      "html": "<section class=\"ds-hero\"><h1>Understand the signal behind a prediction.</h1><p>Explore how our frozen models classify historical heart disease presence. Change a fictional profile and the prediction updates automatically.</p></section>",
+      "css": ".ds-hero{background:var(--hero,#EED7C2);border-radius:14px;padding:2.2rem 2rem 1.5rem;margin-bottom:1rem;color:var(--ink,#3B261E);font-family:\"DM Sans\",sans-serif}.ds-hero h1{font-size:clamp(2rem,3.2vw,2.8rem);font-weight:750;line-height:1.15;letter-spacing:-.025em;text-wrap:balance;margin-bottom:1rem}.ds-hero p{max-width:65ch;color:#614333;line-height:1.65}@media(max-width:750px){.ds-hero{padding:1.5rem 1.15rem 1rem;border-radius:12px}.ds-hero h1{font-size:2rem}}"
+    },
+    {
+      "name": "Native profile input",
+      "kind": "input",
+      "refersTo": "native-field",
+      "description": "Structural preview of a native number field. Exact control geometry and stepper states remain Streamlit-managed.",
+      "html": "<label class=\"ds-field\">Age (years)<input class=\"ds-input\" type=\"number\" min=\"18\" max=\"100\" value=\"45\"></label>",
+      "css": ".ds-field{display:grid;color:var(--ink,#3B261E);font-family:\"DM Sans\",sans-serif}.ds-input{font-family:\"DM Sans\",sans-serif;color:var(--ink,#3B261E);background:var(--paper,#F1E5D7);caret-color:var(--rust,#A84E32)}.ds-input:focus-visible{outline:3px solid #BC783B;outline-offset:3px}"
+    },
+    {
+      "name": "Live result",
+      "kind": "card",
+      "refersTo": "result-panel",
+      "description": "The implemented score/interpretation pairing. Native panel padding and the interactive Plotly chart remain framework-owned.",
+      "html": "<section class=\"ds-result\"><div><div class=\"ds-score\">4.0%</div><div class=\"ds-label\">Random forest model score</div></div><div><p><strong>Below the study cutoff</strong> \u00b7 Predicted class 0 (disease absent).</p><p class=\"ds-caption\">The saved cutoff is 0.38. This score is a model estimate, not a validated personal probability.</p></div></section>",
+      "css": ".ds-result{display:grid;grid-template-columns:1fr 2fr;align-items:center;border:1px solid var(--line,#D8C5B2);border-radius:12px;color:var(--ink,#3B261E);font-family:\"DM Sans\",sans-serif}.ds-score{font-size:clamp(3rem,5vw,4.5rem);font-weight:750;line-height:1.1;letter-spacing:-.035em;color:var(--rust,#A84E32);padding:.4rem 0}.ds-label{font-size:.85rem;color:var(--muted,#765C4E)}.ds-caption{color:var(--muted,#765C4E);opacity:1}.ds-result p{line-height:1.65}@media(max-width:750px){.ds-result{grid-template-columns:1fr}}"
+    },
+    {
+      "name": "Evidence metric",
+      "kind": "card",
+      "refersTo": "metric",
+      "description": "The observed bordered metric surface, value and label; internal padding is native.",
+      "html": "<div class=\"ds-metric\"><div class=\"ds-metric-label\">Random forest \u00b7 mean CV F1</div><div class=\"ds-metric-value\">0.836</div></div>",
+      "css": ".ds-metric{background:#FFFDF9;border:1px solid var(--line,#D8C5B2);border-radius:12px;font-family:\"DM Sans\",sans-serif;color:var(--ink,#3B261E)}.ds-metric-label{font-size:.85rem;color:var(--muted,#765C4E)}.ds-metric-value{font-size:2rem;font-weight:750}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Warm Study Workspace",
+    "overview": "Heartlens presents study evidence in a warm, practical workspace. A dark brown sidebar frames a centered cream content column, a peach banner introduces each page, and bold DM Sans creates a clear hierarchy. Terracotta carries model emphasis; native Streamlit controls remain recognizable.\n\nPrediction and Model studio are the two navigation destinations. Forms, live results and evidence follow a readable vertical sequence. Fine borders and tonal fills distinguish sections; compact metric cards support the evidence without competing with the main score.",
+    "keyCharacteristics": [
+      "Warm cream canvas with a dark brown sidebar.",
+      "Bold sans-serif headings and legible native controls.",
+      "Centered banner, two-column profile inputs and sequential evidence.",
+      "Flat bordered surfaces with immediate prediction feedback."
+    ],
+    "rules": [
+      {
+        "name": "The Warm Contrast Rule",
+        "body": "Use cream on the brown sidebar, brown ink on pale surfaces, and terracotta for model emphasis.",
+        "section": "colors"
+      },
+      {
+        "name": "The Readable Caption Rule",
+        "body": "Keep captions fully opaque in muted brown; supporting evidence must remain readable.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Separate sections with tonal fill and fine borders. Reserve the authored shadow for the fixed mobile score strip.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use DM Sans for headings, body copy, controls and scores.",
+      "Do keep navigation limited to Prediction and Model studio.",
+      "Do preserve the dark sidebar, warm banner and vertically ordered evidence.",
+      "Do retain native control behavior and clear field labels.",
+      "Do update predictions when committed input values change.",
+      "Do preserve mobile clearance for the framework chrome and fixed result strip."
+    ],
+    "donts": [
+      "Don't restore serif headings, top navigation or the removed hero illustration.",
+      "Don't add a Predict submission button.",
+      "Don't fade captions with reduced opacity.",
+      "Don't invent additional button variants or decorative effects.",
+      "Don't describe a model score as a diagnosis or validated personal probability."
+    ]
+  }
+}
