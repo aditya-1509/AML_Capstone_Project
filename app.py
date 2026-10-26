@@ -1,18 +1,17 @@
 """Streamlit entry point for the verified Heartlens study companion.
 
 THESIS: Edit a fictional profile and immediately inspect its frozen model response.
-OWN-WORLD: Cream paper, terracotta scores, brown ink, serif headings, native controls.
-STORY: Try values, compare models, inspect evidence and limitations, download the study.
-FIRST VIEWPORT: Compact editorial header above a two-column input/result workbench.
+OWN-WORLD: Cream canvas, dark brown sidebar, terracotta scores, bold sans headings, native controls.
+STORY: Try values, compare models, and inspect evidence and limitations.
+FIRST VIEWPORT: Left sidebar, centered warm banner, two-column profile panel, live result below.
 FORM: Warm research notebook, grounded candidate 4, seed ceb51ca6.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
 """
 import streamlit as st
 from study import ROOT, evidence
 
-st.set_page_config(page_title="Heartlens · A heart disease ML study", page_icon="◒", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Heartlens · A heart disease ML study", page_icon="◒", layout="wide", initial_sidebar_state="auto")
 st.html((ROOT / "assets/app.css").read_text())
-st.html('<div class="wordmark">heartlens<span> / Heart disease · Phase 1</span></div>')
 try:
     evidence()
 except (ValueError, OSError, KeyError):
@@ -20,11 +19,14 @@ except (ValueError, OSError, KeyError):
     st.stop()
 
 page = st.navigation([
-    st.Page("views/live.py", title="Live prediction", default=True),
+    st.Page("views/live.py", title="Prediction", default=True),
     st.Page("views/models.py", title="Model studio", url_path="models"),
-    st.Page("views/data.py", title="Data explorer", url_path="data_explorer"),
-    st.Page("views/project.py", title="The project", url_path="project"),
-], position="top")
+], position="hidden")
+with st.sidebar:
+    st.html('<div class="sidebar-brand">HeartLens</div><div class="sidebar-description">Heart disease prediction · UCI dataset</div>')
+    st.page_link("views/live.py", label="Prediction")
+    st.page_link("views/models.py", label="Model studio")
+    st.html('<div class="sidebar-notes">UCI-derived cohort · 918 records · 4 hospitals<br><br>Educational model. No diagnostic use.<br><br>Phase 1 · Machine Learning</div>')
 page.run()
 st.divider()
 st.caption("HEARTLENS / PHASE 01 · Academic demonstration. Use fictional inputs. This app does not provide medical advice.")

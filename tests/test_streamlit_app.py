@@ -43,23 +43,15 @@ def test_app_live_controls_and_evidence_views():
     initial = app.dataframe[0].value
     app.selectbox(key="preset").select("Profile B").run()
     assert not app.exception
-    assert app.slider(key="input_age").value == 65
+    assert app.number_input(key="input_age").value == 65
     assert not initial.equals(app.dataframe[0].value)
     app.selectbox(key="preset").select("Missing values").run()
     assert not app.exception
-    assert all(field.value is None for field in app.number_input)
+    assert all(field.value is None for field in app.number_input if field.key != "input_age")
     app.switch_page("views/models.py").run()
     assert not app.exception
-    assert app.metric[0].value == "96.1%"
+    assert [m for m in app.metric if m.label == "Recall"][-1].value == "96.1%"
     app.slider(key="cutoff_Random forest").set_value(1.0).run()
     assert not app.exception
-    assert app.metric[0].value == "0.0%"
-    app.switch_page("views/data.py").run()
-    assert not app.exception
-    assert app.metric[0].value == "918"
-    app.multiselect[0].set_value([]).run()
-    assert not app.exception
-    assert "No records match" in app.info[0].value
-    app.switch_page("views/project.py").run()
-    assert not app.exception
-    assert len(app.get("download_button")) == 2
+    assert [m for m in app.metric if m.label == "Recall"][-1].value == "0.0%"
+    assert [link.label for link in app.get("page_link")] == ["Prediction", "Model studio"]

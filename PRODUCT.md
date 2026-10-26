@@ -25,17 +25,16 @@ The app accompanies Team T008's IEEE report and presentation. It is an academic 
 ## Capabilities and Constraints
 
 - Live profile inputs and inference from verified saved models.
-- Interactive model comparisons, threshold exploration and cohort filters.
-- Project report and presentation downloads.
+- Interactive model comparisons, threshold exploration and hospital evaluation results.
 - Preserve original models, source data, selection rules and recorded metrics.
 - Default Random Forest and cutoff 0.38 follow development selection. Retrospective rankings do not change that choice.
 - No model training during app execution. Profile values remain in the session and are not intentionally written to disk.
-- Deploy on Streamlit Community Cloud using the shared GitHub repository.
+- Keep source in the shared GitHub repository; deploy its synchronized fork under the user’s account because Community Cloud requires repository admin access.
 - Keep README unchanged in this work.
 
 ## Brand Commitments
 
-The user requested warm colors. Continue the cream, terracotta and warm brown identity of the presentation. Use the existing generated terracotta-heart illustration.
+The user requested warm colors. Continue the cream, terracotta and warm brown identity of the presentation. Follow the supplied dashboard screenshots: left sidebar, centered banner and two-column profile inputs.
 
 ## Evidence on Hand
 
@@ -47,3 +46,6 @@ Verified five-family experiment: artifacts/runs/20261025T151903Z_ea0f799c. The r
 - Distinguish model scores from established clinical risks.
 - Compare strengths and error trade-offs with actual evidence.
 - Keep common controls readable and usable on mobile.
+
+## Current scope
+The user restricted the hosted app to two sections only: Prediction and Model studio. No Data story, Project page, or report/presentation download section. Keep automatic live inference and verified model evidence.

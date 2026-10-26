@@ -1,11 +1,13 @@
-# Heartlens / live ML exploration
+# Heartlens / prediction and model studio
 
-Mode: Operate. Target: app.py and assets/app.css.
+Mode: Operate. Targets: app.py, heartlens_ui.py and assets/app.css.
 
-User commitments: Streamlit hosting; warm colors; interactive predictions that update when values change, with no submit step. Preserve the existing verified study and README. The approved warm presentation and terracotta heart illustration provide visual authority.
+User commitments: Streamlit hosting, warm colors, input changes automatically update predictions without a submit button. Exactly two sections: Prediction and Model studio. Preserve verified models, source data, recorded results and README.
 
-Direction: a warm research notebook. Cream canvas, terracotta emphasis, brown ink, self-hosted Fraunces display type and DM Sans controls. Pair editable inputs with a plainly labeled live result; additional views expose evidence and dataset limitations. Native controls remain recognizable. Flat tonal surfaces, one restrained result panel, generous whitespace, no decorative metric grid or clinical diagnosis language.
+Visual authority: the user’s three supplied HeartLens screenshots. Follow their dark sidebar, centered reading column, rounded banner, two-column profile panel and sequential model evidence. Keep cream, warm brown and terracotta instead of copying the reference’s teal palette. Use bold DM Sans headings and recognizable native controls.
 
-Desktop: two-column input/result workbench. Mobile: readable stacked controls and output; native top navigation collapses. All model and data values come from saved artifacts. The hero illustration is supportive, not a control.
+Desktop: visible left navigation, centered banner and profile inputs, with live result and optional five-model comparison below. Model studio presents selection evidence, saved test metrics, ROC/confusion plots and interactive cutoff exploration. Mobile: stacked controls, collapsible sidebar and a fixed live-score strip.
 
-Concept seed ceb51ca6 grounded candidate 4; preserve the established warm identity rather than introducing an unrelated visual world.
+Content: current verified run values, not the reference screenshots’ older results. Random forest selected by nested CV F1; official cutoff 0.38. Retrospective results and hospital-shift limitations remain explicit. No training or deliberate persistence of visitor values.
+
+Provenance: seed ceb51ca6 belonged to the earlier research-notebook draft; the screenshot-directed revision supersedes its top navigation, illustration and serif heading composition.
