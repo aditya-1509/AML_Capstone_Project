@@ -1,6 +1,6 @@
 ---
 name: Heartlens
-description: A warm workspace for live prediction and model evidence.
+description: A warm workspace for submitted predictions and model evidence.
 colors:
   cream: "#FCF6ED"
   paper: "#F1E5D7"
@@ -126,14 +126,14 @@ components:
 
 Heartlens presents study evidence in a warm, practical workspace. A dark brown sidebar frames a centered cream content column, a peach banner introduces each page, and bold DM Sans creates a clear hierarchy. Terracotta carries model emphasis; native Streamlit controls remain recognizable.
 
-Prediction and Model studio are the two navigation destinations. Forms, live results and evidence follow a readable vertical sequence. Fine borders and tonal fills distinguish sections; compact metric cards support the evidence without competing with the main score.
+Prediction and Model studio are the two navigation destinations. Forms, submitted results and evidence follow a readable vertical sequence. Fine borders and tonal fills distinguish sections; compact metric cards support the evidence without competing with the main score.
 
 **Key Characteristics:**
 
 - Warm cream canvas with a dark brown sidebar.
 - Bold sans-serif headings and legible native controls.
 - Centered banner, two-column profile inputs and sequential evidence.
-- Flat bordered surfaces with immediate prediction feedback.
+- Flat bordered surfaces with explicit prediction submission.
 
 ## Colors
 
@@ -141,7 +141,7 @@ The frontmatter owns the exact values. The palette preserves cream, warm brown a
 
 ### Primary
 
-- **Terracotta:** active controls, the live score, the selected model and the first categorical chart series.
+- **Terracotta:** active controls, the submitted score, the selected model and the first categorical chart series.
 
 ### Secondary
 
@@ -165,7 +165,7 @@ The frontmatter owns the exact values. The palette preserves cream, warm brown a
 
 Use self-hosted variable DM Sans throughout, with a sans-serif fallback and `font-display: swap`. The extracted display, headline, title and subtitle roles map to h1–h4. Bold headings use balanced wrapping and moderately tight tracking. Body and native-control sizes remain framework-managed.
 
-The live score is bold terracotta; metric values use the smaller metric role. Metric labels and score captions share the label size. Sidebar descriptive copy uses (0.74rem), with line heights (1.5) for the introduction and (1.65) for notes. Notice copy is (0.88rem); Plotly text is (13px). At the mobile breakpoint, h1 becomes (2rem).
+The submitted score is bold terracotta; metric values use the smaller metric role. Metric labels and score captions share the label size. Sidebar descriptive copy uses (0.74rem), with line heights (1.5) for the introduction and (1.65) for notes. Notice copy is (0.88rem); Plotly text is (13px). At the mobile breakpoint, h1 becomes (2rem).
 
 **The Readable Caption Rule.** Keep captions fully opaque in muted brown; supporting evidence must remain readable.
 
@@ -175,7 +175,7 @@ A centered main container has maximum width (960px) and padding (3.8rem 2rem 2re
 
 Prediction flows from banner and notice to a bordered profile panel. A full-width example selector precedes two native input columns. The result appears below the form, with score and explanation in relative columns (1:2), followed by comparison chart, table and supporting explanation. Model studio orders selection, retrospective performance and threshold exploration vertically; related metric and plot groups use native columns.
 
-At (750px), main padding becomes (4rem 1rem 7rem), banner padding becomes (1.5rem 1.15rem 1rem), and horizontal gaps become (1rem). Streamlit manages column collapse and sidebar reveal. Preserve top clearance below framework chrome and bottom clearance above the fixed live-score strip.
+At (750px), main padding becomes (4rem 1rem 7rem), banner padding becomes (1.5rem 1.15rem 1rem), and horizontal gaps become (1rem). Streamlit manages column collapse and sidebar reveal. Preserve top clearance below framework chrome and bottom clearance above the fixed last-prediction strip.
 
 ## Elevation & Depth
 
@@ -199,9 +199,9 @@ A peach rounded container holds one bold title and a short description in suppor
 
 ### Inputs / Fields
 
-The profile panel groups native number inputs and selectboxes into two columns. Paper surfaces, brown text and terracotta accents match the light theme. Labels, units, help and optional missing values stay visible. A selection, stepper change or committed numeric edit updates the prediction without submission. Native hover, disabled and validation states remain framework-managed. Authored keyboard focus is an ochre outline (3px) with offset (3px); the input caret is terracotta.
+The profile panel groups native number inputs and selectboxes into two columns. Paper surfaces, brown text and terracotta accents match the light theme. Labels, units, help and optional missing values stay visible. A native Streamlit form buffers edits; its full-width Predict button submits all current values together. Enter-to-submit is disabled. Typing alone never runs inference. Native hover, disabled and validation states remain framework-managed. Authored keyboard focus is an ochre outline (3px) with offset (3px); the input caret is terracotta.
 
-### Live result
+### Prediction result
 
 The bordered result panel pairs a prominent score with cutoff interpretation, a limitation caption and a compact horizontal plot. Brown dashed lines identify the study cutoff. The missing-input caption and model-comparison chart follow below. Plots use transparent backgrounds, warm grid lines and the observed categorical colors.
 
@@ -223,13 +223,13 @@ No custom animation vocabulary is established. Under `prefers-reduced-motion: re
 - **Do** keep navigation limited to Prediction and Model studio.
 - **Do** preserve the dark sidebar, warm banner and vertically ordered evidence.
 - **Do** retain native control behavior and clear field labels.
-- **Do** update predictions when committed input values change.
+- **Do** run inference only after Predict is clicked, and label retained results as the last submitted prediction.
 - **Do** preserve mobile clearance for the framework chrome and fixed result strip.
 
 ### Don't:
 
 - **Don't** restore serif headings, top navigation or the removed hero illustration.
-- **Don't** add a Predict submission button.
+- **Don't** run inference while the user is editing.
 - **Don't** fade captions with reduced opacity.
 - **Don't** invent additional button variants or decorative effects.
 - **Don't** describe a model score as a diagnosis or validated personal probability.

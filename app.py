@@ -1,6 +1,6 @@
 """Streamlit entry point for the verified Heartlens study companion.
 
-THESIS: Edit a fictional profile and immediately inspect its frozen model response.
+THESIS: Submit a fictional profile with Predict and inspect its frozen model response.
 OWN-WORLD: Cream canvas, dark brown sidebar, terracotta scores, bold sans headings, native controls.
 STORY: Try values, compare models, and inspect evidence and limitations.
 FIRST VIEWPORT: Left sidebar, centered warm banner, two-column profile panel, live result below.

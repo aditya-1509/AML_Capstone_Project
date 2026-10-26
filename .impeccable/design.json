@@ -253,7 +253,7 @@
         "purpose": "HeartLens wordmark."
       },
       "score": {
-        "displayName": "Live Score",
+        "displayName": "Prediction Score",
         "purpose": "Terracotta model percentage."
       },
       "metric": {
@@ -296,7 +296,7 @@
       "kind": "card",
       "refersTo": "page-hero",
       "description": "The warm page-introduction container used on both pages.",
-      "html": "<section class=\"ds-hero\"><h1>Understand the signal behind a prediction.</h1><p>Explore how our frozen models classify historical heart disease presence. Change a fictional profile and the prediction updates automatically.</p></section>",
+      "html": "<section class=\"ds-hero\"><h1>Understand the signal behind a prediction.</h1><p>Explore how our frozen models classify historical heart disease presence. Enter a fictional profile, then select Predict to compare the frozen models.</p></section>",
       "css": ".ds-hero{background:var(--hero,#EED7C2);border-radius:14px;padding:2.2rem 2rem 1.5rem;margin-bottom:1rem;color:var(--ink,#3B261E);font-family:\"DM Sans\",sans-serif}.ds-hero h1{font-size:clamp(2rem,3.2vw,2.8rem);font-weight:750;line-height:1.15;letter-spacing:-.025em;text-wrap:balance;margin-bottom:1rem}.ds-hero p{max-width:65ch;color:#614333;line-height:1.65}@media(max-width:750px){.ds-hero{padding:1.5rem 1.15rem 1rem;border-radius:12px}.ds-hero h1{font-size:2rem}}"
     },
     {
@@ -308,7 +308,7 @@
       "css": ".ds-field{display:grid;color:var(--ink,#3B261E);font-family:\"DM Sans\",sans-serif}.ds-input{font-family:\"DM Sans\",sans-serif;color:var(--ink,#3B261E);background:var(--paper,#F1E5D7);caret-color:var(--rust,#A84E32)}.ds-input:focus-visible{outline:3px solid #BC783B;outline-offset:3px}"
     },
     {
-      "name": "Live result",
+      "name": "Prediction result",
       "kind": "card",
       "refersTo": "result-panel",
       "description": "The implemented score/interpretation pairing. Native panel padding and the interactive Plotly chart remain framework-owned.",
@@ -326,12 +326,12 @@
   ],
   "narrative": {
     "northStar": "The Warm Study Workspace",
-    "overview": "Heartlens presents study evidence in a warm, practical workspace. A dark brown sidebar frames a centered cream content column, a peach banner introduces each page, and bold DM Sans creates a clear hierarchy. Terracotta carries model emphasis; native Streamlit controls remain recognizable.\n\nPrediction and Model studio are the two navigation destinations. Forms, live results and evidence follow a readable vertical sequence. Fine borders and tonal fills distinguish sections; compact metric cards support the evidence without competing with the main score.",
+    "overview": "Heartlens presents study evidence in a warm, practical workspace. A dark brown sidebar frames a centered cream content column, a peach banner introduces each page, and bold DM Sans creates a clear hierarchy. Terracotta carries model emphasis; native Streamlit controls remain recognizable.\n\nPrediction and Model studio are the two navigation destinations. Forms, submitted results and evidence follow a readable vertical sequence. Fine borders and tonal fills distinguish sections; compact metric cards support the evidence without competing with the main score.",
     "keyCharacteristics": [
       "Warm cream canvas with a dark brown sidebar.",
       "Bold sans-serif headings and legible native controls.",
       "Centered banner, two-column profile inputs and sequential evidence.",
-      "Flat bordered surfaces with immediate prediction feedback."
+      "Flat bordered surfaces with explicit prediction submission."
     ],
     "rules": [
       {
@@ -355,12 +355,12 @@
       "Do keep navigation limited to Prediction and Model studio.",
       "Do preserve the dark sidebar, warm banner and vertically ordered evidence.",
       "Do retain native control behavior and clear field labels.",
-      "Do update predictions when committed input values change.",
+      "Do run inference only after Predict is clicked, and label retained results as the last submitted prediction.",
       "Do preserve mobile clearance for the framework chrome and fixed result strip."
     ],
     "donts": [
       "Don't restore serif headings, top navigation or the removed hero illustration.",
-      "Don't add a Predict submission button.",
+      "Don't run inference while the user is editing.",
       "Don't fade captions with reduced opacity.",
       "Don't invent additional button variants or decorative effects.",
       "Don't describe a model score as a diagnosis or validated personal probability."

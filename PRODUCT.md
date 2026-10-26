@@ -16,7 +16,7 @@ The capstone team and visitors reviewing its Phase 1 machine learning project.
 
 ## Product Purpose
 
-Let visitors change a fictional profile and see the prediction and model comparisons update automatically, without pressing a Predict button. Make the project's data, results and limitations understandable.
+Let visitors enter a fictional profile and explicitly click Predict to run the model comparisons. Make the project's data, results and limitations understandable.
 
 ## Operating Context
 
@@ -42,10 +42,10 @@ Verified five-family experiment: artifacts/runs/20261025T151903Z_ea0f799c. The r
 
 ## Product Principles
 
-- Input changes immediately update visible results.
+- Only Predict submits the current inputs and runs inference; typing does not require Enter before submission.
 - Distinguish model scores from established clinical risks.
 - Compare strengths and error trade-offs with actual evidence.
 - Keep common controls readable and usable on mobile.
 
 ## Current scope
-The user restricted the hosted app to two sections only: Prediction and Model studio. No Data story, Project page, or report/presentation download section. Keep automatic live inference and verified model evidence.
+The user restricted the hosted app to two sections only: Prediction and Model studio. No Data story, Project page, or report/presentation download section. Keep explicit Predict submission and verified model evidence.

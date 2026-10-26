@@ -37,17 +37,27 @@ def test_invalid_input_and_saved_threshold_metrics():
     assert study.cohort().chol.isna().sum() == 201
 
 
-def test_app_live_controls_and_evidence_views():
+def test_app_submission_controls_and_evidence_views():
     app = AppTest.from_file(str(study.ROOT / "app.py"), default_timeout=60).run()
+    assert not app.exception
+    assert not app.dataframe
+    app.button[0].click().run()
     assert not app.exception
     initial = app.dataframe[0].value
     app.selectbox(key="preset").select("Profile B").run()
     assert not app.exception
     assert app.number_input(key="input_age").value == 65
+    assert not app.dataframe
+    app.button[0].click().run()
+    assert not app.exception
     assert not initial.equals(app.dataframe[0].value)
     app.selectbox(key="preset").select("Missing values").run()
     assert not app.exception
     assert all(field.value is None for field in app.number_input if field.key != "input_age")
+    assert not app.dataframe
+    app.button[0].click().run()
+    assert not app.exception
+    assert app.dataframe
     app.switch_page("views/models.py").run()
     assert not app.exception
     assert [m for m in app.metric if m.label == "Recall"][-1].value == "96.1%"
@@ -55,3 +65,18 @@ def test_app_live_controls_and_evidence_views():
     assert not app.exception
     assert [m for m in app.metric if m.label == "Recall"][-1].value == "0.0%"
     assert [link.label for link in app.get("page_link")] == ["Prediction", "Model studio"]
+
+
+def test_typing_does_not_run_inference_until_predict():
+    with patch("heartlens_ui.predict_profile", wraps=study.predict_profile) as infer:
+        app = AppTest.from_file(str(study.ROOT / "app.py"), default_timeout=60).run()
+        assert not app.exception
+        app.number_input(key="input_age").set_value(65)
+        assert not app.exception
+        infer.assert_not_called()
+        app.button[0].click().run()
+        assert not app.exception
+        assert infer.call_count == 1
+        assert infer.call_args.args[0]["age"] == 65
+        app.run()
+        assert infer.call_count == 1

@@ -34,6 +34,7 @@ def chart(fig, height=330, *, key=None):
 
 
 def load_preset():
+    st.session_state.pop("prediction_result", None)
     for key, value in PRESETS[st.session_state["preset"]].items():
         st.session_state["input_" + key] = value
 
@@ -50,7 +51,7 @@ def yes_no(value):
 
 def live_demo():
     hero("Understand the signal behind a prediction.",
-         "Explore how our frozen models classify historical heart disease presence. Change a fictional profile and the prediction updates automatically.")
+         "Explore how our frozen models classify historical heart disease presence. Enter a fictional profile, then select Predict to compare the frozen models.")
     st.info("For education and demonstration only. This model is not a diagnosis. A low score cannot rule out disease.", icon=None)
     if "input_age" not in st.session_state:
         for key, value in PRESETS["Profile A"].items():
@@ -61,34 +62,44 @@ def live_demo():
         st.caption("Use fictional values. Leave optional measurements blank if unavailable; the saved model handles missing values.")
         st.selectbox("Start with an example", list(PRESETS), key="preset", on_change=load_preset,
                      help="Examples are invented to demonstrate the model; they are not patient records.")
-        a, b = st.columns(2, gap="large")
-        with a:
-            profile["age"] = st.number_input("Age (years)", 18, 100, key="input_age")
-            profile["sex"] = st.selectbox("Recorded sex", CATEGORY_OPTIONS["sex"], key="input_sex")
-            profile["cp"] = st.selectbox("Chest pain type", CATEGORY_OPTIONS["cp"], key="input_cp",
-                                       help="‘Asymptomatic’ is a source dataset category.")
-            profile["trestbps"] = st.number_input("Resting blood pressure (mm Hg)", 0, 260, key="input_trestbps", value=None,
-                                                 help="Zero is treated as a missing measurement.")
-            profile["chol"] = st.number_input("Cholesterol (mg/dL)", 0, 700, key="input_chol", value=None,
-                                              help="Zero is treated as a missing measurement.")
-            profile["fbs"] = st.selectbox("Fasting blood sugar >120 mg/dL", [False, True, None], key="input_fbs", format_func=yes_no)
-        with b:
-            profile["restecg"] = st.selectbox("Resting ECG", [*CATEGORY_OPTIONS["restecg"], None], key="input_restecg", format_func=lambda x: "Not recorded" if x is None else x.capitalize())
-            profile["thalch"] = st.number_input("Maximum heart rate (bpm)", 40, 240, key="input_thalch", value=None)
-            profile["exang"] = st.selectbox("Exercise-induced angina", [False, True, None], key="input_exang", format_func=yes_no)
-            profile["oldpeak"] = st.number_input("ST depression (oldpeak)", -3.0, 10.0, step=0.1, key="input_oldpeak", value=None)
-            profile["slope"] = st.selectbox("ST segment slope", [*CATEGORY_OPTIONS["slope"], None], key="input_slope", format_func=lambda x: "Not recorded" if x is None else x.capitalize())
-        st.caption("Prediction updates automatically after a selection, a stepper change, or when you finish editing a number. No submission needed.")
-    compare = st.toggle("Compare all five models", value=True)
-    try:
-        predictions = predict_profile(profile, compare=compare)
-    except ValueError as error:
-        st.error(str(error))
+        with st.form("prediction_form", border=False, enter_to_submit=False):
+            a, b = st.columns(2, gap="large")
+            with a:
+                profile["age"] = st.number_input("Age (years)", 18, 100, key="input_age")
+                profile["sex"] = st.selectbox("Recorded sex", CATEGORY_OPTIONS["sex"], key="input_sex")
+                profile["cp"] = st.selectbox("Chest pain type", CATEGORY_OPTIONS["cp"], key="input_cp",
+                                           help="‘Asymptomatic’ is a source dataset category.")
+                profile["trestbps"] = st.number_input("Resting blood pressure (mm Hg)", 0, 260, key="input_trestbps", value=None,
+                                                     help="Zero is treated as a missing measurement.")
+                profile["chol"] = st.number_input("Cholesterol (mg/dL)", 0, 700, key="input_chol", value=None,
+                                                  help="Zero is treated as a missing measurement.")
+                profile["fbs"] = st.selectbox("Fasting blood sugar >120 mg/dL", [False, True, None], key="input_fbs", format_func=yes_no)
+            with b:
+                profile["restecg"] = st.selectbox("Resting ECG", [*CATEGORY_OPTIONS["restecg"], None], key="input_restecg", format_func=lambda x: "Not recorded" if x is None else x.capitalize())
+                profile["thalch"] = st.number_input("Maximum heart rate (bpm)", 40, 240, key="input_thalch", value=None)
+                profile["exang"] = st.selectbox("Exercise-induced angina", [False, True, None], key="input_exang", format_func=yes_no)
+                profile["oldpeak"] = st.number_input("ST depression (oldpeak)", -3.0, 10.0, step=0.1, key="input_oldpeak", value=None)
+                profile["slope"] = st.selectbox("ST segment slope", [*CATEGORY_OPTIONS["slope"], None], key="input_slope", format_func=lambda x: "Not recorded" if x is None else x.capitalize())
+            compare = st.toggle("Compare all five models", value=True)
+            st.caption("Type your values, then click Predict. You do not need to press Enter first.")
+            submitted = st.form_submit_button("Predict", type="primary", width="stretch")
+    if submitted:
+        try:
+            predictions = predict_profile(profile, compare=compare)
+        except ValueError as error:
+            st.session_state.pop("prediction_result", None)
+            st.error(str(error))
+            return
+        st.session_state["prediction_result"] = (predictions, profile.copy(), compare)
+    if "prediction_result" not in st.session_state:
+        st.caption("Your prediction will appear here after you click Predict.")
         return
+    predictions, profile, compare = st.session_state["prediction_result"]
+    st.caption("Results reflect your last submitted profile. After editing, click Predict to refresh them.")
     row = predictions.iloc[0]
     above = row["Score"] >= row["Study cutoff"]
-    st.html(f'<div class="mobile-result"><span>Random forest · live score</span><strong>{row["Score"]:.1%}</strong><small>{"Above" if above else "Below"} 38% study cutoff</small></div>')
-    st.subheader("Live prediction")
+    st.html(f'<div class="mobile-result"><span>Random forest · last prediction</span><strong>{row["Score"]:.1%}</strong><small>{"Above" if above else "Below"} 38% study cutoff</small></div>')
+    st.subheader("Prediction result")
     with st.container(border=True, key="result-panel"):
         a, b = st.columns([1, 2], vertical_alignment="center")
         with a:
